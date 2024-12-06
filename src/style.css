@@ -1,0 +1,27 @@
+*{
+    box-sizing: border-box;
+    position: relative;
+}
+
+html,body{
+    font-family: sans-serif;
+    user-select: none;
+    margin: 0px;
+}
+
+h1,h2,h3,h4,p{
+    margin: 0px;
+    user-select: none;
+}
+
+ul{
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+}
+
+
+a{
+    text-decoration: none;
+    color: black;
+}
