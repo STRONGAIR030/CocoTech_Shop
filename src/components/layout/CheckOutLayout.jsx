@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-const DefaultLayout = () => {
+const CheckOutLayout = () => {
     return (
         <div>yee</div>
     )
 }
 
-export default DefaultLayout
+export default CheckOutLayout
