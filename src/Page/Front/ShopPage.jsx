@@ -2,18 +2,16 @@
 import { NavLink } from "react-router"
 import styled from "styled-components"
 import DefaultLayout from "../../components/layout/defaultLayout"
+import AdSection from "../../components/ShopPage/AdSection"
+import ProductSection from "../../components/ShopPage/ProductSection"
 
 const ShopPage = () => {
     return (
         <DefaultLayout>
-            <StyleledShopPage>    
-                <h3>ShopPage</h3>
-                <StyledNav>
-                    <NavLink to="/account/login">Login</NavLink>
-                    <NavLink to="/checkout">chectout</NavLink>
-                    <NavLink to="/product/1">Product</NavLink>
-                </StyledNav>
-            </StyleledShopPage>
+            <StyledShopPage>    
+                <AdSection/>
+                <ProductSection/>
+            </StyledShopPage>
         </DefaultLayout>
     )
 }
@@ -26,6 +24,7 @@ const StyledNav = styled.nav`
         margin: 0px 16px;
     }
 `
-const StyleledShopPage = styled.main`
+const StyledShopPage = styled.main`
     background-color: #c68642b2;
 `
+
