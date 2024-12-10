@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
-const CheckOutLayout = () => {
+const CheckOutLayout = ({children}) => {
     return (
-        <div>yee</div>
+        <div>
+            {children}
+        </div>
     )
 }
 

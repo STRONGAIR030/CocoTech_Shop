@@ -5,8 +5,13 @@ import RegisterPage from "./Page/Front/RegisterPage"
 import OrderPage from "./Page/Front/OrderPage"
 import CheckOutPage from "./Page/Front/CheckOutPage"
 import ProductPage from "./Page/Front/ProductPage"
+import { useEffect } from "react"
 
 function App() {
+
+  useEffect(() => {
+    window.history.pushState({}, "Home", "/")
+  }, [])
 
   return (
     <BrowserRouter>

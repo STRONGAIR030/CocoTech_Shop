@@ -1,8 +1,10 @@
+import CheckOutLayout from "../../components/layout/CheckoutLayout"
+
 const CheckOutPage = () => {
     return (
-        <div>
+        <CheckOutLayout>
             CheckOutPage
-        </div>
+        </CheckOutLayout>
     )
 }
 

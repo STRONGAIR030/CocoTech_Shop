@@ -1,8 +1,10 @@
+import DefaultLayout from "../../components/layout/defaultLayout"
+
 const OrderPage = () => {
     return (
-        <div>
+        <DefaultLayout>
             OrderPage
-        </div>
+        </DefaultLayout>
     )
 }
 

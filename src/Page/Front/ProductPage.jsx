@@ -1,12 +1,13 @@
 import { useParams } from "react-router"
+import DefaultLayout from "../../components/layout/defaultLayout";
 
 const ProductPage = () => {
     const {productId} = useParams();
 
     return (
-        <div>
+        <DefaultLayout>
             ProductPage {productId}
-        </div>
+        </DefaultLayout>
 
     )
 }
