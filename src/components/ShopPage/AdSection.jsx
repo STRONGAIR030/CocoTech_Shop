@@ -1,15 +1,56 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
+
+const AdContainer = ({adList, currentIndex}) => {
+    return(
+        <StyledAdContainer $currentIndex={currentIndex}>    
+        {
+            adList.map((Ad) => {
+                return (
+                    <StyledAd key={Ad.id} $imgUrl={Ad.imgFile}>
+                        {Ad.name}
+                    </StyledAd>
+                )
+            })
+        }
+        </StyledAdContainer>
+    )
+}
+
+const ListDisplayerContainer = ({adList, currentIndex, setCurrentIndex}) => {
+    return (
+        <StyledListDisplayerContainer>
+        {
+            adList.map((Ad) => {
+                return (
+                    <StyledListDisplayer onClick={() =>{setCurrentIndex(Ad.id - 1)}} key={Ad.id} $isShow={currentIndex == Ad.id - 1}/>
+                )
+            })
+        }
+        </StyledListDisplayerContainer>
+    )
+}
 
 const AdSection = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    useEffect(() => {
+        const changeAd = () => {
+            setCurrentIndex(prevIndex => prevIndex == adList.length - 1 ? 0 : prevIndex + 1)
+        }
+        const Interval = setInterval(changeAd, 5000);
+
+        return () => {
+            clearInterval(Interval)
+        }
+    }, [currentIndex])
+
     const adList = [
-        {id: 1, name: "yee1"},
-        {id: 2, name: "yee2"},
-        {id: 3, name: "yee3"},
-        {id: 4, name: "yee4"},
-        {id: 5, name: "yee5"},
+        {id: 1, name: "yee1", imgFile: "/img/hair3.png"},
+        {id: 2, name: "yee2", imgFile: "/img/hair1.png"},
+        {id: 3, name: "yee3", imgFile: "/img/hair2.png"},
+        {id: 4, name: "yee4", imgFile: "/img/powerBank.png"},
+        {id: 5, name: "yee5", imgFile: "/img/mic.png"},
     ]
 
     const handleRight = () => {
@@ -27,27 +68,8 @@ const AdSection = () => {
                 <StyledArrow onClick={handleLeft} $direction={"<"}>
                     {"<"}
                 </StyledArrow>
-                <StyledAdContainer $currentIndex={currentIndex}>    
-                    {
-                        adList.map((Ad) => {
-                            return (
-                                <StyledAd key={Ad.id}>
-                                    {Ad.name}
-                                </StyledAd>
-                            )
-                        })
-                    }
-                </StyledAdContainer>
-                <StyledListDisplayerContainer>
-                    {
-                        adList.map((Ad) => {
-                            return (
-                                <StyledListDisplayer onClick={() =>{setCurrentIndex(Ad.id - 1)}} key={Ad.id} $isShow={currentIndex == Ad.id - 1}/>
-                            )
-                        })
-                    }
-                </StyledListDisplayerContainer>
-
+                <AdContainer currentIndex={currentIndex} adList={adList}/>
+                <ListDisplayerContainer currentIndex={currentIndex} adList={adList} setCurrentIndex={setCurrentIndex}/>
                 <StyledArrow onClick={handleRight} $direction={">"}> 
                     {">"}
                 </StyledArrow>
@@ -59,15 +81,25 @@ const AdSection = () => {
 export default AdSection
 
 const StyledAdSection = styled.section`
-    padding: 32px 0px;
-    height: 300px;
+    padding: 32px 16px;
+    height: 400px;
+
+    @media screen and (max-width: 746px){
+        height: 350px;
+    }
+
+    @media screen and (max-width: 540px){
+        height: 300px;
+    }
+
 `
 
 const SyledAdBanner = styled.div`
-    width: 70%;
+    max-width: 700px;
     height: 100%;
     margin: 0 auto;
-    border: 1px solid black;
+    border-radius: 10px;
+    border: 5px solid #8D5524;
     overflow: hidden;
     
     &:hover{
@@ -82,13 +114,23 @@ const StyledAdContainer = styled.div`
     width: 100%;
     height: 100%;
     transform: translateX(${props => props.$currentIndex && props.$currentIndex * -100}%);
-    transition: all 0.5s;
-
+    transition: all 0.3s;
 `
 
 const StyledAd = styled.div`
     flex: 0 0 100%;
-    border: 5px solid black;
+    background-size: 700px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    ${props => props.$imgUrl && css`background-image: url(${props.$imgUrl});`}
+
+    @media screen and (max-width: 540px){
+        background-size: 500px;
+    }
+
+    @media screen and (max-width: 375px){
+        background-size: 420px;
+    }
 `
 const StyledListDisplayerContainer = styled.div`
     display: flex;
@@ -105,6 +147,11 @@ const StyledListDisplayer = styled.div`
     height: 15px;
     border-radius: 50%;
     background-color: ${props => props.$isShow ? "#8D5524" : "#ffffff4d"};
+
+    @media screen and (max-width: 746px){
+        width: 10px;
+        height: 10px;
+    }
 `
 
 
@@ -129,7 +176,7 @@ const StyledArrow = styled.button`
     }
     transition: all 0.5s;
     @media screen and (max-width: 746px){
-        opacity: 1;
+        display: none;
     }
 `
 
