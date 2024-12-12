@@ -20,7 +20,7 @@ const ProductSection = () => {
 
     return (
         <StlyedProductSection>
-            <Wrapper>
+            <ProductContiainerWrapper>
                 <h3>Get All You want!</h3>
                 <StlyedProductCardContainer>
                     <ProductCard productInf={ProductList[0]}/>
@@ -30,7 +30,7 @@ const ProductSection = () => {
                     <ProductCard productInf={ProductList[0]}/>
                     <ProductCard productInf={ProductList[0]}/>
                 </StlyedProductCardContainer>
-            </Wrapper>
+            </ProductContiainerWrapper>
         </StlyedProductSection>
     )
 }
@@ -48,7 +48,7 @@ const StlyedProductSection = styled.section`
     }
 `
 
-const Wrapper = styled.div`
+const ProductContiainerWrapper = styled.div`
     width: 100%;
     border-radius: 20px;
     background-color: #C68642;
