@@ -6,6 +6,7 @@ import { useState } from "react";
 const ProductPage = () => {
     const {productId} = useParams();
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [addAmount, setAddAmount] = useState(1);
 
     const ProductList = {
              id: 1,
@@ -27,6 +28,14 @@ const ProductPage = () => {
 
     const handleLeft = () => {
         setCurrentIndex(prevIndex => Math.max(prevIndex - 1, 0))
+    }
+
+    const handleAdd = () => {
+        setAddAmount(prevAmount => prevAmount + 1)
+    }
+
+    const handleDec = () => {
+        setAddAmount(prevAmount => Math.max(1, prevAmount - 1))
     }
 
     return (
@@ -59,19 +68,20 @@ const ProductPage = () => {
                         <h3>{ProductList.name}</h3>
                         <h4>{ProductList.price}$</h4>
                         <p>{ProductList.des}</p>
-                        <StyleAddToCartController>
-                            <h3>+</h3>
-                            <h3>3</h3>
-                            <h3>-</h3>
-                        </StyleAddToCartController>
+                        <StyledAddToCartController>
+                            <button onClick={handleAdd}>+</button>
+                            <h4>{addAmount}</h4>
+                            <button onClick={handleDec}>-</button>
+                        </StyledAddToCartController>
                         <StyledAddToCartBtn>
                             Add to cart
                         </StyledAddToCartBtn>
                         <p>{ProductList.detail}</p>
                     </StyledProductInf>
-                    <StyledCommentSection>
-
-                    </StyledCommentSection>
+                    <StyledReviewsSection>
+                            <h3>Reviews</h3>
+                            
+                    </StyledReviewsSection>
                 </StyledProductPage>
             </Wrapper>
         </DefaultLayout>
@@ -99,8 +109,6 @@ const StyledProductPage = styled.div`
 
 const StyledProductInf = styled.div`
     width: 40%;
-    display: flex;
-    flex-direction: column;
     padding: 16px;
 
     & > h3{
@@ -126,8 +134,6 @@ const StyledProductInf = styled.div`
 
 const StyledProductImgDisplayer = styled.div`
     width: 60%;
-    display: flex;
-    flex-direction: column;
     padding: 16px;
 
     @media screen and (max-width: 746px){
@@ -139,8 +145,9 @@ const StyledProductImgDisplayer = styled.div`
     }
 `
 
-const StyledCommentSection = styled.div`
+const StyledReviewsSection = styled.div`
     width: 60%;
+    padding: 16px;
 
     @media screen and (max-width: 746px){
         width: 100%
@@ -248,15 +255,70 @@ const StyledArrow = styled.button`
     }
 `
 
-const StyleAddToCartController = styled.div`
-    display: flex;
-    justify-content: center
+const StyledAddToCartBtn = styled.button`
+    width: 100%;
+    margin: 16px 0px;
+    padding: 16px 0px;
+    font-size: 24px;
+    border: none;
+    border-radius: 100px;
+    color: #ffdd84;
+    background-color: #8D5524;
+`
 
-    h3{
-        font-size: 100px;
+const StyledAddToCartController = styled.div`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 16px;
+
+    button{
+        width: 90px;
+        font-size: 48px;
+        line-height: 1;
+        border: none;
+        border-radius: 100px;
+        color: #ffdd84;
+        background-color: #8D5524;
+
+    }
+
+    h4{
+        font-size: 32px;
     }
 `
 
-const StyledAddToCartBtn = styled.button`
+const StyledReview = styled.div`
     
+`
+
+const StyledUserImgContainer = styled.div`
+    width: 40%;
+    border: 3px solid ${props => props.$isSelect ? "#5a3616" : "white"};
+    border-radius: 20px;
+    overflow: hidden;
+
+    &::before{
+        content: ' ';
+        display: block;
+        width: 100%;
+        padding-top: 100%;
+    }
+
+    div{
+        width: 100%;
+        height: 100%;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        ${props => props.$imgUrl && css`background-image: url(${props.$imgUrl});`}
+        
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    @media screen and (max-width: 540px){
+        width: 60px;
+    }
 `
