@@ -46,11 +46,11 @@ const AdSection = () => {
     }, [currentIndex])
 
     const adList = [
-        {id: 1, name: "yee1", imgFile: "/img/hair3.png"},
-        {id: 2, name: "yee2", imgFile: "/img/hair1.png"},
-        {id: 3, name: "yee3", imgFile: "/img/hair2.png"},
-        {id: 4, name: "yee4", imgFile: "/img/powerBank.png"},
-        {id: 5, name: "yee5", imgFile: "/img/mic.png"},
+        {id: 1, imgFile: "/img/hair3.png"},
+        {id: 2, imgFile: "/img/hair1.png"},
+        {id: 3, imgFile: "/img/hair2.png"},
+        {id: 4, imgFile: "/img/powerBank.png"},
+        {id: 5, imgFile: "/img/mic.png"},
     ]
 
     const handleRight = () => {
@@ -64,6 +64,7 @@ const AdSection = () => {
 
     return (
         <StyledAdSection>
+            <h3>Recommended products</h3>
             <SyledAdBanner>
                 <StyledArrow onClick={handleLeft} $direction={"<"}>
                     {"<"}
@@ -82,7 +83,42 @@ export default AdSection
 
 const StyledAdSection = styled.section`
     padding: 32px 16px;
+
+    h3{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 16px;
+        font-size: 32px;
+    }
+
+    @media screen and (max-width: 746px){
+        h3{
+            font-size: 24px;
+        }
+    }
+
+    
+    @media screen and (max-width: 375px){
+        h3{
+            font-size: 18px;
+        }
+    }
+
+`
+
+const SyledAdBanner = styled.div`
+    max-width: 700px;
     height: 400px;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 5px solid #8D5524;
+    overflow: hidden;
+
+    &:hover{
+        button{
+            opacity: 1;
+        }
+    }
 
     @media screen and (max-width: 746px){
         height: 350px;
@@ -92,21 +128,11 @@ const StyledAdSection = styled.section`
         height: 300px;
     }
 
-`
-
-const SyledAdBanner = styled.div`
-    max-width: 700px;
-    height: 100%;
-    margin: 0 auto;
-    border-radius: 10px;
-    border: 5px solid #8D5524;
-    overflow: hidden;
-    
-    &:hover{
-        button{
-            opacity: 1;
-        }
+    @media screen and (max-width: 375px){
+        height : 200px;
     }
+    
+
 `
 
 const StyledAdContainer = styled.div`
@@ -119,13 +145,13 @@ const StyledAdContainer = styled.div`
 
 const StyledAd = styled.div`
     flex: 0 0 100%;
-    background-size: 700px;
+    background-size: 800px;
     background-repeat: no-repeat;
     background-position: 50% 50%;
     ${props => props.$imgUrl && css`background-image: url(${props.$imgUrl});`}
 
     @media screen and (max-width: 540px){
-        background-size: 500px;
+        background-size: 550px;
     }
 
     @media screen and (max-width: 375px){
