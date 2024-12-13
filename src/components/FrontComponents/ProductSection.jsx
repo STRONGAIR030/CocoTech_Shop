@@ -9,7 +9,7 @@ const ProductSection = () => {
             price: 30,
             stock: 30,
             des: "some des",
-            detail: "some detail",
+            detail: `some detail`,
             reviews:[
                 {"customersId": 1, "comment": "is so good"},
                 {"customersId": 2, "comment": "is so good"}
