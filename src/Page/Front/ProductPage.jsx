@@ -3,11 +3,14 @@ import DefaultLayout from "../../components/layout/defaultLayout";
 import styled, {css} from "styled-components";
 import { useState } from "react";
 import StyledImgContainer from "../../components/common/StyledImgContainer";
+import ListSwitch from "../../components/common/ListSwitch";
+import { v4 as uuidv4 } from "uuid";
 
 const ProductPage = () => {
     const {productId} = useParams();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [addAmount, setAddAmount] = useState(1);
+    const [showReviews, setShowReviews] = useState(false);
 
     const ProductList = {
              id: 1,
@@ -39,6 +42,10 @@ const ProductPage = () => {
         setAddAmount(prevAmount => Math.max(1, prevAmount - 1))
     }
 
+    const toggleShowReviews = () => {
+        setShowReviews(prevShow => !prevShow);
+    }
+
     return (
         <DefaultLayout>
             <Wrapper>
@@ -47,9 +54,11 @@ const ProductPage = () => {
                         <StyledProductImgContainer>
                             <StyledArrow onClick={handleLeft} $show={currentIndex != 0} $direction="<">{"<"}</StyledArrow>
                             <StyledProductImgList $currentIndex={currentIndex}>
-                                {ProductList.img.map((imgUrl, index) => {
+                                {ProductList.img.map((imgUrl) => {
                                     return (    
-                                        <StyledProductImg key={index} $imgUrl={imgUrl}/>
+                                        <StyledProductImg key={uuidv4()} $imgUrl={imgUrl}>
+                                            <div></div>
+                                        </StyledProductImg>
                                     )
                                 })}
                             </StyledProductImgList>
@@ -58,7 +67,7 @@ const ProductPage = () => {
                         <StyledProductImgSelecterBar>
                             {ProductList.img.map((imgUrl, index) => {
                                 return (    
-                                    <StyledProductImgSelecter key={index} $imgUrl={imgUrl} $isSelect={currentIndex === index} onClick={() => {setCurrentIndex(index)}}>
+                                    <StyledProductImgSelecter key={uuidv4()} $imgUrl={imgUrl} $isSelect={currentIndex === index} onClick={() => {setCurrentIndex(index)}}>
                                         <div/>
                                     </StyledProductImgSelecter>
                                 )
@@ -79,31 +88,26 @@ const ProductPage = () => {
                         </StyledAddToCartBtn>
                         <p>{ProductList.detail}</p>
                     </StyledProductInf>
-                    <StyledReviewsSection>
-                            <h3>Reviews</h3>
-                            <StyledReviewList>
-                                <StyledReview>
-                                    <StyledUserContainer>
-                                        <h4>User1</h4>
-                                        <StyledUserImgContainer $imgUrl="/img/ReviewsUser.svg">
-                                            <div/>
-                                        </StyledUserImgContainer>
-                                    </StyledUserContainer>
-                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Asperiores, quibusdam odit. Aliquid alias, id quo labore in voluptatem modi? Architecto pariatur temporibus repellendus enim soluta tenetur veniam quae iusto ea?</p>
-                                </StyledReview>
-                                <StyledReview>
-                                    <StyledUserContainer>
-                                        <h4>User1</h4>
-                                        <StyledUserImgContainer $imgUrl="/img/ReviewsUser.svg">
-                                            <div/>
-                                        </StyledUserImgContainer>
-                                    </StyledUserContainer>
-                                    <p>good!!!</p>
-                                </StyledReview>
+                    <StyledReviewsSection >
+                            <ListSwitch handleClick={toggleShowReviews} switchState={showReviews} hrColor="#5a3616" textSize="32px"/>
+                            <StyledReviewList $show={showReviews}>
+                                {ProductList.reviews.map((review) => {
+                                    return (
+                                        <StyledReview key={uuidv4()}>
+                                            <StyledUserContainer>
+                                                <h4>User{review.customersId}</h4>
+                                                <StyledUserImgContainer $imgUrl="/img/ReviewsUser.svg">
+                                                    <div/>
+                                                </StyledUserImgContainer>
+                                            </StyledUserContainer>
+                                            <p>{review.comment}</p>
+                                        </StyledReview>
+                                    )
+                                })}
                             </StyledReviewList>
-                            <h4>Add Reviews</h4>
+                            <h3>Add Reviews</h3>
                             <StyledAddReviewInput/>
-
+                            <StyledSubmitBtn>Submit</StyledSubmitBtn>
                     </StyledReviewsSection>
                 </StyledProductPage>
             </Wrapper>
@@ -127,32 +131,10 @@ const StyledProductPage = styled.div`
     padding: 16px;
     margin: 0 auto;
     
+    button:active{
+        background-color: #5a3616;
+    }
     
-`
-
-const StyledProductInf = styled.div`
-    width: 40%;
-    padding: 16px;
-
-    & > h3{
-        font-size: 36px;
-        margin-bottom: 36px;
-    }
-
-    & > h4{
-        font-size: 36px;
-        margin-bottom: 16px;
-    }
-
-    p{
-        margin: 16px 0px;
-    }
-
-    @media screen and (max-width: 746px){
-        max-width: 100%;
-        width: 100%;
-        padding: 16px 0px;
-    }
 `
 
 const StyledProductImgDisplayer = styled.div`
@@ -168,30 +150,10 @@ const StyledProductImgDisplayer = styled.div`
     }
 `
 
-const StyledReviewsSection = styled.div`
-    width: 60%;
-    padding: 16px;
-
-    & > h3 {
-        font-size: 32px;
-        margin-bottom: 16px;
-    }
-
-    @media screen and (max-width: 746px){
-        width: 100%
-    }
-`
-
 const StyledProductImgContainer = styled.div`
     width: 100%;
     overflow: hidden;
 
-    &::before{
-        content: ' ';
-        display: block;
-        width: 100%;
-        padding-top: 100%;
-    }
 `
 
 const StyledProductImgList = styled.div.attrs((props) => ({
@@ -203,20 +165,10 @@ const StyledProductImgList = styled.div.attrs((props) => ({
     width: 100%;
     height: 100%;
     transition: all 0.3s;
-    position: absolute;
-    top: 0;
-    left: 0;
 `
 
-const StyledProductImg = styled.div`
+const StyledProductImg = styled(StyledImgContainer)`
     flex: 0 0 100%;
-    width: 100%;
-    height: 100%;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    ${props => props.$imgUrl && css`background-image: url(${props.$imgUrl});`}
-
 `
 const StyledProductImgSelecterBar = styled.div`
     margin-top: 16px;
@@ -247,7 +199,7 @@ const StyledArrow = styled.button`
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 10;
+    z-index: 1;
     ${props => props.$direction === '<' ?
                         css`left: 0px;` :
                         props.$direction == '>' ?
@@ -259,6 +211,31 @@ const StyledArrow = styled.button`
 
     @media screen and (max-width: 746px){
         display: none;
+    }
+`
+
+const StyledProductInf = styled.div`
+    width: 40%;
+    padding: 16px;
+
+    & > h3{
+        font-size: 36px;
+        margin-bottom: 36px;
+    }
+
+    & > h4{
+        font-size: 36px;
+        margin-bottom: 16px;
+    }
+
+    p{
+        margin: 16px 0px;
+    }
+
+    @media screen and (max-width: 746px){
+        max-width: 100%;
+        width: 100%;
+        padding: 16px 0px;
     }
 `
 
@@ -295,7 +272,28 @@ const StyledAddToCartController = styled.div`
     }
 `
 
+const StyledReviewsSection = styled.div`
+    width: 60%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+
+    & > h3 {
+        font-size: 32px;
+        margin-bottom: 16px;
+    }
+
+    @media screen and (max-width: 746px){
+        max-width: 100%;
+        width: 100%;
+        padding: 16px 0px;
+    }
+`
+
 const StyledReviewList = styled.div`
+    max-height: ${props => props.$show ? "300px" : "0px"};
+    overflow: scroll;
+    transition: all 0.5s;
 
 `
 
@@ -327,6 +325,21 @@ const StyledUserImgContainer = styled(StyledImgContainer)`
     }
 `
 
-const StyledAddReviewInput = styled.input`
-    
+const StyledAddReviewInput = styled.textarea`
+    width: 100%;
+    height: 300px;
+    padding: 16px;
 `
+
+const StyledSubmitBtn = styled.button`
+    align-self: flex-end;
+    margin-top: 16px;
+    width: 90px;
+    font-size: 24px;
+    line-height: 1;
+    border: none;
+    border-radius: 100px;
+    color: #ffdd84;
+    background-color: #8D5524;
+`
+

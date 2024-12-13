@@ -161,6 +161,7 @@ const Navitem = styled.li`
 const StyledListHr = styled.hr`
   display: none;
   margin-bottom: 16px;
+  border: none;
   border-top: 2px dashed #ffdd84;
 
   @media screen and (max-width: 746px) {

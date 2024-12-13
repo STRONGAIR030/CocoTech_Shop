@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
+import StyledImgContainer from "../common/StyledImgContainer"
 
 const AdContainer = ({adList, currentIndex}) => {
     return(
@@ -8,7 +9,7 @@ const AdContainer = ({adList, currentIndex}) => {
             adList.map((Ad) => {
                 return (
                     <StyledAd key={Ad.id} $imgUrl={Ad.imgFile}>
-                        {Ad.name}
+                        <div/>
                     </StyledAd>
                 )
             })
@@ -108,7 +109,6 @@ const StyledAdSection = styled.section`
 
 const SyledAdBanner = styled.div`
     max-width: 700px;
-    height: 400px;
     margin: 0 auto;
     border-radius: 10px;
     border: 5px solid #8D5524;
@@ -118,20 +118,7 @@ const SyledAdBanner = styled.div`
         button{
             opacity: 1;
         }
-    }
-
-    @media screen and (max-width: 746px){
-        height: 350px;
-    }
-
-    @media screen and (max-width: 540px){
-        height: 300px;
-    }
-
-    @media screen and (max-width: 375px){
-        height : 200px;
-    }
-    
+    }    
 
 `
 
@@ -143,19 +130,11 @@ const StyledAdContainer = styled.div`
     transition: all 0.3s;
 `
 
-const StyledAd = styled.div`
+const StyledAd = styled(StyledImgContainer)`
     flex: 0 0 100%;
-    background-size: 800px;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    ${props => props.$imgUrl && css`background-image: url(${props.$imgUrl});`}
 
-    @media screen and (max-width: 540px){
-        background-size: 550px;
-    }
-
-    @media screen and (max-width: 375px){
-        background-size: 420px;
+    &::before{
+        padding-top: 50%;
     }
 `
 const StyledListDisplayerContainer = styled.div`

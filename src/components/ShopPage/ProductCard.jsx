@@ -1,12 +1,15 @@
 import { NavLink } from "react-router"
 import styled from "styled-components"
+import StyledImgContainer from "../common/StyledImgContainer"
 
 const ProductCard = ({productInf}) => {
     return (
         <StyledProductCard>
-            <ProductImgContainer to={`/product/${productInf.id}`} $imgUrl={productInf.img[0]}>
-                <div/>
-            </ProductImgContainer>
+            <NavLink to={`/product/${productInf.id}`}>
+                <ProductImgContainer $imgUrl={productInf.img[0]}>
+                    <div/>
+                </ProductImgContainer>
+            </NavLink>
             <h3>{productInf.name}</h3>
             <CostandBuy>
                 <h4>{productInf.price}$</h4>
@@ -18,21 +21,13 @@ const ProductCard = ({productInf}) => {
 
 export default ProductCard
 
-const ProductImgContainer = styled(NavLink)`
-    display: block;
-    width: 100%;
-    height: 250px;
+const ProductImgContainer = styled(StyledImgContainer)`
     border-radius: 20px;
     margin-bottom: 16px;
     background-color: rgba(181, 196, 222, 0.4);
     box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
+
     div{
-        width: 100%;
-        height: 100%;
-        background-position: 50% 50%;
-        background-repeat: no-repeat;
-        background-image: url(${props => props.$imgUrl});
-        background-size: 70%;
         transition: all 0.3s;        
     }
 
@@ -53,7 +48,7 @@ const StyledProductCard = styled.div`
     &:hover {
         transform: translateY(-8px);
         ${ProductImgContainer} div{
-            transform: scale(1.3);
+            transform: scale(1.2);
         }
     }
 

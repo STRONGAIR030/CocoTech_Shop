@@ -2,6 +2,11 @@ import styled, {css} from "styled-components";
 
 const StyledImgContainer = styled.div`
     overflow: hidden;
+    width: 100%;
+
+    ${props => props.$containerMaxWidth && css`
+        max-width: ${props.$containerWidth};
+    `}
 
     &::before{
         content: ' ';
