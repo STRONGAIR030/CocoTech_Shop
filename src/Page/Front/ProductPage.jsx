@@ -2,6 +2,7 @@ import { useParams } from "react-router"
 import DefaultLayout from "../../components/layout/defaultLayout";
 import styled, {css} from "styled-components";
 import { useState } from "react";
+import StyledImgContainer from "../../components/common/StyledImgContainer";
 
 const ProductPage = () => {
     const {productId} = useParams();
@@ -80,7 +81,29 @@ const ProductPage = () => {
                     </StyledProductInf>
                     <StyledReviewsSection>
                             <h3>Reviews</h3>
-                            
+                            <StyledReviewList>
+                                <StyledReview>
+                                    <StyledUserContainer>
+                                        <h4>User1</h4>
+                                        <StyledUserImgContainer $imgUrl="/img/ReviewsUser.svg">
+                                            <div/>
+                                        </StyledUserImgContainer>
+                                    </StyledUserContainer>
+                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Asperiores, quibusdam odit. Aliquid alias, id quo labore in voluptatem modi? Architecto pariatur temporibus repellendus enim soluta tenetur veniam quae iusto ea?</p>
+                                </StyledReview>
+                                <StyledReview>
+                                    <StyledUserContainer>
+                                        <h4>User1</h4>
+                                        <StyledUserImgContainer $imgUrl="/img/ReviewsUser.svg">
+                                            <div/>
+                                        </StyledUserImgContainer>
+                                    </StyledUserContainer>
+                                    <p>good!!!</p>
+                                </StyledReview>
+                            </StyledReviewList>
+                            <h4>Add Reviews</h4>
+                            <StyledAddReviewInput/>
+
                     </StyledReviewsSection>
                 </StyledProductPage>
             </Wrapper>
@@ -149,6 +172,11 @@ const StyledReviewsSection = styled.div`
     width: 60%;
     padding: 16px;
 
+    & > h3 {
+        font-size: 32px;
+        margin-bottom: 16px;
+    }
+
     @media screen and (max-width: 746px){
         width: 100%
     }
@@ -198,31 +226,10 @@ const StyledProductImgSelecterBar = styled.div`
     gap: 16px
 `
 
-const StyledProductImgSelecter = styled.div`
+const StyledProductImgSelecter = styled(StyledImgContainer)`
     width: 100px;
     border: 3px solid ${props => props.$isSelect ? "#5a3616" : "white"};
     border-radius: 20px;
-    overflow: hidden;
-
-    &::before{
-        content: ' ';
-        display: block;
-        width: 100%;
-        padding-top: 100%;
-    }
-
-    div{
-        width: 100%;
-        height: 100%;
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: 50% 50%;
-        ${props => props.$imgUrl && css`background-image: url(${props.$imgUrl});`}
-        
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
 
     @media screen and (max-width: 540px){
         width: 60px;
@@ -288,37 +295,38 @@ const StyledAddToCartController = styled.div`
     }
 `
 
-const StyledReview = styled.div`
-    
+const StyledReviewList = styled.div`
+
 `
 
-const StyledUserImgContainer = styled.div`
-    width: 40%;
-    border: 3px solid ${props => props.$isSelect ? "#5a3616" : "white"};
-    border-radius: 20px;
-    overflow: hidden;
-
-    &::before{
-        content: ' ';
-        display: block;
-        width: 100%;
-        padding-top: 100%;
+const StyledUserContainer = styled.div`
+    text-align: center;
+    h4{
+        font-size: 18px;
+        margin-bottom: 8px;
     }
+`
 
-    div{
-        width: 100%;
-        height: 100%;
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: 50% 50%;
-        ${props => props.$imgUrl && css`background-image: url(${props.$imgUrl});`}
-        
-        position: absolute;
-        top: 0;
-        left: 0;
+const StyledReview = styled.div`
+    display: flex;
+    padding: 16px 0px;
+    align-items: center;
+    gap: 16px;
+
+    p{
+        max-height: 120px;
+        overflow: scroll;
     }
+`
+
+const StyledUserImgContainer = styled(StyledImgContainer)`
+    width: 80px;
 
     @media screen and (max-width: 540px){
         width: 60px;
     }
+`
+
+const StyledAddReviewInput = styled.input`
+    
 `
