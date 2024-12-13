@@ -1,9 +1,11 @@
 import styled, {css} from "styled-components";
 import { NavLink } from "react-router";
 import { useEffect, useState , useRef} from "react";
+import ShoppingCart from "../FrontComponents/ShoppingCart";
 
 const Header = () => {
     const [search, setSearch] = useState(false);
+    const [showCart, setShowCart] = useState(false);
     const inputRef = useRef()
     useEffect(() => {
         if(search){
@@ -11,6 +13,14 @@ const Header = () => {
             inputRef.current.focus();
         }
     }, [search])
+    
+    useEffect(() => {
+        
+    }, [])
+
+    const toggleShowCart = () => {
+        setShowCart(prevShow => !prevShow)
+    }
     return (
         <StyledHeader>
             <ShopLogo to="/"/>
@@ -28,10 +38,11 @@ const Header = () => {
                     <AccoutLink to="/account/login"/>
                 </Navitem>
                 <Navitem $xlShow $mdShow>
-                    <button>1</button>
+                    <button onClick={toggleShowCart}>1</button>
                 </Navitem>
             </Nav>
             <JumpSearchInput placeholder="Search" ref={inputRef} onBlur={() => {setSearch(false)}}/>
+            {showCart && <ShoppingCart toggleShow={toggleShowCart}></ShoppingCart>}
         </StyledHeader>
     )
 }

@@ -1,0 +1,24 @@
+.fade-enter,
+.fade-exit {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.fade-enter {
+  transform: translateX(100%);
+}
+
+.fade-enter-active {
+  transform: translateX(0);
+  transition: transform 400ms;
+}
+
+.fade-exit {
+  transform: translateX(0);
+}
+
+.fade-exit-active {
+  transform: translateX(-100%);
+  transition: transform 400ms;
+}
