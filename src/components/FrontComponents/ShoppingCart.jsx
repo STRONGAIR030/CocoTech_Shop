@@ -1,61 +1,45 @@
 import styled from "styled-components"
 import StyledImgContainer from "../common/StyledImgContainer"
+import { useContext } from "react"
+import AppContext from "../common/AppContext"
+import { NavLink } from "react-router"
+
+const CartProduct = ({name, quantity, totalPrice, imgUrl}) => {
+    return (
+        <StyledCartProductContainer>
+            <StyledCartProduct>
+                <DeleteBtn>X</DeleteBtn>                    
+                <ProductImgContainer $imgUrl={imgUrl}>
+                    <div/>
+                </ProductImgContainer>
+                <h3>{name}</h3>
+                <h4>total: {totalPrice}$</h4>
+                <h4>quantity: {quantity}</h4>
+            </StyledCartProduct>
+        </StyledCartProductContainer>
+    )
+}
+
 
 const ShoppingCart = ({toggleShow}) => {
-    
+    const {shoppingCart} = useContext(AppContext)
 
     return (
         <StyledShoppingCart>
             <ClossBtn onClick={toggleShow}>X</ClossBtn>
             <ShoppingCartContainer>
-                <CartProduct>
-                    <DeleteBtn>X</DeleteBtn>                    
-                    <ProductImgContainer $imgUrl="http://localhost:3000/powerBank1.png">
-                        <div/>
-                    </ProductImgContainer>
-                    <h3>Product name</h3>
-                    <h4>quantity: 1</h4>
-                </CartProduct>
-                <CartProduct>
-                    <DeleteBtn>X</DeleteBtn>                    
-                    <ProductImgContainer $imgUrl="http://localhost:3000/powerBank1.png">
-                        <div/>
-                    </ProductImgContainer>
-                    <h3>Product name</h3>
-                    <h4>quantity: 1</h4>
-                </CartProduct>
-                <CartProduct>
-                    <DeleteBtn>X</DeleteBtn>                    
-                    <ProductImgContainer $imgUrl="http://localhost:3000/powerBank1.png">
-                        <div/>
-                    </ProductImgContainer>
-                    <h3>Product name</h3>
-                    <h4>quantity: 1</h4>
-                </CartProduct>
-                <CartProduct>
-                    <DeleteBtn>X</DeleteBtn>                    
-                    <ProductImgContainer $imgUrl="http://localhost:3000/powerBank1.png">
-                        <div/>
-                    </ProductImgContainer>
-                    <h3>Product name</h3>
-                    <h4>quantity: 1</h4>
-                </CartProduct>
-                <CartProduct>
-                    <DeleteBtn>X</DeleteBtn>                    
-                    <ProductImgContainer $imgUrl="http://localhost:3000/powerBank1.png">
-                        <div/>
-                    </ProductImgContainer>
-                    <h3>Product name</h3>
-                    <h4>quantity: 1</h4>
-                </CartProduct>
-                <CartProduct>
-                    <DeleteBtn>X</DeleteBtn>                    
-                    <ProductImgContainer $imgUrl="http://localhost:3000/powerBank1.png">
-                        <div/>
-                    </ProductImgContainer>
-                    <h3>Product name</h3>
-                    <h4>quantity: 1</h4>
-                </CartProduct>
+            {   
+                shoppingCart.length ?
+                shoppingCart.map((product) => {
+                    return (
+                        <CartProduct key={product.id} name={product.name} quantity={product.quantity} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
+                    )
+                }):
+                <StyledNoProduct>
+                    <h3>No thing in here!!</h3>
+                    <button onClick={toggleShow}>Go shopping</button>
+                </StyledNoProduct>
+            }
             </ShoppingCartContainer>
         </StyledShoppingCart>
     )
@@ -97,10 +81,20 @@ const ShoppingCartContainer = styled.div`
     border-radius: 20px;
     background-color: #8D5524;
     box-shadow: rgba(0, 0, 0, 0.6) 0px 5px 15px;
+    animation: ContainerIn 0.5s;
 
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
+
+    @keyframes ContainerIn {
+        0%{
+            transform: scale(1.3);
+        }
+
+        100%{
+            transform: scale(1);
+        }
+    }
   
 `
 
@@ -120,24 +114,28 @@ const ClossBtn = styled.button`
     }
     
 `
-const CartProduct = styled.div`
-    margin: 16px 0px;
-    width: 30%;
-    text-align: center;
+
+const StyledCartProductContainer = styled.div`
+    width: 33.33%;
+    padding: 16px;
 
     h3,h4{
         margin-top: 8px;
     }
 
-    
 
     @media screen and (max-width: 375px){
-        width: 45%;
+        width: 50%;
 
         h3,h4{
             font-size: 14px;
         }
     }
+`
+
+const StyledCartProduct = styled.div`
+    width: 100%;
+    text-align: center;
 `
 
 const ProductImgContainer = styled(StyledImgContainer)`
@@ -159,3 +157,26 @@ const DeleteBtn = styled.button`
     z-index: 1;
 `
 
+const StyledNoProduct = styled.div`
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h3{
+        font-size: 25px;
+        padding: 16px;
+    }
+
+    button{
+        font-size: 24px;
+        margin: 16px;
+    }
+
+`
+
+const CheckOutBtn = styled(NavLink)`
+    width: 100%;
+`

@@ -2,12 +2,14 @@ import styled from "styled-components";
 import Footer from "./Footer";
 import Header from "./Header";
 
-const DefaultLayout = ({children}) => {
+const DefaultLayout = ({children, wrapperColor}) => {
     return (
         <div>
             <Header/>
             <StyledClearfix/>
-            {children}
+            <Wrapper $color={wrapperColor}>
+                {children}
+            </Wrapper>
             <Footer/>
         </div>
     )
@@ -20,4 +22,11 @@ const StyledClearfix = styled.div`
     @media screen and (max-width: 746px){
         height: 80px;
     }
+`
+
+const Wrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    background-color: ${props => props.$color ? props.$color : "#c68642b2"};
 `

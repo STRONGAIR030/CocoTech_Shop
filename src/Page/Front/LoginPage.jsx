@@ -5,37 +5,28 @@ import styled from "styled-components"
 const LoginPage = () => {
     return (
         <DefaultLayout>
-            <Wrapper>
-                <StyledLoginPage>
-                    <StyledLoginContainer>
-                        <h3>Login</h3>
-                        <UserInfInput>
-                            <h4>Email</h4>
-                            <input placeholder="Enter your Email" type="text"/>
-                        </UserInfInput>
-                        <UserInfInput>
-                            <h4>Password</h4>
-                            <input placeholder="Enter your Password" type="text"/>
-                        </UserInfInput>
-                        <LoginBtn>Sign in</LoginBtn>
-                        <NavLink to="/account/register">
-                            <p>Don't have an account? <u>Sign up</u></p>
-                        </NavLink>
-                    </StyledLoginContainer>
-                </StyledLoginPage>
-            </Wrapper>
+            <StyledLoginPage>
+                <StyledLoginContainer>
+                    <h3>Login</h3>
+                    <UserInfInput>
+                        <h4>Email</h4>
+                        <input placeholder="Enter your Email" type="text"/>
+                    </UserInfInput>
+                    <UserInfInput>
+                        <h4>Password</h4>
+                        <input placeholder="Enter your Password" type="text"/>
+                    </UserInfInput>
+                    <LoginBtn>Sign in</LoginBtn>
+                    <NavLink to="/account/register">
+                        <p>Don't have an account? <u>Sign up</u></p>
+                    </NavLink>
+                </StyledLoginContainer>
+            </StyledLoginPage>
         </DefaultLayout>
     )
 }
 
 export default LoginPage
-
-const Wrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    padding: 16px;
-    background-color: #c68642b2;
-`
 
 const StyledLoginPage = styled.div`
     padding: 16px;

@@ -80,6 +80,19 @@
             {"customersId": 2, "comment": "is so good"}
         ],
         "img": ["https://cdn.midjourney.com/e2004622-bcb5-481f-b376-4c4571dac7ac/0_3.png", "https://cdn.midjourney.com/da5cf591-5efc-4b3d-a0d5-603c4a03744c/0_1.png", "https://cdn.midjourney.com/4575d9c7-4199-4443-ae42-557f38308394/0_2.png", "https://cdn.midjourney.com/4575d9c7-4199-4443-ae42-557f38308394/0_0.png"]
+    },
+    {
+        "id": 6,
+        "name": "Choco VR Headset",
+        "price": 30,
+        "stock": 30,
+        "des": "some des",
+        "detail": "some detail",
+        "reviews":[
+            {"customersId": 1, "comment": "is so good"},
+            {"customersId": 2, "comment": "is so good"}
+        ],
+        "img": ["https://cdn.midjourney.com/e2004622-bcb5-481f-b376-4c4571dac7ac/0_3.png", "https://cdn.midjourney.com/da5cf591-5efc-4b3d-a0d5-603c4a03744c/0_1.png", "https://cdn.midjourney.com/4575d9c7-4199-4443-ae42-557f38308394/0_2.png", "https://cdn.midjourney.com/4575d9c7-4199-4443-ae42-557f38308394/0_0.png"]
     }
   ],
 

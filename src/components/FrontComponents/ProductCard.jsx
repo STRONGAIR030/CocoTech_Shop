@@ -1,19 +1,23 @@
 import { NavLink } from "react-router"
 import styled from "styled-components"
 import StyledImgContainer from "../common/StyledImgContainer"
+import { useContext } from "react"
+import AppContext from "../common/AppContext"
 
-const ProductCard = ({productInf}) => {
+const ProductCard = ({productId, imgUrl, name, price}) => {
+    const {addProductToCart}= useContext(AppContext);
+
     return (
         <StyledProductCard>
-            <NavLink to={`/product/${productInf.id}`}>
-                <ProductImgContainer $imgUrl={productInf.img[0]}>
+            <NavLink to={`/product/${productId}`}>
+                <ProductImgContainer $imgUrl={imgUrl}>
                     <div/>
                 </ProductImgContainer>
             </NavLink>
-            <h3>{productInf.name}</h3>
+            <h3>{name}</h3>
             <CostandBuy>
-                <h4>{productInf.price}$</h4>
-                <button>Add to Cart</button>
+                <h4>{price}$</h4>
+                <button onClick={() => {addProductToCart(productId, name, imgUrl, price, 1)}}>Add to Cart</button>
             </CostandBuy>
         </StyledProductCard>
     )

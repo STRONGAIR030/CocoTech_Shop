@@ -1,34 +1,23 @@
 import styled from "styled-components"
 import ProductCard from "./ProductCard"
+import { useContext } from "react"
+import AppContext from "../common/AppContext"
 
 const ProductSection = () => {
-    const ProductList = [
-       {
-            id: 1,
-            name: "ChocoPower Bank",
-            price: 30,
-            stock: 30,
-            des: "some des",
-            detail: `some detail`,
-            reviews:[
-                {"customersId": 1, "comment": "is so good"},
-                {"customersId": 2, "comment": "is so good"}
-            ],
-            img: ["http://localhost:3000/powerBank1.png", "http://localhost:3000/powerBank2.png", "http://localhost:3000/powerBank3.png"]
-        }
-    ]
+    const {productList} = useContext(AppContext)
 
     return (
         <StlyedProductSection>
             <ProductContiainerWrapper>
                 <h3>Get All You want!</h3>
                 <StlyedProductCardContainer>
-                    <ProductCard productInf={ProductList[0]}/>
-                    <ProductCard productInf={ProductList[0]}/>
-                    <ProductCard productInf={ProductList[0]}/>
-                    <ProductCard productInf={ProductList[0]}/>
-                    <ProductCard productInf={ProductList[0]}/>
-                    <ProductCard productInf={ProductList[0]}/>
+                    {
+                        productList.map((product) => {
+                            return(
+                                <ProductCard key={product.id}  productId={product.id} imgUrl={product.img[0]} name={product.name} price={product.price}/>
+                            )
+                        })
+                    }
                 </StlyedProductCardContainer>
             </ProductContiainerWrapper>
         </StlyedProductSection>

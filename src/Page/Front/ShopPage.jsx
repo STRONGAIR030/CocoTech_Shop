@@ -4,37 +4,30 @@ import styled from "styled-components"
 import DefaultLayout from "../../components/layout/defaultLayout"
 import AdSection from "../../components/FrontComponents/AdSection"
 import ProductSection from "../../components/FrontComponents/ProductSection"
+import { useContext } from "react"
+import AppContext from "../../components/common/AppContext"
+import LoadingAnimation from "../../components/common/LoadingAnimation"
 
 const ShopPage = () => {
+    const {productsDataLoaded} = useContext(AppContext);
+
     return (
         <DefaultLayout>
-            <Wrapper>
-                <StyledShopPage>    
-                    <AdSection/>
-                    <ProductSection/>
-                </StyledShopPage>
-            </Wrapper>
+        {productsDataLoaded ? 
+            <StyledShopPage>    
+                <AdSection/>
+                <ProductSection/>
+            </StyledShopPage> :
+            <LoadingAnimation/>
+        }
         </DefaultLayout>
     )
 }
 
 export default ShopPage
 
-const StyledNav = styled.nav`
-    a {
-        color: #ffdd84;
-        margin: 0px 16px;
-    }
-`
-const Wrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    padding: 16px;
-    background-color: #c68642b2;
-`
-
 const StyledShopPage = styled.main`
-    animation: PageIn 1s both;
+    animation: PageIn 0.5s both;
 
     @keyframes PageIn {
         0%{

@@ -1,11 +1,13 @@
 import styled, {css} from "styled-components";
 import { NavLink } from "react-router";
-import { useEffect, useState , useRef} from "react";
+import { useEffect, useState , useRef, useContext} from "react";
 import ShoppingCart from "../FrontComponents/ShoppingCart";
+import AppContext from "../common/AppContext";
 
 const Header = () => {
     const [search, setSearch] = useState(false);
     const [showCart, setShowCart] = useState(false);
+    const {userInf} = useContext(AppContext);
     const inputRef = useRef()
     useEffect(() => {
         if(search){
@@ -32,10 +34,10 @@ const Header = () => {
                     <SearchBtn onClick={() =>{setSearch(true)}}/>
                 </Navitem>
                 <Navitem $xlShow>
-                    <NavLink to="/account/login">Account</NavLink>
+                    <NavLink to={`/account/${userInf.isSignIn ? "orders": "login"}`}>Account</NavLink>
                 </Navitem>
                 <Navitem $mdShow>
-                    <AccoutLink to="/account/login"/>
+                    <AccoutLink to={`/account/${userInf.isSignIn ? "orders": "login"}`}/>
                 </Navitem>
                 <Navitem $xlShow $mdShow>
                     <button onClick={toggleShowCart}>1</button>

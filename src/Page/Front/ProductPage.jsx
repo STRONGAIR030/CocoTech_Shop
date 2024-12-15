@@ -1,33 +1,33 @@
 import { useParams } from "react-router"
 import DefaultLayout from "../../components/layout/defaultLayout";
 import styled, {css} from "styled-components";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import StyledImgContainer from "../../components/common/StyledImgContainer";
 import ListSwitch from "../../components/common/ListSwitch";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
+import API_HOST from "../../ApiHost";
+import AppContext from "../../components/common/AppContext";
+import LoadingAnimation from "../../components/common/LoadingAnimation";
 
 const ProductPage = () => {
     const {productId} = useParams();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [addAmount, setAddAmount] = useState(1);
     const [showReviews, setShowReviews] = useState(false);
+    const {productList, productsDataLoaded, addProductToCart} = useContext(AppContext);
+    const [productInf, setProductInf] = useState({});
+    const [dataloaded, setLoading] = useState(false);
 
-    const ProductList = {
-             id: 1,
-             name: "ChocoPower Bank",
-             price: 30,
-             stock: 30,
-             des: "some des",
-             detail: `some detail`,
-             reviews:[
-                 {"customersId": 1, "comment": "is so good"},
-                 {"customersId": 2, "comment": "is so good"}
-             ],
-             img: ["http://localhost:3000/powerBank1.png", "http://localhost:3000/powerBank2.png", "http://localhost:3000/powerBank3.png"]
-         }
+    useEffect(() => {
+        if(productsDataLoaded){
+            setProductInf(productList.find(product => product.id == productId))
+            setLoading(true)            
+        }
+    }, [productsDataLoaded])
     
     const handleRight = () => {
-        setCurrentIndex(prevIndex => Math.min(prevIndex + 1, ProductList.img.length - 1))
+        setCurrentIndex(prevIndex => Math.min(prevIndex + 1, productInf.img.length - 1))
     }
 
     const handleLeft = () => {
@@ -42,75 +42,79 @@ const ProductPage = () => {
         setAddAmount(prevAmount => Math.max(1, prevAmount - 1))
     }
 
+    const handleAddToCart = () => {
+        addProductToCart(productInf.id, productInf.name, productInf.img[0], productInf.price, addAmount)
+    }
+
     const toggleShowReviews = () => {
         setShowReviews(prevShow => !prevShow);
     }
 
     return (
         <DefaultLayout>
-            <Wrapper>
-                <StyledProductPage>
-                    <StyledProductImgDisplayer>
-                        <StyledProductImgContainer>
-                            <StyledArrow onClick={handleLeft} $show={currentIndex != 0} $direction="<">{"<"}</StyledArrow>
-                            <StyledProductImgList $currentIndex={currentIndex}>
-                                {ProductList.img.map((imgUrl) => {
-                                    return (    
-                                        <StyledProductImg key={uuidv4()} $imgUrl={imgUrl}>
-                                            <div></div>
-                                        </StyledProductImg>
-                                    )
-                                })}
-                            </StyledProductImgList>
-                            <StyledArrow onClick={handleRight} $show={currentIndex != ProductList.img.length - 1} $direction=">">{">"}</StyledArrow>
-                        </StyledProductImgContainer>
-                        <StyledProductImgSelecterBar>
-                            {ProductList.img.map((imgUrl, index) => {
+            {dataloaded && productInf ?   
+            <StyledProductPage>
+                <StyledProductImgDisplayer>
+                    <StyledProductImgContainer>
+                        <StyledArrow onClick={handleLeft} $show={currentIndex != 0} $direction="<">{"<"}</StyledArrow>
+                        <StyledProductImgList $currentIndex={currentIndex}>
+                            {productInf.img.map((imgUrl) => {
                                 return (    
-                                    <StyledProductImgSelecter key={uuidv4()} $imgUrl={imgUrl} $isSelect={currentIndex === index} onClick={() => {setCurrentIndex(index)}}>
-                                        <div/>
-                                    </StyledProductImgSelecter>
+                                    <StyledProductImg key={uuidv4()} $imgUrl={imgUrl}>
+                                        <div></div>
+                                    </StyledProductImg>
                                 )
                             })}
-                        </StyledProductImgSelecterBar>
-                    </StyledProductImgDisplayer>
-                    <StyledProductInf>
-                        <h3>{ProductList.name}</h3>
-                        <h4>{ProductList.price}$</h4>
-                        <p>{ProductList.des}</p>
-                        <StyledAddToCartController>
-                            <button onClick={handleAdd}>+</button>
-                            <h4>{addAmount}</h4>
-                            <button onClick={handleDec}>-</button>
-                        </StyledAddToCartController>
-                        <StyledAddToCartBtn>
-                            Add to cart
-                        </StyledAddToCartBtn>
-                        <p>{ProductList.detail}</p>
-                    </StyledProductInf>
-                    <StyledReviewsSection >
-                            <ListSwitch handleClick={toggleShowReviews} switchState={showReviews} hrColor="#5a3616" textSize="32px"/>
-                            <StyledReviewList $show={showReviews}>
-                                {ProductList.reviews.map((review) => {
-                                    return (
-                                        <StyledReview key={uuidv4()}>
-                                            <StyledUserContainer>
-                                                <h4>User{review.customersId}</h4>
-                                                <StyledUserImgContainer $imgUrl="/img/ReviewsUser.svg">
-                                                    <div/>
-                                                </StyledUserImgContainer>
-                                            </StyledUserContainer>
-                                            <p>{review.comment}</p>
-                                        </StyledReview>
-                                    )
-                                })}
-                            </StyledReviewList>
-                            <h3>Add Reviews</h3>
-                            <StyledAddReviewInput/>
-                            <StyledSubmitBtn>Submit</StyledSubmitBtn>
-                    </StyledReviewsSection>
-                </StyledProductPage>
-            </Wrapper>
+                        </StyledProductImgList>
+                        <StyledArrow onClick={handleRight} $show={currentIndex != productInf.img.length - 1} $direction=">">{">"}</StyledArrow>
+                    </StyledProductImgContainer>
+                    <StyledProductImgSelecterBar>
+                        {productInf.img.map((imgUrl, index) => {
+                            return (    
+                                <StyledProductImgSelecter key={uuidv4()} $imgUrl={imgUrl} $isSelect={currentIndex === index} onClick={() => {setCurrentIndex(index)}}>
+                                    <div/>
+                                </StyledProductImgSelecter>
+                            )
+                        })}
+                    </StyledProductImgSelecterBar>
+                </StyledProductImgDisplayer>
+                <StyledProductInf>
+                    <h3>{productInf.name}</h3>
+                    <h4>{productInf.price}$</h4>
+                    <p>{productInf.des}</p>
+                    <StyledAddToCartController>
+                        <button onClick={handleAdd}>+</button>
+                        <h4>{addAmount}</h4>
+                        <button onClick={handleDec}>-</button>
+                    </StyledAddToCartController>
+                    <StyledAddToCartBtn onClick={handleAddToCart}>
+                        Add to cart
+                    </StyledAddToCartBtn>
+                    <p>{productInf.detail}</p>
+                </StyledProductInf>
+                <StyledReviewsSection >
+                        <ListSwitch handleClick={toggleShowReviews} switchState={showReviews} hrColor="#5a3616" textSize="32px"/>
+                        <StyledReviewList $show={showReviews}>
+                            {productInf.reviews.map((review) => {
+                                return (
+                                    <StyledReview key={uuidv4()}>
+                                        <StyledUserContainer>
+                                            <h4>User{review.customersId}</h4>
+                                            <StyledUserImgContainer $imgUrl="/img/ReviewsUser.svg">
+                                                <div/>
+                                            </StyledUserImgContainer>
+                                        </StyledUserContainer>
+                                        <p>{review.comment}</p>
+                                    </StyledReview>
+                                )
+                            })}
+                        </StyledReviewList>
+                        <h3>Add Reviews</h3>
+                        <StyledAddReviewInput/>
+                        <StyledSubmitBtn>Submit</StyledSubmitBtn>
+                </StyledReviewsSection>
+            </StyledProductPage> :
+            <LoadingAnimation/>}
         </DefaultLayout>
 
     )
@@ -118,18 +122,12 @@ const ProductPage = () => {
 
 export default ProductPage
 
-const Wrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    background-color: #c68642b2;
-`
-
 const StyledProductPage = styled.div`
     display: flex;
     flex-wrap: wrap;
     max-width: 1000px;
-    padding: 16px;
     margin: 0 auto;
+
     
     button:active{
         background-color: #5a3616;
