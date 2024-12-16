@@ -20,12 +20,31 @@ function App() {
     const [productsDataLoaded, setLoading] = useState(false);
     const [userInf, setUser] = useState({isSignIn: false});
     const [shoppingCart, setCart] = useState([]);
+    const isloging = useRef(false)
 
     useEffect(() => {
         setTimeout(() => {
             fetchProductsData();
         }, 3000)
     }, [])
+
+    useEffect(() => {
+        if(!isloging.current && userInf.isSignIn && shoppingCart.length > 0){
+            const putData = shoppingCart.map((product) => {
+                return {
+                    productId: product.id,
+                    quantity: product.quantity,
+                }
+            })
+            axios.put(`${API_HOST}/shoppingCart/${userInf.id}`, {cartContent: putData})
+            .then((res) => {
+                console.log(res.data);  
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+        }
+    }, [shoppingCart, userInf])
 
     const fetchProductsData = async () => {
         const responce = await axios.get(`${API_HOST}/products`);
@@ -45,7 +64,7 @@ function App() {
             if(prevCart.some(product => product.id == productId)){
                 return prevCart.map((product) => {
                     if(product.id != productId) return product
-                                        
+
                     const totalQuantity = product.quantity + quantity
                     const updateProdcut = {
                         ...product, 
@@ -71,6 +90,60 @@ function App() {
         })
     }
 
+    const userSignIn = async (userId, userEmail, userName) => {
+        isloging.current = true;
+        setUser({
+            isSignIn: true,
+            id: userId,
+            email: userEmail,
+            name: userName
+        })
+        console.log(userId);
+        
+        try{
+            const getResponce = await axios.get(`${API_HOST}/shoppingCart?id=${userId}`)
+            const data = getResponce.data
+            console.log(data);
+            if(data.length == 0){
+                const cartContent = shoppingCart.map((product) => {
+                    return {
+                        productId: product.id,
+                        quantity: product.quantity,
+                    }
+                })
+                const postResponce = await axios.post(`${API_HOST}/shoppingCart`, {
+                    id: userId,
+                    cartContent,
+                })
+                console.log(`post : ${postResponce.data}`);
+                
+            }
+            else{
+                const cartData = await Promise.all(data[0].cartContent.map(async (product) => {
+                    const {data: productData} = await axios.get(`${API_HOST}/products/${product.productId}`)
+                    console.log(productData);
+                    
+                    
+                    return {
+                        id: productData.id,
+                        name: productData.name,
+                        quantity: product.quantity,
+                        imgUrl: productData.img[0],
+                        totalPrice: product.quantity * Number(productData.price),
+                    }
+                }))
+
+                setCart(cartData)
+
+            }
+            isloging.current = false;
+
+
+        } catch (error) {
+            console.error(error);
+        }        
+    }
+
     return (
         <AppContext.Provider
             value={{
@@ -79,6 +152,7 @@ function App() {
                 shoppingCart,
                 productsDataLoaded,
                 addProductToCart,
+                userSignIn,
             }}>
             <Router>
                 <Routes location={location}>

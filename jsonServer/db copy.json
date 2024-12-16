@@ -1,0 +1,123 @@
+{
+  "customers": [
+    {
+        "id": 1,
+        "email": "user1@mail.com",
+        "name": "user_name",
+        "password": "a;dsfkj;adlkfj;l"
+    }
+  ],
+
+  "admin": [
+    { 
+        "id": "admin_name", 
+        "password": "a;dklfja;dsf", 
+        "jurisdiction": 0 }
+  ],
+
+  "products": [
+    {
+        "id": 1,
+        "name": "Choco Power Bank",
+        "price": 300,
+        "stock": 30,
+        "des": "Keep your devices powered and your cravings satisfied with the ChocoPower Bank. Its powerful battery will charge your phone multiple times while its chocolate casing melts away stress.",
+        "detail": "some detail",
+        "reviews":[
+            {"customersId": 1, "comment": "is so good"},
+            {"customersId": 2, "comment": "is so good"}
+        ],
+        "img": ["http://localhost:3000/powerBank1.png", "http://localhost:3000/powerBank2.png", "http://localhost:3000/powerBank3.png", "http://localhost:3000/powerBank4.png","http://localhost:3000/powerBank5.png", "http://localhost:3000/powerBank6.png"]
+    },
+    {
+        "id": 2,
+        "name": "Choco Hair dryer",
+        "price": 30,
+        "stock": 30,
+        "des": "Dry your hair in style with the ChocoBlow Pro Hair Dryer, the world's first hair dryer made entirely of chocolate! Combining functionality and sweetness, it's the ultimate blend of innovation and indulgence.",
+        "detail": "some detail",
+        "reviews":[
+            {"customersId": 1, "comment": "is so good"},
+            {"customersId": 2, "comment": "is so good"}
+        ],
+        "img": ["http://localhost:3000/hairDryer1.png", "https://cdn.midjourney.com/5c4a6901-fccd-4bb1-acff-89afd3df83b6/0_1.png", "https://cdn.midjourney.com/98452115-7c24-46d1-8fc1-5a4dc8585b52/0_0.png", "https://cdn.midjourney.com/83242d19-e9d8-4477-a57f-aa16231e8ebe/0_1.png", "https://cdn.midjourney.com/a3ab54da-110d-4d8c-a39a-d4ea973e1e0d/0_2.png"]
+    },
+    {
+        "id": 3,
+        "name": "Chocolate Mic",
+        "price": 30,
+        "stock": 30,
+        "des": "Sing or speak in style with the Chocolate Mic, a fully functional microphone wrapped in luxurious chocolate. Perfect for performers and chocolate lovers alike!",
+        "detail": "some detail",
+        "reviews":[
+            {"customersId": 1, "comment": "is so good"},
+            {"customersId": 2, "comment": "is so good"}
+        ],
+        "img": ["http://localhost:3000/Mic1.png", "https://cdn.midjourney.com/d5dede1a-b6c5-4322-8815-fdbbef081550/0_0.png", "https://cdn.midjourney.com/51da8f1e-41ef-47a5-8581-87493ea5724d/0_1.png", "https://cdn.midjourney.com/d5dede1a-b6c5-4322-8815-fdbbef081550/0_2.png", "https://cdn.midjourney.com/9bbccbd5-90ed-4afc-8ed9-bca670f6d295/0_1.png"]
+    },
+    {
+        "id": 4,
+        "name": "Choco Camera",
+        "price": 30,
+        "stock": 30,
+        "des": "Capture the sweetest moments with the Choco Camera, a unique and fully functional camera encased in rich, smooth chocolate. Combining the latest in photography technology with an indulgent chocolate design, this camera is perfect for both photography lovers and chocolate enthusiasts.",
+        "detail": "some detail",
+        "reviews":[
+            {"customersId": 1, "comment": "is so good"},
+            {"customersId": 2, "comment": "is so good"}
+        ],
+        "img": ["http://localhost:3000/Camera1.png", "https://cdn.midjourney.com/8bee2483-00bf-4925-b1da-928d419c4d4b/0_2.png", "https://cdn.midjourney.com/8bee2483-00bf-4925-b1da-928d419c4d4b/0_0.png", "https://cdn.midjourney.com/273e080e-5a7a-48e8-ae59-e971a4b1bf92/0_0.png", "https://cdn.midjourney.com/8bee2483-00bf-4925-b1da-928d419c4d4b/0_3.png"]
+    },
+    {
+        "id": 5,
+        "name": "Choco VR Headset",
+        "price": 30,
+        "stock": 30,
+        "des": "some des",
+        "detail": "some detail",
+        "reviews":[
+            {"customersId": 1, "comment": "is so good"},
+            {"customersId": 2, "comment": "is so good"}
+        ],
+        "img": ["https://cdn.midjourney.com/e2004622-bcb5-481f-b376-4c4571dac7ac/0_3.png", "https://cdn.midjourney.com/da5cf591-5efc-4b3d-a0d5-603c4a03744c/0_1.png", "https://cdn.midjourney.com/4575d9c7-4199-4443-ae42-557f38308394/0_2.png", "https://cdn.midjourney.com/4575d9c7-4199-4443-ae42-557f38308394/0_0.png"]
+    },
+    {
+        "id": 6,
+        "name": "Choco VR Headset",
+        "price": 30,
+        "stock": 30,
+        "des": "some des",
+        "detail": "some detail",
+        "reviews":[
+            {"customersId": 1, "comment": "is so good"},
+            {"customersId": 2, "comment": "is so good"}
+        ],
+        "img": ["https://cdn.midjourney.com/e2004622-bcb5-481f-b376-4c4571dac7ac/0_3.png", "https://cdn.midjourney.com/da5cf591-5efc-4b3d-a0d5-603c4a03744c/0_1.png", "https://cdn.midjourney.com/4575d9c7-4199-4443-ae42-557f38308394/0_2.png", "https://cdn.midjourney.com/4575d9c7-4199-4443-ae42-557f38308394/0_0.png"]
+    }
+  ],
+
+  "orders": [
+    {
+        "id": 1,
+        "customer": 1,
+        "status": "complete",
+        "date": "2024/10/03 12:00:30",
+        "detail": [
+            {"product": 1, "quantity": 3},
+            {"product": 2, "quantity": 4}
+        ],
+        "shipping": 60,
+        "Total": 1260
+    }
+  ],
+
+  "shoppingCart": [
+    {
+      "customersId": 1,
+      "cartContent":[
+        {"productId": 1, "quantity": 3},
+        {"productId": 2, "quantity": 3}
+      ]
+    }
+  ]
+}
