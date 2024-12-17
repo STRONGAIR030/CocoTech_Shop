@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import StyledImgContainer from "../common/StyledImgContainer"
-import { useContext} from "react"
+import { useContext, useMemo} from "react"
 import AppContext from "../common/AppContext"
 import { NavLink } from "react-router"
 
@@ -22,25 +22,33 @@ const CartProduct = ({name, quantity, totalPrice, imgUrl}) => {
 
 
 const ShoppingCart = ({toggleShow}) => {
-    const {shoppingCart} = useContext(AppContext)    
+    const {shoppingCart} = useContext(AppContext)
+    const totalCost = useMemo(() => {
+        return shoppingCart.reduce((prevValue, product) => product.totalPrice + prevValue, 0)
+    })    
 
     return (
         <StyledShoppingCart>
             <ClossBtn onClick={toggleShow}>X</ClossBtn>
-            <ShoppingCartContainer>
             {   
                 shoppingCart.length ?
-                shoppingCart.map((product) => {
-                    return (
-                        <CartProduct key={product.id} name={product.name} quantity={product.quantity} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
-                    )
-                }):
-                <StyledNoProduct>
-                    <h3>No thing in here!!</h3>
-                    <NavLink to="/" onClick={toggleShow}>Go shopping</NavLink>
-                </StyledNoProduct>
+                <ShoppingCartContainer>
+                    {
+                        shoppingCart.map((product) => {
+                            return (
+                                <CartProduct key={product.id} name={product.name} quantity={product.quantity} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
+                            )
+                        })
+                    }
+                    <CheckOutBtn to="/checkout">checkout--{totalCost}$</CheckOutBtn>
+                </ShoppingCartContainer>:
+                <ShoppingCartContainer>
+                    <StyledNoProduct>
+                        <h3>No thing in here!!</h3>
+                        <NavLink to="/" onClick={toggleShow}>Go shopping</NavLink>
+                    </StyledNoProduct>
+                </ShoppingCartContainer>
             }
-            </ShoppingCartContainer>
         </StyledShoppingCart>
     )
 }
@@ -179,5 +187,16 @@ const StyledNoProduct = styled.div`
 `
 
 const CheckOutBtn = styled(NavLink)`
+    flex:0 0 100%;
+    padding: 8px;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #ffdd84;
+    color: #8D5524;
+`
+
+const CartProducts = styled.div`
     width: 100%;
 `
