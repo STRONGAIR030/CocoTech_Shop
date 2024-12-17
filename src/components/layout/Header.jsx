@@ -1,13 +1,13 @@
 import styled, {css} from "styled-components";
 import { NavLink } from "react-router";
-import { useEffect, useState , useRef, useContext} from "react";
+import { useEffect, useState , useRef, useContext, useMemo} from "react";
 import ShoppingCart from "../FrontComponents/ShoppingCart";
 import AppContext from "../common/AppContext";
 
 const Header = () => {
     const [search, setSearch] = useState(false);
     const [showCart, setShowCart] = useState(false);
-    const {userInf} = useContext(AppContext);
+    const {userInf, shoppingCart} = useContext(AppContext);
     const inputRef = useRef()
     useEffect(() => {
         if(search){
@@ -15,10 +15,10 @@ const Header = () => {
             inputRef.current.focus();
         }
     }, [search])
-    
-    useEffect(() => {
-        
-    }, [])
+
+    const totalQuantity = useMemo(() => {
+        return shoppingCart.reduce((prevValue, product) => prevValue + product.quantity, 0)
+    }, [shoppingCart])
 
     const toggleShowCart = () => {
         setShowCart(prevShow => !prevShow)
@@ -40,7 +40,7 @@ const Header = () => {
                     <AccoutLink to={`/account/${userInf.isSignIn ? "orders": "login"}`}/>
                 </Navitem>
                 <Navitem $xlShow $mdShow>
-                    <button onClick={toggleShowCart}>1</button>
+                    <button onClick={toggleShowCart}>{shoppingCart.length ? totalQuantity : 0}</button>
                 </Navitem>
             </Nav>
             <JumpSearchInput placeholder="Search" ref={inputRef} onBlur={() => {setSearch(false)}}/>

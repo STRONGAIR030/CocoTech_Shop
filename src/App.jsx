@@ -111,10 +111,11 @@ function App() {
                         quantity: product.quantity,
                     }
                 })
-                const postResponce = await axios.post(`${API_HOST}/shoppingCart`, {
+                const postData = {
                     id: userId,
                     cartContent,
-                })
+                }
+                const postResponce = await axios.post(`${API_HOST}/shoppingCart`, postData)
                 console.log(`post : ${postResponce.data}`);
                 
             }

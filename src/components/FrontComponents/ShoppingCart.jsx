@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import StyledImgContainer from "../common/StyledImgContainer"
-import { useContext } from "react"
+import { useContext} from "react"
 import AppContext from "../common/AppContext"
 import { NavLink } from "react-router"
 
@@ -22,7 +22,7 @@ const CartProduct = ({name, quantity, totalPrice, imgUrl}) => {
 
 
 const ShoppingCart = ({toggleShow}) => {
-    const {shoppingCart} = useContext(AppContext)
+    const {shoppingCart} = useContext(AppContext)    
 
     return (
         <StyledShoppingCart>
@@ -37,7 +37,7 @@ const ShoppingCart = ({toggleShow}) => {
                 }):
                 <StyledNoProduct>
                     <h3>No thing in here!!</h3>
-                    <button onClick={toggleShow}>Go shopping</button>
+                    <NavLink to="/" onClick={toggleShow}>Go shopping</NavLink>
                 </StyledNoProduct>
             }
             </ShoppingCartContainer>
@@ -170,7 +170,8 @@ const StyledNoProduct = styled.div`
         padding: 16px;
     }
 
-    button{
+    a{
+        color: #ffdd84;
         font-size: 24px;
         margin: 16px;
     }

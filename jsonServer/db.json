@@ -232,15 +232,15 @@
         },
         {
           "productId": "4",
-          "quantity": 1
+          "quantity": 3
         },
         {
           "productId": "5",
-          "quantity": 1
+          "quantity": 3
         },
         {
           "productId": "6",
-          "quantity": 1
+          "quantity": 2
         }
       ],
       "id": "4f84"
