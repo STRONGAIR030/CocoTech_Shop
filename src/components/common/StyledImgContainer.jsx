@@ -15,7 +15,7 @@ const StyledImgContainer = styled.div`
         padding-top: 100%;
     }
 
-    div{
+    div:first-child{
         width: 100%;
         height: 100%;
         background-size: 100%;

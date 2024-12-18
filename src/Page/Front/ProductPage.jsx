@@ -93,7 +93,7 @@ const ProductPage = () => {
                     <p>{productInf.detail}</p>
                 </StyledProductInf>
                 <StyledReviewsSection >
-                        <ListSwitch handleClick={toggleShowReviews} switchState={showReviews} hrColor="#5a3616" textSize="32px"/>
+                        <ListSwitch handleClick={toggleShowReviews} switchState={showReviews} hrColor="#5a3616" textSize="32px" text="Reviews"/>
                         <StyledReviewList $show={showReviews}>
                             {productInf.reviews.map((review) => {
                                 return (

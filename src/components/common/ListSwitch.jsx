@@ -1,12 +1,11 @@
 
 import styled, {css} from "styled-components";
 
-const ListSwitch = ({handleClick, switchState, textSize, imgSize, hrColor}) => {
+const ListSwitch = ({text, handleClick, switchState, textSize, imgSize, hrColor , mdShow, padding}) => {
     return (
-        <StyledListSwitch $hrColor={hrColor} $textSize={textSize} $imgSize={imgSize} onClick={handleClick}>
+        <StyledListSwitch $hrColor={hrColor} $textSize={textSize} $imgSize={imgSize} onClick={handleClick} $mdShow={mdShow} $padding={padding}>
             <StyledSwitchBtn $isTurnOn={switchState}>
-                {children}
-                <h3>Reviews</h3>
+                <h3>{text}</h3>
                 <img src="/img/arrow_down.svg"></img>
             </StyledSwitchBtn>
             <hr />
@@ -17,8 +16,8 @@ const ListSwitch = ({handleClick, switchState, textSize, imgSize, hrColor}) => {
 export default ListSwitch
 
 const StyledListSwitch = styled.div`
+    padding:${props => props.$padding ? props.$padding : "0px"};
     h3 {
-        margin-bottom: 16px;
         font-size: ${props => props.$textSize ? props.$textSize : "auto"};
     }
 
@@ -28,12 +27,22 @@ const StyledListSwitch = styled.div`
         border: none;
         border-top: 2px dashed ${props => props.$hrColor ? props.$hrColor : "black"};
     }
+
+    ${props => props.$mdShow && css`
+        display: none;
+
+        @media screen and (max-width: 746px){
+            display: block;
+            
+        }
+    `}
 `
 
 const StyledSwitchBtn = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 16px;
     
     img{
         width: ${props => props.$imgSize ? props.$imgSize : "30px"};
