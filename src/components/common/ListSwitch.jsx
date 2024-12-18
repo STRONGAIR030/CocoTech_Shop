@@ -1,9 +1,11 @@
+
 import styled, {css} from "styled-components";
 
 const ListSwitch = ({handleClick, switchState, textSize, imgSize, hrColor}) => {
     return (
         <StyledListSwitch $hrColor={hrColor} $textSize={textSize} $imgSize={imgSize} onClick={handleClick}>
             <StyledSwitchBtn $isTurnOn={switchState}>
+                {children}
                 <h3>Reviews</h3>
                 <img src="/img/arrow_down.svg"></img>
             </StyledSwitchBtn>

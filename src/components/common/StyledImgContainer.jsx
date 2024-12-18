@@ -4,7 +4,7 @@ const StyledImgContainer = styled.div`
     overflow: hidden;
     width: 100%;
 
-    ${props => props.$containerMaxWidth && css`
+    ${props => props.$containerWidth && css`
         max-width: ${props.$containerWidth};
     `}
 
