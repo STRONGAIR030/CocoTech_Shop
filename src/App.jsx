@@ -29,7 +29,7 @@ function App() {
     }, [])
 
     useEffect(() => {
-        if(!isloging.current && userInf.isSignIn && shoppingCart.length > 0){
+        if(!isloging.current && userInf.isSignIn){
             const putData = shoppingCart.map((product) => {
                 return {
                     productId: product.id,
@@ -38,7 +38,7 @@ function App() {
             })
             axios.put(`${API_HOST}/shoppingCart/${userInf.id}`, {cartContent: putData})
             .then((res) => {
-                console.log(res.data);  
+                  
             })
             .catch((err) => {
                 console.error(err);
@@ -55,13 +55,17 @@ function App() {
         setLoading(true);        
     }
 
-    const addProductToCart = (productId, name, imgUrl, price, quantity) => {
+    const modifyProductToCart = (productId, quantity, name, imgUrl, price) => {
         const caulaterTotal = (price, quantity) => {
             return Number(price) * quantity;
         }
 
         setCart((prevCart) => {
             if(prevCart.some(product => product.id == productId)){
+                if(quantity === "delete" || prevCart.some(product => product.id == productId && product.quantity + quantity <= 0)){
+                   return prevCart.filter(product => product.id != productId) 
+                }
+
                 return prevCart.map((product) => {
                     if(product.id != productId) return product
 
@@ -69,7 +73,7 @@ function App() {
                     const updateProdcut = {
                         ...product, 
                         quantity: totalQuantity,
-                        totalPrice: caulaterTotal(price, totalQuantity),
+                        totalPrice: caulaterTotal(product.price, totalQuantity),
                     };
                     return updateProdcut
                 })
@@ -80,6 +84,7 @@ function App() {
                     name,
                     quantity,
                     imgUrl,
+                    price,
                     totalPrice: caulaterTotal(price, quantity),
                 }               
                 return [
@@ -129,6 +134,7 @@ function App() {
                         id: productData.id,
                         name: productData.name,
                         quantity: product.quantity,
+                        price: productData.price,
                         imgUrl: productData.img[0],
                         totalPrice: product.quantity * Number(productData.price),
                     }
@@ -152,7 +158,7 @@ function App() {
                 userInf,
                 shoppingCart,
                 productsDataLoaded,
-                addProductToCart,
+                modifyProductToCart,
                 userSignIn,
             }}>
             <Router>

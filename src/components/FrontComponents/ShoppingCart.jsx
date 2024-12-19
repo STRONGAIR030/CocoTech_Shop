@@ -4,11 +4,11 @@ import { useContext, useMemo} from "react"
 import AppContext from "../common/AppContext"
 import { NavLink } from "react-router"
 
-const CartProduct = ({name, quantity, totalPrice, imgUrl}) => {
+const CartProduct = ({productId, name, quantity, totalPrice, imgUrl, handleDelete}) => {
     return (
         <StyledCartProductContainer>
             <StyledCartProduct>
-                <DeleteBtn>X</DeleteBtn>                    
+                <DeleteBtn onClick={() => {handleDelete(productId)}}>X</DeleteBtn>                    
                 <ProductImgContainer $imgUrl={imgUrl}>
                     <div/>
                 </ProductImgContainer>
@@ -22,10 +22,14 @@ const CartProduct = ({name, quantity, totalPrice, imgUrl}) => {
 
 
 const ShoppingCart = ({toggleShow}) => {
-    const {shoppingCart} = useContext(AppContext)
+    const {shoppingCart, modifyProductToCart} = useContext(AppContext)
     const totalCost = useMemo(() => {
         return shoppingCart.reduce((prevValue, product) => product.totalPrice + prevValue, 0)
-    })    
+    })
+    
+    const handleDelete = (productId) => {
+        modifyProductToCart(productId, "delete")
+    }
 
     return (
         <StyledShoppingCart>
@@ -36,7 +40,7 @@ const ShoppingCart = ({toggleShow}) => {
                     {
                         shoppingCart.map((product) => {
                             return (
-                                <CartProduct key={product.id} name={product.name} quantity={product.quantity} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
+                                <CartProduct key={product.id} productId={product.id} handleDelete={handleDelete} name={product.name} quantity={product.quantity} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
                             )
                         })
                     }

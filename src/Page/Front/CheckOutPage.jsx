@@ -26,7 +26,7 @@ const UserRadio = ({radioText, inputValue, inputName, handleChange, children}) =
     )
 }
 
-const OrderProduct = ({imgUrl, quantity, totalPrice, name}) => {
+const OrderProduct = ({productId, imgUrl, quantity, totalPrice, name, handleAdd, handleDec}) => {
     return (
         <StyledOrderProductContainer>
             <div>
@@ -37,9 +37,10 @@ const OrderProduct = ({imgUrl, quantity, totalPrice, name}) => {
             </div>
             <h3>{name}</h3>
             <h3>{totalPrice}$</h3>
-            <StyledImgContainer $imgUrl="/img/edit.svg" $containerWidth="50px">
-                <div/>
-            </StyledImgContainer>
+            <div>
+                <EditProductBtn onClick={() => {handleAdd(productId)}}>+</EditProductBtn>
+                <EditProductBtn onClick={() => {handleDec(productId)}}>-</EditProductBtn>
+            </div>
         </StyledOrderProductContainer>
     )
 }
@@ -48,7 +49,7 @@ const CheckOutPage = () => {
     const [showCreditCardInf, setshowCreditCard] = useState(false);
     const [errorText, setError] = useState("");
     const [errorKey, setKey] = useState(uuidv4());
-    const {shoppingCart} = useContext(AppContext);
+    const {shoppingCart, modifyProductToCart} = useContext(AppContext);
     const [showOrderSummaryMd, setShowOrderSummary] = useState(false);
     const [formData, setFormData] = useState({
         payment: "creditCard", // 預設支付方式
@@ -69,12 +70,6 @@ const CheckOutPage = () => {
                                     100 :
                                     0 
     }, [formData.shipping])
-
-    const handlePaymentSelect = (e) => {
-      e.target.value == "creditCard" ?
-            setshowCreditCard(true) :
-            setshowCreditCard(false)
-    }
 
     const handleChange = (e) => {
 
@@ -121,6 +116,15 @@ const CheckOutPage = () => {
         console.log(formData);
         
       };
+
+      const handleAdd = (productId) => {
+        modifyProductToCart(productId, 1)
+      }
+
+      const handleDec = (productId) => {
+        modifyProductToCart(productId, -1)
+      }
+
     return (
         <CheckOutLayout>
             <StyledCheckOutPage>
@@ -186,7 +190,7 @@ const CheckOutPage = () => {
                 <StyledOrderSummaryXl>
                     {
                         shoppingCart.length != 0 && shoppingCart.map((product) => {
-                            return <OrderProduct key={product.id} quantity={product.quantity} name={product.name} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
+                            return <OrderProduct key={product.id} productId={product.id} handleDec={handleDec} handleAdd={handleAdd} quantity={product.quantity} name={product.name} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
                         })
                     }
                     <StyledCost>    
@@ -431,6 +435,11 @@ const StyledOrderProductContainer = styled.div`
     justify-items: center;
     align-items: center;
 
+    div{
+        display: flex;
+        justify-content: space-between;
+    }
+
 `
 
 const StyledOrderProductImg = styled(StyledImgContainer)`
@@ -477,4 +486,13 @@ const OrderSummarySwitch = styled(ListSwitch)`
         display: block;
         
     }
+`
+
+const EditProductBtn = styled.button`
+    margin: 4px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 200px;
+    font-size: 24px
 `

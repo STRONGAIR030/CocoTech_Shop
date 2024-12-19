@@ -5,7 +5,7 @@ import { useContext } from "react"
 import AppContext from "../common/AppContext"
 
 const ProductCard = ({productId, imgUrl, name, price}) => {
-    const {addProductToCart}= useContext(AppContext);
+    const {modifyProductToCart}= useContext(AppContext);
 
     return (
         <StyledProductCard>
@@ -17,7 +17,7 @@ const ProductCard = ({productId, imgUrl, name, price}) => {
             <h3>{name}</h3>
             <CostandBuy>
                 <h4>{price}$</h4>
-                <button onClick={() => {addProductToCart(productId, name, imgUrl, price, 1)}}>Add to Cart</button>
+                <button onClick={() => {modifyProductToCart(productId, 1, name, imgUrl, price)}}>Add to Cart</button>
             </CostandBuy>
         </StyledProductCard>
     )

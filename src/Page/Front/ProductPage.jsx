@@ -15,7 +15,7 @@ const ProductPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [addAmount, setAddAmount] = useState(1);
     const [showReviews, setShowReviews] = useState(false);
-    const {productList, productsDataLoaded, addProductToCart} = useContext(AppContext);
+    const {productList, productsDataLoaded, modifyProductToCart} = useContext(AppContext);
     const [productInf, setProductInf] = useState({});
     const [dataloaded, setLoading] = useState(false);
 
@@ -43,7 +43,7 @@ const ProductPage = () => {
     }
 
     const handleAddToCart = () => {
-        addProductToCart(productInf.id, productInf.name, productInf.img[0], productInf.price, addAmount)
+        modifyProductToCart(productInf.id, addAmount, productInf.name, productInf.img[0], productInf.price)
     }
 
     const toggleShowReviews = () => {

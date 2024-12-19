@@ -203,11 +203,11 @@
       "date": "2024/10/03 12:00:30",
       "detail": [
         {
-          "product": 1,
+          "productId": 1,
           "quantity": 3
         },
         {
-          "product": 2,
+          "productId": 2,
           "quantity": 4
         }
       ],
@@ -219,28 +219,12 @@
     {
       "cartContent": [
         {
-          "productId": "3",
-          "quantity": 17
-        },
-        {
-          "productId": "2",
+          "productId": "6",
           "quantity": 6
         },
         {
-          "productId": "1",
-          "quantity": 5
-        },
-        {
-          "productId": "4",
-          "quantity": 3
-        },
-        {
           "productId": "5",
-          "quantity": 3
-        },
-        {
-          "productId": "6",
-          "quantity": 2
+          "quantity": 8
         }
       ],
       "id": "4f84"
