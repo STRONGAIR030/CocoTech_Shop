@@ -3,20 +3,38 @@ import ProductCard from "./ProductCard"
 import { useContext } from "react"
 import AppContext from "../common/AppContext"
 
-const ProductSection = () => {
+const renderProductList = (productList, searchText) => {
+    const filterList = searchText ? 
+        productList.filter((product) => {
+            const findText = searchText.toLowerCase();
+            const productName = product.name.toLowerCase();
+            return productName.includes(findText)
+        }) :
+        productList;
+
+    return filterList.map((product) => {
+                return(
+                    <ProductCard 
+                        key={product.id}  
+                        productId={product.id} 
+                        imgUrl={product.img[0]} 
+                        name={product.name} 
+                        price={product.price}
+                    />
+                )
+            })
+}
+
+const ProductSection = ({searchText}) => {
     const {productList} = useContext(AppContext)
 
     return (
         <StlyedProductSection>
             <ProductContiainerWrapper>
-                <h3>Get All You want!</h3>
+                <h3>{searchText ? `Shearch by "${searchText}"` :"Get All You want!"}</h3>
                 <StlyedProductCardContainer>
                     {
-                        productList.map((product) => {
-                            return(
-                                <ProductCard key={product.id}  productId={product.id} imgUrl={product.img[0]} name={product.name} price={product.price}/>
-                            )
-                        })
+                        productList && renderProductList(productList, searchText)
                     }
                 </StlyedProductCardContainer>
             </ProductContiainerWrapper>

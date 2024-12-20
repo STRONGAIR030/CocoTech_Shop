@@ -1,5 +1,5 @@
 
-import { NavLink } from "react-router"
+import { NavLink, useSearchParams } from "react-router"
 import styled from "styled-components"
 import DefaultLayout from "../../components/layout/defaultLayout"
 import AdSection from "../../components/FrontComponents/AdSection"
@@ -10,7 +10,8 @@ import LoadingAnimation from "../../components/common/LoadingAnimation"
 
 const ShopPage = () => {
     const {productsDataLoaded, fetchProductsData} = useContext(AppContext);
-
+    const [searchParams] = useSearchParams();
+    const searchText = searchParams.get("search"); 
 
     useEffect(() => {
         if(!productsDataLoaded){
@@ -23,9 +24,11 @@ const ShopPage = () => {
     return (
         <DefaultLayout>
         {productsDataLoaded ? 
-            <StyledShopPage>    
-                <AdSection/>
-                <ProductSection/>
+            <StyledShopPage>
+                {
+                    !searchText && <AdSection/>
+                }    
+                <ProductSection searchText={searchText}/>
             </StyledShopPage> :
             <LoadingAnimation/>
         }
