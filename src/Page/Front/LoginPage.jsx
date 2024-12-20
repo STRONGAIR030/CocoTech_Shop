@@ -1,4 +1,4 @@
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import DefaultLayout from "../../components/layout/defaultLayout"
 import styled from "styled-components"
 import { useContext, useState } from "react"
@@ -13,6 +13,11 @@ const LoginPage = () => {
     const [passWord, setPassWord] = useState("");
     const [errorText, setError] = useState("");
     const [errorKey, setKey] = useState(uuidv4());
+    const navigate = useNavigate();
+
+    const goToOrderPage = () => navigate("/account/orders");
+
+    
 
     const handlSignIn = async () => {
         if(!(email && passWord)){
@@ -43,6 +48,7 @@ const LoginPage = () => {
             }
             else{
                 await userSignIn(userData[0].id, userData[0].email, userData[0].name)
+                goToOrderPage();
                 setError("")
             }
 

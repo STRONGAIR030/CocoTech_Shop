@@ -15,9 +15,17 @@ const ProductPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [addAmount, setAddAmount] = useState(1);
     const [showReviews, setShowReviews] = useState(false);
-    const {productList, productsDataLoaded, modifyProductToCart} = useContext(AppContext);
+    const {productList, productsDataLoaded, modifyProductToCart, fetchProductsData} = useContext(AppContext);
     const [productInf, setProductInf] = useState({});
     const [dataloaded, setLoading] = useState(false);
+
+    useEffect(() => {
+        if(!productsDataLoaded){
+            setTimeout(() => {
+                fetchProductsData()
+            }, 3000)
+        }
+    }, [productsDataLoaded])
 
     useEffect(() => {
         if(productsDataLoaded){

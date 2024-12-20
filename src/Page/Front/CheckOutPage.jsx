@@ -5,6 +5,9 @@ import { v4 as uuidv4 } from "uuid"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import AppContext from "../../components/common/AppContext"
 import ListSwitch from "../../components/common/ListSwitch"
+import axios from "axios"
+import API_HOST from "../../ApiHost"
+import { useNavigate } from "react-router"
 
 const UserInput = ({type, inputWidth, inputType, inputName, handleChange}) => {
     return (
@@ -49,8 +52,9 @@ const CheckOutPage = () => {
     const [showCreditCardInf, setshowCreditCard] = useState(false);
     const [errorText, setError] = useState("");
     const [errorKey, setKey] = useState(uuidv4());
-    const {shoppingCart, modifyProductToCart} = useContext(AppContext);
+    const {shoppingCart, modifyProductToCart, userInf, clearShoppingCart} = useContext(AppContext);
     const [showOrderSummaryMd, setShowOrderSummary] = useState(false);
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         payment: "creditCard", // 預設支付方式
       });
@@ -71,6 +75,9 @@ const CheckOutPage = () => {
                                     0 
     }, [formData.shipping])
 
+    const goToOrderPage = () => navigate("/account/orders");
+
+
     const handleChange = (e) => {
 
         const {name, value} = e.target;
@@ -89,7 +96,7 @@ const CheckOutPage = () => {
 
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const NecData = [
             "payment", "shipping", "country", 
@@ -112,8 +119,35 @@ const CheckOutPage = () => {
 
         setError("")
 
+        const orderProducts = shoppingCart.map((product) => {
+            return {
+                productId: product.id,
+                quantity: product.quantity,
+            }
+        })
 
-        console.log(formData);
+        const postOrderData = {
+            customersId: userInf.id,
+            detail: orderProducts,
+            date: new Date(),
+            shipping: ShippingCost,
+            total: totalCost + ShippingCost,
+            status: 0,
+        }
+
+        try{
+            const postRes = await axios.post(`${API_HOST}/orders`, postOrderData)
+
+            console.log(postRes);
+            clearShoppingCart();
+
+            goToOrderPage();
+        } catch (err) {
+            console.error(err);
+            
+        }
+
+
         
       };
 

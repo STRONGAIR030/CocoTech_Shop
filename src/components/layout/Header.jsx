@@ -1,5 +1,5 @@
 import styled, {css} from "styled-components";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { useEffect, useState , useRef, useContext, useMemo} from "react";
 import ShoppingCart from "../FrontComponents/ShoppingCart";
 import AppContext from "../common/AppContext";
@@ -7,11 +7,12 @@ import AppContext from "../common/AppContext";
 const Header = () => {
     const [search, setSearch] = useState(false);
     const [showCart, setShowCart] = useState(false);
+    const [inputText, setInputText] = useState("")
     const {userInf, shoppingCart} = useContext(AppContext);
+    const navigate = useNavigate();
     const inputRef = useRef()
     useEffect(() => {
         if(search){
-            inputRef.current.value="";
             inputRef.current.focus();
         }
     }, [search])
@@ -23,18 +24,41 @@ const Header = () => {
     const toggleShowCart = () => {
         setShowCart(prevShow => !prevShow)
     }
+
+    const hadleBlur = () => {
+        setInputText("");
+        setSearch(false);
+    }
+
+    const hadleChange = (e) => {
+        setInputText(e.target.value)
+    }
+
+    const handlekeyDown = (e) => {
+        if(e.key == "Enter" && inputText){
+            setInputText("")
+            navigate(`/?search=${inputText}`)
+            console.log(inputText);
+        }
+    }
     return (
         <StyledHeader>
             <ShopLogo to="/"/>
             <Nav>
                 <Navitem $xlShow >
-                    <SearchInput placeholder="Search"/>
+                    <SearchInput 
+                        value={inputText} 
+                        onChange={hadleChange} 
+                        onBlur={hadleBlur} 
+                        onKeyDown={handlekeyDown}
+                        placeholder="Search"
+                    />
                 </Navitem>
                 <Navitem $mdShow>
                     <SearchBtn onClick={() =>{setSearch(true)}}/>
                 </Navitem>
                 <Navitem $xlShow>
-                    <NavLink to={`/account/${userInf.isSignIn ? "orders": "login"}`}>Account</NavLink>
+                    <NavLink to={`/account/${userInf.isSignIn ? "orders": "login"}`}>{userInf.isSignIn ? userInf.name : "Account"}</NavLink>
                 </Navitem>
                 <Navitem $mdShow>
                     <AccoutLink to={`/account/${userInf.isSignIn ? "orders": "login"}`}/>
@@ -43,7 +67,14 @@ const Header = () => {
                     <button onClick={toggleShowCart}>{shoppingCart.length ? totalQuantity : 0}</button>
                 </Navitem>
             </Nav>
-            <JumpSearchInput placeholder="Search" ref={inputRef} onBlur={() => {setSearch(false)}}/>
+            <JumpSearchInput 
+                placeholder="Search" 
+                ref={inputRef} 
+                value={inputText} 
+                onChange={hadleChange}
+                onBlur={hadleBlur} 
+                onKeyDown={handlekeyDown}
+            />
             {showCart && <ShoppingCart toggleShow={toggleShowCart}></ShoppingCart>}
         </StyledHeader>
     )

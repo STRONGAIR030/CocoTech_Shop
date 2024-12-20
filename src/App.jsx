@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router";
+import { BrowserRouter as Router, Routes, Route} from "react-router";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import React ,{ useEffect, useRef, useState } from "react";
 
@@ -19,14 +19,9 @@ function App() {
     const [productList, setProductList] = useState([]);
     const [productsDataLoaded, setLoading] = useState(false);
     const [userInf, setUser] = useState({isSignIn: false});
+    const [searchText, setSearchText] = useState(""); 
     const [shoppingCart, setCart] = useState([]);
     const isloging = useRef(false)
-
-    useEffect(() => {
-        setTimeout(() => {
-            fetchProductsData();
-        }, 3000)
-    }, [])
 
     useEffect(() => {
         if(!isloging.current && userInf.isSignIn){
@@ -53,6 +48,10 @@ function App() {
         
         setProductList(data);
         setLoading(true);        
+    }
+
+    const clearShoppingCart = () => {
+        setCart([])
     }
 
     const modifyProductToCart = (productId, quantity, name, imgUrl, price) => {
@@ -143,6 +142,7 @@ function App() {
                 setCart(cartData)
 
             }
+            
             isloging.current = false;
 
 
@@ -158,7 +158,11 @@ function App() {
                 userInf,
                 shoppingCart,
                 productsDataLoaded,
+                searchText,
+                setSearchText,
                 modifyProductToCart,
+                fetchProductsData,
+                clearShoppingCart,
                 userSignIn,
             }}>
             <Router>

@@ -1,10 +1,11 @@
 import styled from "styled-components"
 import DefaultLayout from "../../components/layout/defaultLayout"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import axios from "axios"
 import API_HOST from "../../ApiHost"
 import LoadingAnimation from "../../components/common/LoadingAnimation"
+import AppContext from "../../components/common/AppContext"
 
 const OrderProduct = ({imgUrl, quantity, price, name}) => {
     return (
@@ -39,39 +40,73 @@ const Order = ({orderId, orderProducts, orderStatus, orderDate, orderTotal}) => 
             }
 
             <h4>Total: {orderTotal}$</h4>
-            <h5>order State: {orderStatus && handlers[orderStatus]}</h5>
+            <h5>order State: {handlers[orderStatus]}</h5>
         </StyledOrder>
     )
 }
 
+const redenOrderList = (orderList, orderStatus) => {
+    const filterList = orderList.filter(order => order.status == orderStatus)
+    const reversedList = filterList.reverse();
+
+    return (
+        reversedList.length > 0 ? 
+        reversedList.map((order) => {
+            return <Order key={order.id} orderId={order.id} orderProducts={order.orderProducts} orderStatus={order.status} orderDate={order.date} orderTotal={order.total} ></Order>
+        }) :
+        <StyledNoOrderMessage>
+            <h3>You don't have order!!</h3>
+        </StyledNoOrderMessage>
+    )    
+
+}
+
 const OrderPage = () => {
-    const [show, setShow] = useState(false)
+    const [selectedOrderStatus, setSlected] = useState(0)
     const [orderDataLoaded, setLoaded] = useState(false);
+    const [orderList, setOrderList] = useState([]);
+    const {userInf} = useContext(AppContext)
 
     const fetchOrderData = async () => {
-        const {data: getData} = await axios.get(`${API_HOST}/orders`)
-        console.log(getData);
-        const orderData = await Promise.all(getData.map(async (order) => {
 
-            const orderProducts = await Promise.all(order.detail.map( async (product) => {
-                const productData = await axios.get(`${API_HOST}/product/${product.productId}`)
-
+        try{
+            console.log(userInf.id);
+            
+            const {data: getData} = await axios.get(`${API_HOST}/orders?customersId=${userInf.id}`)
+            console.log(getData);
+            const orderData = await Promise.all(getData.map(async (order) => {
+    
+                const orderProducts = await Promise.all(order.detail.map( async (product) => {
+                    const {data: productData} = await axios.get(`${API_HOST}/products/${product.productId}`)                    
+    
+                    return {
+                        id: productData.id,
+                        price: productData.price,
+                        imgUrl: productData.img[0],
+                        name: productData.name,
+                        quantity: product.quantity
+                    }
+                }))
+    
                 return {
-                    id: productData.id,
-                    price: productData.price,
-                    imgUrl: productData.img[0],
-                    name: productData.name,
-                    quantity: product.quantity
+                    orderProducts,
+                    id: order.id,
+                    total: order.total,
+                    status: order.status,
+                    date: order.date,
                 }
+    
             }))
-
-            return {
-                orderProducts,
-                
-            }
-        }))
-        
-        setLoaded(true);
+    
+            console.log(orderData);
+            
+            
+            setOrderList(orderData)
+            setLoaded(true);
+        } catch (err) {
+            console.error(err);
+            
+        }
     }
     useEffect(() => {
         fetchOrderData();
@@ -83,29 +118,22 @@ const OrderPage = () => {
     return (
         <DefaultLayout>
             <StyledOrderPage>
-                <StyledTeb $isSelected={show}>
-                    <li onClick={() => {setShow(prevShow => !prevShow)}}>
-                        <h3>yeeeeee</h3>
-                    </li>
-                    {/* <li>
-                        <h3>yee</h3>
-                    </li> */}
+                <StyledTab>
+                    <StyledTabItem onClick={() => {setSlected(0)}} $orderStatu={0} $selected={selectedOrderStatus}>
+                        <h3>incomplete</h3>
+                    </StyledTabItem>
+                    <StyledTabItem onClick={() => {setSlected(2)}} $orderStatu={2} $selected={selectedOrderStatus}>
+                        <h3>complete</h3>
+                    </StyledTabItem>
 
-                </StyledTeb>
+                </StyledTab>
                 {
                     orderDataLoaded ?
-                        <StyledOrderContainer>
-                            <StyledOrder>
-                                <h3>Order id: 1</h3>
-                                <h3>Order Date: 2024/10/03 12:00:30</h3>
-                                <OrderProduct imgUrl="/img/powerBank_product.png" quantity="12" price="30" name="product name"/>
-                                <OrderProduct imgUrl="/img/powerBank_product.png" quantity="12" price="30" name="product name"/>
-                                <OrderProduct imgUrl="/img/powerBank_product.png" quantity="12" price="30" name="product name"/>
-                                <OrderProduct imgUrl="/img/powerBank_product.png" quantity="12" price="30" name="product name"/>
 
-                                <h4>Total: 300$</h4>
-                                <h5>order State: incomplete</h5>
-                            </StyledOrder>
+                        <StyledOrderContainer>
+                                {
+                                    orderList && redenOrderList(orderList, selectedOrderStatus)
+                                }
                                 
                         </StyledOrderContainer> :
                         <LoadingAnimation/>
@@ -128,38 +156,40 @@ const StyledOrderPage = styled.div`
     
 `
 
-const StyledTeb = styled.ul`
+const StyledTab = styled.ul`
     display: flex;
-    li{
-        display: flex;
-        justify-content: center;
-        padding: 0px 32px;
+`
 
-    }
+const StyledTabItem = styled.li`
+    display: flex;
+    justify-content: center;
+    padding: 0px 32px;
 
-    li::after{
+
+    &::after{
         content: "";
         display: block;
-        width: ${props => props.$isSelected ? "100%" : "0px"};
+        width: ${props => props.$selected == props.$orderStatu ? "100%" : "0px"};
         height: 1px;
         transition: all 0.3s ease-out;
-        border-bottom: 3px solid red;
+        border-bottom: 3px solid #8D5524;
         position: absolute;
         bottom: -5px;
 
     }
 
-
 `
 
 const StyledOrderContainer = styled.div`
     width: 100%;
-    padding: 16px;    
+    
+    padding: 16px;  
 
 `
 
 const StyledOrder = styled.div`
     width: 100%;
+    margin: 16px 0px;
     border-radius: 20px;
     border: 3px solid #8D5524;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
@@ -253,5 +283,17 @@ const StyledOrderProductImg = styled(StyledImgContainer)`
             font-size: 12px;
         }
 
+    }
+`
+
+const StyledNoOrderMessage = styled.div`
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h3{
+        font-size: 24px
     }
 `

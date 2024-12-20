@@ -4,12 +4,21 @@ import styled from "styled-components"
 import DefaultLayout from "../../components/layout/defaultLayout"
 import AdSection from "../../components/FrontComponents/AdSection"
 import ProductSection from "../../components/FrontComponents/ProductSection"
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import AppContext from "../../components/common/AppContext"
 import LoadingAnimation from "../../components/common/LoadingAnimation"
 
 const ShopPage = () => {
-    const {productsDataLoaded} = useContext(AppContext);
+    const {productsDataLoaded, fetchProductsData} = useContext(AppContext);
+
+
+    useEffect(() => {
+        if(!productsDataLoaded){
+            setTimeout(() => {
+                fetchProductsData()
+            }, 3000)
+        }
+    }, [productsDataLoaded])
 
     return (
         <DefaultLayout>

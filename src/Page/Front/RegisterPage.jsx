@@ -1,4 +1,4 @@
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import DefaultLayout from "../../components/layout/defaultLayout"
 import styled, { css } from "styled-components"
 import { useContext, useEffect, useRef, useState } from "react"
@@ -17,6 +17,10 @@ const RegisterPage = () => {
     const [errorText, setError] = useState("");
     const [errorKey, setKey] = useState(uuidv4());
     const {userSignIn} = useContext(AppContext)
+    const navigate = useNavigate();
+
+    const goToOrderPage = () => navigate("/account/orders");
+
 
     const handleRegister = async () => {
         if(!(email && passWord && lastName && firtstName)){
@@ -48,6 +52,7 @@ const RegisterPage = () => {
                 const userData = postResponce.data
 
                 await userSignIn(userData.id, userData.email, userData.name)
+                goToOrderPage();
             }
 
         } catch (error){
@@ -81,7 +86,7 @@ const RegisterPage = () => {
                     </UserInfInput>
                     <UserInfInput>
                         <h4>Password</h4>
-                        <input placeholder="Enter your Password" type="text" value={passWord} onChange={(e) => {setPassWord(e.target.value)}}/>
+                        <input placeholder="Enter your Password" type="password" value={passWord} onChange={(e) => {setPassWord(e.target.value)}}/>
                     </UserInfInput>
                     <RegisterBtn onClick={handleRegister}>Register</RegisterBtn>
                     <NavLink to="/account/login">
