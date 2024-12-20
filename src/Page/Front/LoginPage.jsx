@@ -2,13 +2,13 @@ import { NavLink, useNavigate } from "react-router"
 import DefaultLayout from "../../components/layout/defaultLayout"
 import styled from "styled-components"
 import { useContext, useState } from "react"
-import AppContext from "../../components/common/AppContext"
+import FrontContext from "../../components/context/FrontContext"
 import axios from "axios"
 import { v4 as uuidv4} from "uuid"
 import API_HOST from "../../ApiHost"
 
 const LoginPage = () => {
-    const {userSignIn} = useContext(AppContext)
+    const {userSignIn} = useContext(FrontContext)
     const [email, setEmail] = useState("");
     const [passWord, setPassWord] = useState("");
     const [errorText, setError] = useState("");

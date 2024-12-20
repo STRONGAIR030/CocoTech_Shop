@@ -2,13 +2,13 @@ import styled, {css} from "styled-components";
 import { NavLink, useNavigate } from "react-router";
 import { useEffect, useState , useRef, useContext, useMemo} from "react";
 import ShoppingCart from "../FrontComponents/ShoppingCart";
-import AppContext from "../common/AppContext";
+import FrontContext from "../context/FrontContext";
 
 const Header = () => {
     const [search, setSearch] = useState(false);
     const [showCart, setShowCart] = useState(false);
     const [inputText, setInputText] = useState("")
-    const {userInf, shoppingCart} = useContext(AppContext);
+    const {userInf, shoppingCart} = useContext(FrontContext);
     const navigate = useNavigate();
     const inputRef = useRef()
     useEffect(() => {

@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import StyledImgContainer from "../common/StyledImgContainer"
 import { useContext, useMemo} from "react"
-import AppContext from "../common/AppContext"
+import FrontContext from "../context/FrontContext"
 import { NavLink } from "react-router"
 
 const CartProduct = ({productId, name, quantity, totalPrice, imgUrl, handleDelete}) => {
@@ -22,7 +22,7 @@ const CartProduct = ({productId, name, quantity, totalPrice, imgUrl, handleDelet
 
 
 const ShoppingCart = ({toggleShow}) => {
-    const {shoppingCart, modifyProductToCart} = useContext(AppContext)
+    const {shoppingCart, modifyProductToCart} = useContext(FrontContext)
     const totalCost = useMemo(() => {
         return shoppingCart.reduce((prevValue, product) => product.totalPrice + prevValue, 0)
     })

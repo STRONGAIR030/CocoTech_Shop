@@ -5,7 +5,7 @@ import { useContext, useEffect, useRef, useState } from "react"
 import axios from "axios"
 import API_HOST from "../../ApiHost"
 import { v4 as uuidv4} from "uuid"
-import AppContext from "../../components/common/AppContext"
+import FrontContext from "../../components/context/FrontContext"
 
 
 const RegisterPage = () => {
@@ -16,7 +16,7 @@ const RegisterPage = () => {
     const [lastName, setLastName] = useState("");
     const [errorText, setError] = useState("");
     const [errorKey, setKey] = useState(uuidv4());
-    const {userSignIn} = useContext(AppContext)
+    const {userSignIn} = useContext(FrontContext)
     const navigate = useNavigate();
 
     const goToOrderPage = () => navigate("/account/orders");

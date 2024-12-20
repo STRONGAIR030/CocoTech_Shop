@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import ProductCard from "./ProductCard"
 import { useContext } from "react"
-import AppContext from "../common/AppContext"
+import FrontContext from "../context/FrontContext"
 
 const renderProductList = (productList, searchText) => {
     const filterList = searchText ? 
@@ -26,7 +26,7 @@ const renderProductList = (productList, searchText) => {
 }
 
 const ProductSection = ({searchText}) => {
-    const {productList} = useContext(AppContext)
+    const {productList} = useContext(FrontContext)
 
     return (
         <StlyedProductSection>

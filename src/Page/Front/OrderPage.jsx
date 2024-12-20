@@ -5,7 +5,7 @@ import StyledImgContainer from "../../components/common/StyledImgContainer"
 import axios from "axios"
 import API_HOST from "../../ApiHost"
 import LoadingAnimation from "../../components/common/LoadingAnimation"
-import AppContext from "../../components/common/AppContext"
+import FrontContext from "../../components/context/FrontContext"
 
 const OrderProduct = ({imgUrl, quantity, price, name}) => {
     return (
@@ -65,7 +65,7 @@ const OrderPage = () => {
     const [selectedOrderStatus, setSlected] = useState(0)
     const [orderDataLoaded, setLoaded] = useState(false);
     const [orderList, setOrderList] = useState([]);
-    const {userInf} = useContext(AppContext)
+    const {userInf} = useContext(FrontContext)
 
     const fetchOrderData = async () => {
 

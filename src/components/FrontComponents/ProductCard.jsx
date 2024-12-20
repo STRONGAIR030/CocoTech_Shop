@@ -2,10 +2,10 @@ import { NavLink } from "react-router"
 import styled from "styled-components"
 import StyledImgContainer from "../common/StyledImgContainer"
 import { useContext } from "react"
-import AppContext from "../common/AppContext"
+import FrontContext from "../context/FrontContext"
 
 const ProductCard = ({productId, imgUrl, name, price}) => {
-    const {modifyProductToCart}= useContext(AppContext);
+    const {modifyProductToCart}= useContext(FrontContext);
 
     return (
         <StyledProductCard>

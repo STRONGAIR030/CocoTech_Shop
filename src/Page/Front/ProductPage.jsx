@@ -7,7 +7,7 @@ import ListSwitch from "../../components/common/ListSwitch";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 import API_HOST from "../../ApiHost";
-import AppContext from "../../components/common/AppContext";
+import FrontContext from "../../components/context/FrontContext";
 import LoadingAnimation from "../../components/common/LoadingAnimation";
 
 const ProductPage = () => {
@@ -15,7 +15,7 @@ const ProductPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [addAmount, setAddAmount] = useState(1);
     const [showReviews, setShowReviews] = useState(false);
-    const {productList, productsDataLoaded, modifyProductToCart, fetchProductsData} = useContext(AppContext);
+    const {productList, productsDataLoaded, modifyProductToCart, fetchProductsData} = useContext(FrontContext);
     const [productInf, setProductInf] = useState({});
     const [dataloaded, setLoading] = useState(false);
 

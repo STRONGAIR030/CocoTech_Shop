@@ -3,7 +3,7 @@ import CheckOutLayout from "../../components/layout/CheckoutLayout"
 import { useContext, useEffect, useMemo, useState } from "react"
 import { v4 as uuidv4 } from "uuid"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
-import AppContext from "../../components/common/AppContext"
+import FrontContext from "../../components/context/FrontContext"
 import ListSwitch from "../../components/common/ListSwitch"
 import axios from "axios"
 import API_HOST from "../../ApiHost"
@@ -52,7 +52,7 @@ const CheckOutPage = () => {
     const [showCreditCardInf, setshowCreditCard] = useState(false);
     const [errorText, setError] = useState("");
     const [errorKey, setKey] = useState(uuidv4());
-    const {shoppingCart, modifyProductToCart, userInf, clearShoppingCart} = useContext(AppContext);
+    const {shoppingCart, modifyProductToCart, userInf, clearShoppingCart} = useContext(FrontContext);
     const [showOrderSummaryMd, setShowOrderSummary] = useState(false);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({

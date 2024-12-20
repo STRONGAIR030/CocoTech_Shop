@@ -1,10 +1,10 @@
 import styled, {css} from "styled-components";
 import { NavLink } from "react-router";
 import { useContext } from "react";
-import AppContext from "../common/AppContext";
+import FrontContext from "../context/FrontContext";
 
 const CheckOutHeader = () => {
-    const {userInf} = useContext(AppContext);
+    const {userInf} = useContext(FrontContext);
 
     return (
         <StyledCheckOutHeader>

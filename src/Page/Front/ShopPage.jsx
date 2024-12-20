@@ -5,11 +5,11 @@ import DefaultLayout from "../../components/layout/defaultLayout"
 import AdSection from "../../components/FrontComponents/AdSection"
 import ProductSection from "../../components/FrontComponents/ProductSection"
 import { useContext, useEffect } from "react"
-import AppContext from "../../components/common/AppContext"
+import FrontContext from "../../components/context/FrontContext"
 import LoadingAnimation from "../../components/common/LoadingAnimation"
 
 const ShopPage = () => {
-    const {productsDataLoaded, fetchProductsData} = useContext(AppContext);
+    const {productsDataLoaded, fetchProductsData} = useContext(FrontContext);
     const [searchParams] = useSearchParams();
     const searchText = searchParams.get("search"); 
 
