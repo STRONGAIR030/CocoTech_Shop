@@ -315,7 +315,16 @@
   ],
   "shoppingCart": [
     {
-      "cartContent": [],
+      "cartContent": [
+        {
+          "productId": "5",
+          "quantity": 10
+        },
+        {
+          "productId": "6",
+          "quantity": 4
+        }
+      ],
       "id": "4f84"
     },
     {

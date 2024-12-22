@@ -1,0 +1,128 @@
+import styled, {css} from "styled-components";
+import { NavLink, useNavigate } from "react-router";
+import { useEffect, useState , useRef, useContext, useMemo} from "react";
+import StyledImgContainer from "../common/StyledImgContainer";
+
+const AdminHeader = () => {
+    return (
+    <StyledHeader>
+        <Nav>
+            <Navitem $mdShow>
+                <Listbutton>
+                    <StyledImgContainer $width="30px" $imgUrl="/img/menu.svg">
+                        <div/>
+                    </StyledImgContainer>
+                </Listbutton>
+            </Navitem>
+            <Navitem $mdShow $xlShow>
+                <NavLink to="/">
+                    <ShopLogo $imgUrl="/img/cocoTecj.png">
+                        <div/>
+                    </ShopLogo>
+                </NavLink>
+            </Navitem>
+        </Nav>
+
+        <Nav>
+            <Navitem $xlShow $mdShow>
+                <h3>admin_name</h3>
+            </Navitem>
+            <Navitem $xlShow $mdShow>
+                <LodoutIcon $imgUrl="/img/logout.svg">
+                    <div/>
+                </LodoutIcon>
+                <h3>LogOut</h3>
+            </Navitem>
+        </Nav>
+    </StyledHeader>
+    )
+}
+
+export default AdminHeader
+
+const StyledHeader = styled.header`
+    width: 100%;
+    height: 60px;
+    padding: 0px 16px;
+    background-color: #8D5524;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    
+    @media screen and (max-width: 746px){
+        height: 50px;
+    }
+`
+
+const Nav = styled.ul`
+    display: flex;
+    
+`
+
+const Navitem = styled.li`
+    display: flex;
+    align-items: center;
+    padding: 0px 16px;
+    a,button,input{
+
+        border: none;
+        border-radius: 100px;
+        padding: 4px 8px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+    ${props => !props.$xlShow && css`display: none;`}
+
+    @media screen and (max-width: 748px) {
+        height: 60px;
+        padding: 4px 8px;
+        ${props => !props.$mdShow ? css`display: none;` : css`display: flex;`}
+
+        a{
+            font-size:18px
+        }
+
+    }
+
+    @media screen and (max-width: 540px) {
+        height: 40px;
+        padding: 0 4px;
+
+        a{
+        font-size:14px
+        }
+
+    }
+`
+
+const ShopLogo = styled(StyledImgContainer)`
+
+    width: 120px;
+    border-radius: 20px;
+
+    &::before{
+        padding-top: 41%;
+    }
+
+    @media screen and (max-width: 748px) {
+        width: 90px;
+        border-radius: 15px;
+
+
+    }
+
+
+`
+
+const LodoutIcon = styled(StyledImgContainer)`
+    width: 30px;
+    margin-right: 8px;
+    
+`
+
+const Listbutton = styled.button`
+    
+`
+

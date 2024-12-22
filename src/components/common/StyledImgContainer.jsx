@@ -2,7 +2,7 @@ import styled, {css} from "styled-components";
 
 const StyledImgContainer = styled.div`
     overflow: hidden;
-    width: 100%;
+    width: ${props => props.$width || "100%"};
 
     ${props => props.$containerWidth && css`
         max-width: ${props.$containerWidth};

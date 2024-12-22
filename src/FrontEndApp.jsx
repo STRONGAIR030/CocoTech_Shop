@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route} from "react-router";
+import { Routes, Route} from "react-router";
 import React ,{ useEffect, useRef, useState } from "react";
 
 import ShopPage from "./Page/Front/ShopPage";

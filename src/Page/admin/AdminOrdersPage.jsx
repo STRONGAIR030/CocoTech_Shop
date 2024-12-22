@@ -1,8 +1,10 @@
+import AdminLayout from "../../components/layout/AdminLayout"
+
 const AdminOrdersPage = () => {
     return (
-        <div>
+        <AdminLayout>
             AdminOrdersPage
-        </div>
+        </AdminLayout>
     )
 }
 
