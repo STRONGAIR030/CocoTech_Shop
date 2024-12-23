@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import AdminLayout from "../../components/layout/AdminLayout"
 import { useState } from "react"
+import ErrorMessage from "../../components/common/ErrorMessage"
 
 const LoginInput = ({inputText, handleChange, inputValue, inputType}) => {
    return (
@@ -14,6 +15,7 @@ const LoginInput = ({inputText, handleChange, inputValue, inputType}) => {
 const AdminLoginPage = () => {
     const [password, setPassword] = useState("");
     const [adminName, setAdminName] = useState("");
+    const [errorText, setErrorText] = useState("");
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value)
@@ -23,12 +25,26 @@ const AdminLoginPage = () => {
         setAdminName(event.target.value)
     }
 
+    const hadleLogin = async () => {
+        if(!password || !adminName){
+            setErrorText("You need enter all Information.")
+            return;
+        }
+
+        setErrorText("")
+    }
+
 
     return (
         <StyledAdminLoginPage>
             <h1>Login</h1>
+
             
             <StyledLoginContainer>
+                {
+                    errorText && 
+                    <ErrorMessage errorText={errorText}/>
+                }
                 <LoginInput 
                     inputText="admin name" 
                     inputValue={adminName} 
@@ -40,7 +56,7 @@ const AdminLoginPage = () => {
                     inputValue={password} 
                     handleChange={handlePasswordChange}
                 />
-                <button>Ok</button>
+                <button onClick={hadleLogin}>Ok</button>
             </StyledLoginContainer>
         </StyledAdminLoginPage>
     )
