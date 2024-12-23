@@ -21,7 +21,7 @@ const AdminApp = () => {
             {/* <Route path="/customers/:customerId" element={<CheckOutPage />} /> */}
             <Route path="/products" element={<AdminProductsPage />} />
             {/* <Route path="/products/:productId" element={<ProductPage />} /> */}
-
+            <Route path="*" element={<AdminHomePage />} />
         </Routes>
     </AdminContext.Provider>
     )

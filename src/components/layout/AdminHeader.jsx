@@ -3,11 +3,11 @@ import { NavLink, useNavigate } from "react-router";
 import { useEffect, useState , useRef, useContext, useMemo} from "react";
 import StyledImgContainer from "../common/StyledImgContainer";
 
-const AdminHeader = () => {
+const AdminHeader = ({toggleShowSiderBar}) => {
     return (
     <StyledHeader>
         <Nav>
-            <Navitem $mdShow>
+            <Navitem $mdShow onClick={toggleShowSiderBar}>
                 <Listbutton>
                     <StyledImgContainer $width="30px" $imgUrl="/img/menu.svg">
                         <div/>
