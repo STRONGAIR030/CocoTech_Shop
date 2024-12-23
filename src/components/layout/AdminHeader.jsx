@@ -27,11 +27,16 @@ const AdminHeader = () => {
             <Navitem $xlShow $mdShow>
                 <h3>admin_name</h3>
             </Navitem>
-            <Navitem $xlShow $mdShow>
-                <LodoutIcon $imgUrl="/img/logout.svg">
+            <Navitem $xlShow>
+                <LogoutIcon $imgUrl="/img/logout.svg">
                     <div/>
-                </LodoutIcon>
+                </LogoutIcon>
                 <h3>LogOut</h3>
+            </Navitem>
+            <Navitem $mdShow>
+                <LogoutIcon $imgUrl="/img/logout.svg">
+                    <div/>
+                </LogoutIcon>
             </Navitem>
         </Nav>
     </StyledHeader>
@@ -52,7 +57,12 @@ const StyledHeader = styled.header`
     z-index: 10;
     
     @media screen and (max-width: 746px){
+        padding: 0px 8px;
         height: 50px;
+    }
+
+    @media screen and (max-width: 540px){
+        padding: 0px;
     }
 `
 
@@ -69,7 +79,6 @@ const Navitem = styled.li`
 
         border: none;
         border-radius: 100px;
-        padding: 4px 8px;
         font-size: 14px;
         font-weight: 600;
     }
@@ -90,8 +99,9 @@ const Navitem = styled.li`
         height: 40px;
         padding: 0 4px;
 
+
         a{
-        font-size:14px
+            font-size:14px
         }
 
     }
@@ -116,7 +126,7 @@ const ShopLogo = styled(StyledImgContainer)`
 
 `
 
-const LodoutIcon = styled(StyledImgContainer)`
+const LogoutIcon = styled(StyledImgContainer)`
     width: 30px;
     margin-right: 8px;
     
