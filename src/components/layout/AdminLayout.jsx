@@ -12,7 +12,7 @@ const AdminLayout = ({children}) => {
     }
 
     return (
-        <div>
+        <Wrapper>
             <AdminHeader toggleShowSiderBar={toggleShowSiderBar}/>
             <StyledClearfix/>
             <StyledMain>
@@ -20,8 +20,7 @@ const AdminLayout = ({children}) => {
                     {children}
                 </AdminSiderBar>
             </StyledMain>
-
-        </div>
+        </Wrapper>
     )
 }
 
@@ -37,4 +36,9 @@ const StyledClearfix = styled.div`
 const StyledMain = styled.main`
     width: 100%;
     display: flex;
+`
+
+const Wrapper = styled.div`
+    width: 100%;
+    background-color: ${props => props.$wrapperColor || "#c68642b2"};
 `
