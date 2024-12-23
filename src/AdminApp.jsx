@@ -6,11 +6,29 @@ import AdminHomePage from "./Page/admin/AdminHomePage"
 import AdminLoginPage from "./Page/admin/AdminLoginPage"
 import AdminOrdersPage from "./Page/admin/AdminOrdersPage"
 import AdminProductsPage from "./Page/admin/AdminProductsPage"
+import { useEffect, useState } from "react";
 
 const AdminApp = () => {
+    const [adminInf, setAdminInf] = useState({isSignIn: false});
+
+    useEffect(() => {
+        console.log(adminInf);
+        
+    }, [adminInf])
+
+    const adminSignIn = (adminName) => {
+        setAdminInf({
+            isSignIn: true,
+            name: adminName,
+        })
+    }
+
     return (
         <AdminContext.Provider
-            value={{}}
+            value={{
+                adminInf,
+                adminSignIn,
+            }}
         >
         <Routes>
             <Route path="/login" element={<AdminLoginPage />} />

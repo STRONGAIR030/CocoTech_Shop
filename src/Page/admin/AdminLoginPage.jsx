@@ -1,7 +1,12 @@
 import styled from "styled-components"
+import axios from "axios"
+
 import AdminLayout from "../../components/layout/AdminLayout"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import ErrorMessage from "../../components/common/ErrorMessage"
+import { useNavigate } from "react-router"
+import AdminContext from "../../components/context/AdminContext"
+import API_HOST from "../../ApiHost"
 
 const LoginInput = ({inputText, handleChange, inputValue, inputType}) => {
    return (
@@ -16,6 +21,16 @@ const AdminLoginPage = () => {
     const [password, setPassword] = useState("");
     const [adminName, setAdminName] = useState("");
     const [errorText, setErrorText] = useState("");
+    const {adminInf, adminSignIn} = useContext(AdminContext);
+    const navgaiton = useNavigate();
+
+    const goAdminHomePage = () => navgaiton("/admin/home");
+
+    useEffect(() => {
+        if(adminInf.isSignIn){
+            goAdminHomePage();
+        }
+    }, [adminInf])
 
     const handlePasswordChange = (event) => {
         setPassword(event.target.value)
@@ -31,7 +46,23 @@ const AdminLoginPage = () => {
             return;
         }
 
-        setErrorText("")
+        try{
+            const {data: [adminData]} = await axios.get(`${API_HOST}/admin?id=${adminName}`) 
+            
+            if(!adminData || adminData.password != password){                
+                setErrorText("name or PassWord wrong!!")
+            }
+            else{
+                adminSignIn();
+                goAdminHomePage();
+                setErrorText("")
+            }
+
+        } catch (err) {
+            console.error(err);
+            
+        }
+
     }
 
 

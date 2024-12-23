@@ -45,7 +45,7 @@ const AdminSiderBar = ({showSiderBar, children}) => {
         </Nav>
       </SidebarContainer>
       <BlurBackGround $show={showSiderBar}/>
-      <Content>
+      <Content $isOpen={showSiderBar}>
         {children}
       </Content>
     </>
@@ -57,18 +57,18 @@ export default AdminSiderBar
 
 const SidebarContainer = styled.div`
   width: 180px;
-  height: 100vh;
+  height: 100%;
   background-color: #8D5524;
   color: white;
   overflow-x: hidden;
   transition: width 0.3s ease;
+  position: fixed;
 
   @media screen and (max-width: 746px) {
     width: ${props => props.$isOpen ? "180" : "0"}px;
   }
 
   @media screen and (max-width: 540px) {
-    position: fixed;
     z-index: 10;
   }
 `;
@@ -83,8 +83,17 @@ const BlurBackGround = styled(StyledBlurBackGround)`
 `
 
 const Content = styled.div`
-  flex: 1;
-  transition: margin-left 0.3s ease;
+    margin-left: 180px;
+    flex: 1;
+    transition: margin-left 0.3s ease;
+
+    @media screen and (max-width: 746px) {
+        margin-left: ${props => props.$isOpen ? "180" : "0"}px;
+    }
+
+    @media screen and (max-width: 540px) {
+        margin-left: 0px;
+    }
 `;
 
 const Nav = styled.ul`
