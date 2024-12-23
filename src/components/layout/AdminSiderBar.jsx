@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import StyledImgContainer from "../common/StyledImgContainer";
 import { NavLink } from "react-router";
+import StyledBlurBackGround from "../common/StyledBlurBackground";
 
 const AdminSiderBar = ({showSiderBar, children}) => {
 
@@ -42,8 +43,8 @@ const AdminSiderBar = ({showSiderBar, children}) => {
                 </NavLink>
             </Navitem>
         </Nav>
-
       </SidebarContainer>
+      <BlurBackGround $show={showSiderBar}/>
       <Content>
         {children}
       </Content>
@@ -65,7 +66,21 @@ const SidebarContainer = styled.div`
   @media screen and (max-width: 746px) {
     width: ${props => props.$isOpen ? "180" : "0"}px;
   }
+
+  @media screen and (max-width: 540px) {
+    position: fixed;
+    z-index: 10;
+  }
 `;
+
+const BlurBackGround = styled(StyledBlurBackGround)`
+    z-index: 9;
+    display: none;
+
+    @media screen and (max-width: 540px) {
+        display: block;
+    }
+`
 
 const Content = styled.div`
   flex: 1;
