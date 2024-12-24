@@ -8,6 +8,7 @@ import ListSwitch from "../../components/common/ListSwitch"
 import axios from "axios"
 import API_HOST from "../../ApiHost"
 import { useNavigate } from "react-router"
+import { use } from "react"
 
 const UserInput = ({type, inputWidth, inputType, inputName, handleChange}) => {
     return (
@@ -77,6 +78,18 @@ const CheckOutPage = () => {
 
     const goToOrderPage = () => navigate("/account/orders");
 
+    const dateFormat = (date) => {
+        const Year = date.getFullYear();
+        const Month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
+        const Day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+        const hours = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+        const minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+        const seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
+
+        return `${Year}-${Month}-${Day} ${hours}:${minutes}:${seconds}`
+
+    }
+
 
     const handleChange = (e) => {
 
@@ -129,7 +142,7 @@ const CheckOutPage = () => {
         const postOrderData = {
             customersId: userInf.id,
             detail: orderProducts,
-            date: new Date(),
+            date: dateFormat(new Date),
             shipping: ShippingCost,
             total: totalCost + ShippingCost,
             status: 0,
