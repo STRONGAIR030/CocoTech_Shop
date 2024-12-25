@@ -36,7 +36,7 @@ const AdminOrdersPage = () => {
                             {
                                 orderDataLoaded && orderList.length && orderList.map((order) => {
                                     return (
-                                        <tr>
+                                        <tr key={order.id}>
                                             <td>{order.id}</td>
                                             <td>{order.customerName}</td>
                                             <td>{order.status}</td>

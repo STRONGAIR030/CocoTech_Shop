@@ -1,11 +1,13 @@
 import styled from "styled-components"
 import AdminLayout from "../../components/layout/AdminLayout"
+import GoBackButton from "../../components/common/GoBackButton"
 
 const AdminOrder = () => {
     return (
         <AdminLayout>
-            
-
+            <StyledOrderPage>
+                <GoBackButton/>
+            </StyledOrderPage>
         </AdminLayout>
     )
 }
