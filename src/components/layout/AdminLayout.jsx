@@ -20,6 +20,7 @@ const AdminLayout = ({children}) => {
                     {children}
                 </AdminSiderBar>
             </StyledMain>
+
         </Wrapper>
     )
 }

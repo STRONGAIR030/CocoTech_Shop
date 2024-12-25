@@ -2,8 +2,11 @@ import styled, {css} from "styled-components";
 import { NavLink, useNavigate } from "react-router";
 import { useEffect, useState , useRef, useContext, useMemo} from "react";
 import StyledImgContainer from "../common/StyledImgContainer";
+import AdminContext from "../context/AdminContext";
 
 const AdminHeader = ({toggleShowSiderBar}) => {
+    const {adminSignOut} = useContext(AdminContext)
+
     return (
     <StyledHeader>
         <Nav>
@@ -27,13 +30,13 @@ const AdminHeader = ({toggleShowSiderBar}) => {
             <Navitem $xlShow $mdShow>
                 <h3>admin_name</h3>
             </Navitem>
-            <Navitem $xlShow>
+            <Navitem $xlShow onClick={adminSignOut}>
                 <LogoutIcon $imgUrl="/img/logout.svg">
                     <div/>
                 </LogoutIcon>
                 <h3>LogOut</h3>
             </Navitem>
-            <Navitem $mdShow>
+            <Navitem $mdShow onClick={adminSignOut}>
                 <LogoutIcon $imgUrl="/img/logout.svg">
                     <div/>
                 </LogoutIcon>

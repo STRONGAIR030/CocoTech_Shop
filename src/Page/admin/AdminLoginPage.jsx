@@ -26,12 +26,6 @@ const AdminLoginPage = () => {
 
     const goAdminHomePage = () => navgaiton("/admin/home");
 
-    useEffect(() => {
-        if(adminInf.isSignIn){
-            goAdminHomePage();
-        }
-    }, [adminInf])
-
     const handlePasswordChange = (event) => {
         setPassword(event.target.value)
     } 
@@ -40,7 +34,7 @@ const AdminLoginPage = () => {
         setAdminName(event.target.value)
     }
 
-    const hadleLogin = async () => {
+    const hadleSingIn = async () => {
         if(!password || !adminName){
             setErrorText("You need enter all Information.")
             return;
@@ -87,7 +81,7 @@ const AdminLoginPage = () => {
                     inputValue={password} 
                     handleChange={handlePasswordChange}
                 />
-                <button onClick={hadleLogin}>Ok</button>
+                <button onClick={hadleSingIn}>Ok</button>
             </StyledLoginContainer>
         </StyledAdminLoginPage>
     )

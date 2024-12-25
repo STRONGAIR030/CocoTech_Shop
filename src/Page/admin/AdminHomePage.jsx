@@ -6,6 +6,7 @@ import AdminContext from "../../components/context/AdminContext"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import axios from "axios"
 import API_HOST from "../../ApiHost"
+import StyledTableContainer from "../../components/common/StyledTableContainer"
 
 const InfoCard = ({infoName, imgUrl, infoNum}) => {
     return(
@@ -31,17 +32,12 @@ const AdminHomePage = () => {
 
     const goAdminLoginPage = () => navgation("/admin/login")
 
+    const goAdminOrder = (orderId) => navgation(`/admin/orders/${orderId}`)
     useEffect(() => {
-        fetchOrderListData()
+        fetchLastetOrders()
     }, [])
 
-    useEffect(() => {
-        if(!adminInf.isSignIn){
-            goAdminLoginPage();
-        }
-    }, [adminInf])
-
-    const fetchOrderListData = async () => {
+    const fetchLastetOrders = async () => {
         const {data: orderListData} = await axios(`${API_HOST}/orders`)
 
         const updateList = await Promise.all(orderListData.map(async (order) => {
@@ -59,9 +55,10 @@ const AdminHomePage = () => {
             return updateData
         }))
 
-        console.log(updateList);
-        setOrderList(updateList);
-        
+        const limtiList = updateList.reverse().filter((order, index) => Number(index) < 5)
+        console.log(limtiList);
+        setOrderList(limtiList);
+        setLoaded(true)
         
     }
     return (
@@ -75,32 +72,34 @@ const AdminHomePage = () => {
 
                 <StyledOrderListContainer>
                     <h3>Lastest orders</h3>
-                    <div>
+                    <StyledTableContainer>
                         <table>
-                            <tr>
-                                <th>Order id</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Total</th>
+                            <tbody>
+                                <tr>
+                                    <th>Order id</th>
+                                    <th>Customer</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
 
-                            </tr>
-                            {
-                                orderList.length && orderList.map((order) => {
-                                    return (
-                                        <tr>
-                                            <td>{order.id}</td>
-                                            <td>{order.userName}</td>
-                                            <td>{order.status}</td>
-                                            <td>{order.date}</td>
-                                            <td>{order.total}$</td>
-                                        </tr>
-                                    )
-                                })
-                            }
+                                </tr>
+                                {
+                                    dataLoaded && orderList.length && orderList.map((order) => {
+                                        return (
+                                            <tr key={order.id} onClick={() => {goAdminOrder(order.id)}}>
+                                                <td>{order.id}</td>
+                                                <td>{order.userName}</td>
+                                                <td>{order.status}</td>
+                                                <td>{order.date}</td>
+                                                <td>{order.total}$</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                            </tbody>
 
                         </table>
-                    </div>
+                    </StyledTableContainer>
                 </StyledOrderListContainer>
             </StyledHomePage>
         </AdminLayout>
@@ -168,44 +167,6 @@ const StyledInfoCard = styled.div`
 const StyledOrderListContainer = styled.div`
     width: 100%;
     padding: 16px;
-
-    div{
-        width: 100%;
-        overflow: scroll;
-    }
-
-    h3{
-        padding: 16px 4px;
-        font-size: 32px;
-    }
-
-
-    table,th,td{
-        border-collapse: collapse;
-        font-size: 24px;
-        white-space: nowrap;
-        text-align: center;
-        
-    }
-
-    th,td{
-        border-right: 2px black solid;
-    }
-
-    table{
-        border: 2px outset black;
-        border-radius: 20px;
-        width: 100%;
-        min-width: 700px;
-    }
-
-    tr{
-        height: 60px;
-    }
-
-    tr:nth-child(odd){
-        background-color: #C68642;
-    }
 
     tr:not(:first-of-type){
         cursor: pointer;

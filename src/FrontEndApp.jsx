@@ -11,6 +11,7 @@ import ProductPage from "./Page/Front/ProductPage";
 import axios from "axios";
 import API_HOST from "./ApiHost";
 import FrontContext from "./components/context/FrontContext";
+import { Navigate } from "react-router";
 
 function FrontEndApp() {
 
@@ -170,6 +171,7 @@ function FrontEndApp() {
                 <Route path="/account/orders" element={<OrderPage />} />
                 <Route path="/checkout" element={<CheckOutPage />} />
                 <Route path="/product/:productId" element={<ProductPage />} />
+                <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </FrontContext.Provider>
     );
