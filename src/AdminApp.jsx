@@ -47,15 +47,8 @@ const AdminApp = () => {
         if(isSignIn()){
             const adminName = sessionStorage.getItem("adminName");
             adminSignIn(adminName);
-            console.log(adminName);
-            
         }
     }, [])
-
-    useEffect(() => {
-        console.log(adminInf);
-        
-    }, [adminInf])
 
     const adminSignIn = (adminName) => {
         setAdminInf({
@@ -88,7 +81,7 @@ const AdminApp = () => {
                 customersId: order.customersId,
                 total: order.total,
                 date: order.date,
-                userName: userData.name,
+                customerName: userData.name,
                 status: 0
             }
 

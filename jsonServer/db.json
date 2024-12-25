@@ -54,6 +54,11 @@
       "id": "admin_name",
       "password": "abcabc",
       "jurisdiction": 0
+    },
+    {
+      "id": "yee",
+      "password": "abcabc",
+      "jurisdiction": 0
     }
   ],
   "products": [

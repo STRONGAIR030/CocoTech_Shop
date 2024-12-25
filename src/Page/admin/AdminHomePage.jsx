@@ -56,7 +56,6 @@ const AdminHomePage = () => {
         }))
 
         const limtiList = updateList.reverse().filter((order, index) => Number(index) < 5)
-        console.log(limtiList);
         setOrderList(limtiList);
         setLoaded(true)
         

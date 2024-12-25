@@ -20,7 +20,7 @@ const StyledTableContainer = styled.div`
         border: 2px outset black;
         border-radius: 20px;
         width: 100%;
-        min-width: 700px;
+        min-width: ${props => props.$maxWidth || "700px"};
     }
 
     tr{

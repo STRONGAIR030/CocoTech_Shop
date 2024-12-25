@@ -5,7 +5,7 @@ import StyledImgContainer from "../common/StyledImgContainer";
 import AdminContext from "../context/AdminContext";
 
 const AdminHeader = ({toggleShowSiderBar}) => {
-    const {adminSignOut} = useContext(AdminContext)
+    const {adminInf, adminSignOut} = useContext(AdminContext)
 
     return (
     <StyledHeader>
@@ -28,7 +28,7 @@ const AdminHeader = ({toggleShowSiderBar}) => {
 
         <Nav>
             <Navitem $xlShow $mdShow>
-                <h3>admin_name</h3>
+                <h3>{adminInf.name}</h3>
             </Navitem>
             <Navitem $xlShow onClick={adminSignOut}>
                 <LogoutIcon $imgUrl="/img/logout.svg">

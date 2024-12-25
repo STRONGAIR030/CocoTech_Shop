@@ -21,7 +21,7 @@ const AdminLoginPage = () => {
     const [password, setPassword] = useState("");
     const [adminName, setAdminName] = useState("");
     const [errorText, setErrorText] = useState("");
-    const {adminInf, adminSignIn} = useContext(AdminContext);
+    const {adminSignIn} = useContext(AdminContext);
     const navgaiton = useNavigate();
 
     const goAdminHomePage = () => navgaiton("/admin/home");
@@ -47,7 +47,7 @@ const AdminLoginPage = () => {
                 setErrorText("name or PassWord wrong!!")
             }
             else{
-                adminSignIn();
+                adminSignIn(adminData.id);
                 goAdminHomePage();
                 setErrorText("")
             }
