@@ -32,7 +32,6 @@ const PrivateRoute = () => {
     </Routes> : <Navigate to="/admin/login" />;
   };
   
-  // 登錄路由：已登入時重定向到 /admin/home
 const LoginRoute = () => {
     return isSignIn() ? <Navigate to="/admin/home"/> : <AdminLoginPage/>;
 };
@@ -41,7 +40,10 @@ const LoginRoute = () => {
 const AdminApp = () => {
     const [adminInf, setAdminInf] = useState({isSignIn: false});
     const [orderList, setOrderList] = useState([]);
+    const [customerList, setCustomersList] = useState([]);
     const [orderDataLoaded, setOrderDateLoaded] = useState(false);
+    const [customerDataLoaded, setCustomerDateLoaded] = useState(false);
+
 
     useEffect(() => {
         if(isSignIn()){
@@ -96,6 +98,26 @@ const AdminApp = () => {
         setOrderDateLoaded(true)
     }
 
+    const fetchCustomerList = async () => {
+        try{
+            const {data: customerListData} = await axios(`${API_HOST}/customers`)
+            const updateList = customerListData.map((customer) => {
+                return {
+                    id: customer.id,
+                    email: customer.email,
+                    name: customer.name,
+                }
+            })
+
+            setCustomersList(updateList);
+            setCustomerDateLoaded(true);
+            
+        } catch (err) {
+            console.error(err);
+        }
+
+    }
+
     return (
         <AdminContext.Provider
             value={{
@@ -105,6 +127,9 @@ const AdminApp = () => {
                 orderDataLoaded,
                 adminSignIn,
                 adminSignOut,
+                fetchCustomerList,
+                customerDataLoaded,
+                customerList,
             }}
         >
         <Routes>
