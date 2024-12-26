@@ -46,7 +46,7 @@ const AdminHomePage = () => {
             const updateData = {
                 id: order.id,
                 customersId: order.customersId,
-                total: order.total,
+                total: order.subTotal + order.shipping,
                 date: order.date,
                 userName: userData.name,
                 status: 0

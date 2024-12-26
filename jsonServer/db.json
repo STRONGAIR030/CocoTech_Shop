@@ -214,127 +214,9 @@
   ],
   "orders": [
     {
-      "id": "503c",
+      "id": "c4f3",
       "customersId": "4f84",
       "detail": [
-        {
-          "productId": "6",
-          "quantity": 6
-        },
-        {
-          "productId": "5",
-          "quantity": 8
-        }
-      ],
-      "date": "2024-12-20 05:45:42",
-      "shipping": 60,
-      "total": 480,
-      "status": 0
-    },
-    {
-      "id": "8081",
-      "customersId": "4f84",
-      "detail": [
-        {
-          "productId": "6",
-          "quantity": 6
-        },
-        {
-          "productId": "5",
-          "quantity": 8
-        }
-      ],
-      "date": "2024-12-20 05:58:54",
-      "shipping": 60,
-      "total": 480,
-      "status": 0
-    },
-    {
-      "id": "f88f",
-      "customersId": "4f84",
-      "detail": [
-        {
-          "productId": "6",
-          "quantity": 6
-        },
-        {
-          "productId": "5",
-          "quantity": 8
-        }
-      ],
-      "date": "2024-12-20 06:03:09",
-      "shipping": 60,
-      "total": 480,
-      "status": 0
-    },
-    {
-      "id": "01df",
-      "customersId": "4f84",
-      "detail": [
-        {
-          "productId": "5",
-          "quantity": 1
-        },
-        {
-          "productId": "4",
-          "quantity": 5
-        }
-      ],
-      "date": "2024-12-20 06:20:37",
-      "shipping": 60,
-      "total": 240,
-      "status": 0
-    },
-    {
-      "id": "75d3",
-      "customersId": "08dd",
-      "detail": [
-        {
-          "productId": "4",
-          "quantity": 6
-        },
-        {
-          "productId": "3",
-          "quantity": 4
-        }
-      ],
-      "date": "2024-12-20 13:04:42",
-      "shipping": 60,
-      "total": 360,
-      "status": 0
-    },
-    {
-      "id": "65bd",
-      "customersId": "4f84",
-      "detail": [
-        {
-          "productId": "5",
-          "quantity": 1
-        }
-      ],
-      "date": "2024-12-20 14:50:05",
-      "shipping": 60,
-      "total": 90,
-      "status": 0
-    },
-    {
-      "id": "3ebd",
-      "customersId": "4f84",
-      "detail": [
-        {
-          "productId": "4",
-          "quantity": 1
-        }
-      ],
-      "date": "2024-12-25 00:01:58",
-      "shipping": 60,
-      "total": 90,
-      "status": 0
-    }
-  ],
-  "shoppingCart": [
-    {
-      "cartContent": [
         {
           "productId": "5",
           "quantity": 10
@@ -344,6 +226,85 @@
           "quantity": 4
         }
       ],
+      "date": "2024-12-26 19:12:46",
+      "shipping": 60,
+      "subTotal": 420,
+      "status": "0"
+    },
+    {
+      "id": "5a67",
+      "customersId": "4f84",
+      "detail": [
+        {
+          "productId": "4",
+          "quantity": 1
+        },
+        {
+          "productId": "5",
+          "quantity": 3
+        }
+      ],
+      "date": "2024-12-26 19:52:51",
+      "shipping": 60,
+      "subTotal": 120,
+      "status": 0
+    },
+    {
+      "id": "55a1",
+      "customersId": "4f84",
+      "detail": [
+        {
+          "productId": "1",
+          "quantity": 1
+        },
+        {
+          "productId": "2",
+          "quantity": 3
+        },
+        {
+          "productId": "6",
+          "quantity": 3
+        },
+        {
+          "productId": "5",
+          "quantity": 3
+        },
+        {
+          "productId": "4",
+          "quantity": 2
+        },
+        {
+          "productId": "3",
+          "quantity": 3
+        }
+      ],
+      "date": "2024-12-26 19:53:07",
+      "shipping": 60,
+      "subTotal": 720,
+      "status": "2"
+    },
+    {
+      "id": "01a2",
+      "customersId": "4f84",
+      "detail": [
+        {
+          "productId": "3",
+          "quantity": 6
+        },
+        {
+          "productId": "2",
+          "quantity": 4
+        }
+      ],
+      "date": "2024-12-26 19:53:20",
+      "shipping": 60,
+      "subTotal": 300,
+      "status": 0
+    }
+  ],
+  "shoppingCart": [
+    {
+      "cartContent": [],
       "id": "4f84"
     },
     {

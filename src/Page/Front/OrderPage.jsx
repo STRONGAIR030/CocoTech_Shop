@@ -22,7 +22,7 @@ const OrderProduct = ({imgUrl, quantity, price, name}) => {
     )
 }
 
-const Order = ({orderId, orderProducts, orderStatus, orderDate, orderTotal}) => {
+const Order = ({orderId, orderProducts, orderStatus, orderDate, orderSubTotal, orderShipping}) => {
     const handlers = {
         0: "incomplete",
         1: "shipping",
@@ -39,7 +39,7 @@ const Order = ({orderId, orderProducts, orderStatus, orderDate, orderTotal}) => 
                 } )
             }
 
-            <h4>Total: {orderTotal}$</h4>
+            <h4>Total: {orderSubTotal + orderShipping}$</h4>
             <h5>order State: {handlers[orderStatus]}</h5>
         </StyledOrder>
     )
@@ -52,7 +52,7 @@ const redenOrderList = (orderList, orderStatus) => {
     return (
         reversedList.length > 0 ? 
         reversedList.map((order) => {
-            return <Order key={order.id} orderId={order.id} orderProducts={order.orderProducts} orderStatus={order.status} orderDate={order.date} orderTotal={order.total} ></Order>
+            return <Order key={order.id} orderId={order.id} orderProducts={order.orderProducts} orderStatus={order.status} orderDate={order.date} orderSubTotal={order.subTotal} orderShipping={order.shipping}></Order>
         }) :
         <StyledNoOrderMessage>
             <h3>You don't have order!!</h3>
@@ -91,7 +91,8 @@ const OrderPage = () => {
                 return {
                     orderProducts,
                     id: order.id,
-                    total: order.total,
+                    subTotal: order.subTotal,
+                    shipping: order.shipping,
                     status: order.status,
                     date: order.date,
                 }

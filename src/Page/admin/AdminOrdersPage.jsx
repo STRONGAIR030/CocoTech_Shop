@@ -22,7 +22,7 @@ const AdminOrdersPage = () => {
         <AdminLayout>
             <StyledOrdersPage>
                 <h3>Order List</h3>
-                <StyledTableContainer $maxWidth="800px">
+                <StyledTableContainer $minWidth="800px">
                     <table>
                         <tbody>
                             <tr>

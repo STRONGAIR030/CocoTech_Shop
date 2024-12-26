@@ -144,7 +144,7 @@ const CheckOutPage = () => {
             detail: orderProducts,
             date: dateFormat(new Date),
             shipping: ShippingCost,
-            total: totalCost + ShippingCost,
+            subTotal: totalCost,
             status: 0,
         }
 

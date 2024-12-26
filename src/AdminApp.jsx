@@ -79,7 +79,7 @@ const AdminApp = () => {
             const updateData = {
                 id: order.id,
                 customersId: order.customersId,
-                total: order.total,
+                total: order.subTotal + order.shipping,
                 date: order.date,
                 customerName: userData.name,
                 status: 0
