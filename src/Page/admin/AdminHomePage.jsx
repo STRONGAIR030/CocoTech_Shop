@@ -1,8 +1,7 @@
 import styled from "styled-components"
 import AdminLayout from "../../components/layout/AdminLayout"
 import { useNavigate } from "react-router"
-import { useContext, useEffect, useState } from "react"
-import AdminContext from "../../components/context/AdminContext"
+import { useEffect, useState } from "react"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import axios from "axios"
 import API_HOST from "../../ApiHost"
@@ -27,46 +26,79 @@ const InfoCard = ({infoName, imgUrl, infoNum}) => {
 const AdminHomePage = () => {
     const [dataLoaded, setLoaded] = useState(false);
     const [orderList, setOrderList] = useState([]);
-    const {adminInf} = useContext(AdminContext)
+    const [totalOrders, setTotalOrders] = useState(0);
+    const [totalSales, setTotalSales] = useState(0);
+    const [totalCustomers, setTotalCustomers] = useState(0);
     const navgation = useNavigate()
-
-    const goAdminLoginPage = () => navgation("/admin/login")
 
     const goAdminOrder = (orderId) => navgation(`/admin/orders/${orderId}`)
     useEffect(() => {
-        fetchLastetOrders()
+        fetchDashBoradData()
     }, [])
 
-    const fetchLastetOrders = async () => {
-        const {data: orderListData} = await axios(`${API_HOST}/orders`)
-
-        const updateList = await Promise.all(orderListData.map(async (order) => {
-            const {data: userData} = await axios(`${API_HOST}/customers/${order.customersId}`)
-
-            const updateData = {
-                id: order.id,
-                customersId: order.customersId,
-                total: order.subTotal + order.shipping,
-                date: order.date,
-                userName: userData.name,
-                status: 0
-            }
-
-            return updateData
-        }))
-
-        const limtiList = updateList.reverse().filter((order, index) => Number(index) < 5)
-        setOrderList(limtiList);
-        setLoaded(true)
+    const fetchDashBoradData = async () => {
+        try{
+            const getOrdersRes = await axios.get(`${API_HOST}/orders`)
+            const getCustomerRes = await axios.get(`${API_HOST}/customers`)
+            console.log(getOrdersRes);
+            
+            const orderListData = getOrdersRes.data
+    
+            const customerAmount = getCustomerRes.data.length
+            const orderAmount = orderListData.length
+            const saleAmount = orderListData.reduce((total, order) => {
+                const sumQuantity = order.detail.reduce((prevValue, product) => {                
+                    return prevValue + Number(product.quantity)
+                }, 0)
+                
+                return total + sumQuantity
+            }, 0)
+    
+            const updateList = await Promise.all(orderListData.map(async (order) => {
+                const {data: customerData} = await axios(`${API_HOST}/customers/${order.customersId}`)
+    
+                const updateData = {
+                    id: order.id,
+                    customersId: order.customersId,
+                    total: order.subTotal + order.shipping,
+                    date: order.date,
+                    customerName: customerData.name,
+                    status: 0
+                }
+    
+                return updateData
+            }))
+    
+            const limtiList = updateList.reverse().filter((order, index) => Number(index) < 5)
+            setTotalOrders(orderAmount)
+            setTotalCustomers(customerAmount)
+            setTotalSales(saleAmount)
+            setOrderList(limtiList);
+            setLoaded(true)
+        } catch (err) {
+            console.error(err);
+        }
         
     }
     return (
         <AdminLayout>
             <StyledHomePage>
                 <StyledInfoCardList>
-                    <InfoCard imgUrl="/img/cart.svg" infoName="total orders" infoNum="3"/>
-                    <InfoCard imgUrl="/img/cart.svg" infoName="total orders" infoNum="3"/>
-                    <InfoCard imgUrl="/img/cart.svg" infoName="total orders" infoNum="3"/>
+                    <InfoCard 
+                        imgUrl="/img/cart.svg" 
+                        infoName="Total orders" 
+                        infoNum={totalOrders}
+                        />
+                    <InfoCard 
+                        imgUrl="/img/creditCard.svg" 
+                        infoName="Total Sales" 
+                        infoNum={totalSales}
+                        />
+                    <InfoCard 
+                        imgUrl="/img/totalCustomers.svg" 
+                        infoName="Total Customers" 
+                        infoNum={totalCustomers}
+                        />
                 </StyledInfoCardList>
 
                 <StyledOrderListContainer>
@@ -87,7 +119,7 @@ const AdminHomePage = () => {
                                         return (
                                             <tr key={order.id} onClick={() => {goAdminOrder(order.id)}}>
                                                 <td>{order.id}</td>
-                                                <td>{order.userName}</td>
+                                                <td>{order.customerName}</td>
                                                 <td>{order.status}</td>
                                                 <td>{order.date}</td>
                                                 <td>{order.total}$</td>
