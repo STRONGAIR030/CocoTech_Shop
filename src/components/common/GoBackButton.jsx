@@ -26,6 +26,7 @@ const StyledBackButton = styled.button`
     border-radius: 10px;
 
     position: absolute;
+    z-index: 10;
 
     right: 16px;
     top: 16px;
