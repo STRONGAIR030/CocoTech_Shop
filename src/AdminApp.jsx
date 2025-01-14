@@ -100,7 +100,7 @@ const AdminApp = () => {
 
     const fetchCustomerList = async () => {
         try{
-            const {data: customerListData} = await axios(`${API_HOST}/customers`)
+            const {data: customerListData} = await axios(`${API_HOST}/customers?id_ne=0`)
             const updateList = customerListData.map((customer) => {
                 return {
                     id: customer.id,
