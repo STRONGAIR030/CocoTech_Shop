@@ -71,6 +71,11 @@ const StyledAdminCustomersPage = styled.div`
     width: 100%;
     padding: 16px;
 
+    & > h3 {
+        font-size: 24px;
+        padding: 16px 0px;
+    }
+
     td button {
         width: 50px;
         border-radius: 15px;

@@ -199,6 +199,11 @@ const StyledOrderListContainer = styled.div`
     width: 100%;
     padding: 16px;
 
+    & > h3 {
+        font-size: 24px;
+        padding: 16px 0px;
+    }
+
     tr:not(:first-of-type){
         cursor: pointer;
         &:hover{

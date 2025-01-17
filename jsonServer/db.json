@@ -1,6 +1,12 @@
 {
   "customers": [
     {
+      "id": "0",
+      "email": "noSignIn",
+      "name": "noSignIn",
+      "passWord": ""
+    },
+    {
       "id": "1",
       "email": "user1@mail.com",
       "name": "user_name",
@@ -71,12 +77,29 @@
       "detail": "some detail",
       "reviews": [
         {
-          "customersId": 1,
+          "customerId": 1,
+          "customerName": "User1",
           "comment": "is so good"
         },
         {
-          "customersId": 2,
+          "customerId": 2,
+          "customerName": "User2",
           "comment": "is so good"
+        },
+        {
+          "customerId": "4f84",
+          "customerName": "useruser",
+          "comment": "adfadfadf"
+        },
+        {
+          "customerId": "1",
+          "customerName": "user_name",
+          "comment": "is so bad yee!!!"
+        },
+        {
+          "customerId": "4f84",
+          "customerName": "useruser",
+          "comment": "good"
         }
       ],
       "img": [
@@ -84,24 +107,25 @@
         "http://localhost:3000/powerBank2.png",
         "http://localhost:3000/powerBank3.png",
         "http://localhost:3000/powerBank4.png",
-        "http://localhost:3000/powerBank5.png",
-        "http://localhost:3000/powerBank6.png"
+        "http://localhost:3000/powerBank5.png"
       ]
     },
     {
       "id": "2",
       "name": "Choco Hair dryer",
-      "price": 30,
-      "stock": 30,
+      "price": "420",
+      "stock": "30",
       "des": "Dry your hair in style with the ChocoBlow Pro Hair Dryer, the world's first hair dryer made entirely of chocolate! Combining functionality and sweetness, it's the ultimate blend of innovation and indulgence.",
       "detail": "some detail",
       "reviews": [
         {
           "customersId": 1,
+          "customerName": "User1",
           "comment": "is so good"
         },
         {
           "customersId": 2,
+          "customerName": "User2",
           "comment": "is so good"
         }
       ],
@@ -116,17 +140,19 @@
     {
       "id": "3",
       "name": "Chocolate Mic",
-      "price": 30,
+      "price": "500",
       "stock": 30,
       "des": "Sing or speak in style with the Chocolate Mic, a fully functional microphone wrapped in luxurious chocolate. Perfect for performers and chocolate lovers alike!",
       "detail": "some detail",
       "reviews": [
         {
-          "customersId": 1,
+          "customerId": 1,
+          "customerName": "User1",
           "comment": "is so good"
         },
         {
-          "customersId": 2,
+          "customerId": 2,
+          "customerName": "User2",
           "comment": "is so good"
         }
       ],
@@ -141,17 +167,19 @@
     {
       "id": "4",
       "name": "Choco Camera",
-      "price": 30,
+      "price": "2000",
       "stock": 30,
       "des": "Capture the sweetest moments with the Choco Camera, a unique and fully functional camera encased in rich, smooth chocolate. Combining the latest in photography technology with an indulgent chocolate design, this camera is perfect for both photography lovers and chocolate enthusiasts.",
       "detail": "some detail",
       "reviews": [
         {
-          "customersId": 1,
+          "customerId": 1,
+          "customerName": "User1",
           "comment": "is so good"
         },
         {
-          "customersId": 2,
+          "customerId": 2,
+          "customerName": "User2",
           "comment": "is so good"
         }
       ],
@@ -165,18 +193,20 @@
     },
     {
       "id": "5",
-      "name": "Choco VR Headset",
-      "price": 30,
+      "name": "Choco VR Headset 1",
+      "price": "10000",
       "stock": 30,
       "des": "some des",
       "detail": "some detail",
       "reviews": [
         {
-          "customersId": 1,
+          "customerId": 1,
+          "customerName": "User1",
           "comment": "is so good"
         },
         {
-          "customersId": 2,
+          "customerId": 2,
+          "customerName": "User2",
           "comment": "is so good"
         }
       ],
@@ -189,18 +219,20 @@
     },
     {
       "id": "6",
-      "name": "Choco VR Headset",
-      "price": 30,
+      "name": "Choco VR Headset 2",
+      "price": "10001",
       "stock": 30,
       "des": "some des",
       "detail": "some detail",
       "reviews": [
         {
-          "customersId": 1,
+          "customerId": 1,
+          "customerName": "User1",
           "comment": "is so good"
         },
         {
-          "customersId": 2,
+          "customerId": 2,
+          "customerName": "User2",
           "comment": "is so good"
         }
       ],
@@ -300,6 +332,38 @@
       "shipping": 60,
       "subTotal": 300,
       "status": 0
+    },
+    {
+      "id": "4faa",
+      "customersId": "0",
+      "detail": [
+        {
+          "productId": "1",
+          "quantity": 3
+        }
+      ],
+      "date": "2025-01-12 19:59:09",
+      "shipping": 60,
+      "subTotal": 900,
+      "status": 0
+    },
+    {
+      "id": "90a6",
+      "customersId": "1",
+      "detail": [
+        {
+          "productId": "3",
+          "quantity": 1
+        },
+        {
+          "productId": "1",
+          "quantity": 3
+        }
+      ],
+      "date": "2025-01-16 18:05:30",
+      "shipping": 60,
+      "subTotal": 1400,
+      "status": "2"
     }
   ],
   "shoppingCart": [
@@ -343,6 +407,10 @@
     {
       "id": "0328",
       "cartContent": []
+    },
+    {
+      "cartContent": [],
+      "id": "1"
     }
   ]
 }

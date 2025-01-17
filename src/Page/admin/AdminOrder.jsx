@@ -164,7 +164,8 @@ const StyledOrderContainer = styled.div`
     width: 100%;
     margin-top: 64px;
     padding: 16px;
-    border: 1px solid black;
+    border: 4px solid #8D5524;
+    border-radius: 20px;
 
     & > h3{
         font-size: 28px;
@@ -173,7 +174,7 @@ const StyledOrderContainer = styled.div`
 `
 
 const StyledOrderInf = styled.div`
-    border: 1px solid black;
+    border: 3px solid #8D5524;
     flex: 1; 
     h3,h4{
         padding: 8px;
@@ -181,7 +182,7 @@ const StyledOrderInf = styled.div`
 
     h3{
         font-size: 24px;
-        border-bottom: 1px solid black;
+        border-bottom: 3px solid #8D5524;
     } 
 
     h4{
@@ -225,7 +226,7 @@ const OrderCostInfContainer = styled.div`
 
     & > div{
         flex: 2;
-        border: 1px solid black;
+        border: 3px solid #8D5524;
         padding: 16px;
 
         @media screen and (max-width: 540px){
@@ -264,7 +265,7 @@ const OrderCostInfContainer = styled.div`
     hr{
         margin: 0px 16px;
         border: none;
-        border-top: 2px solid black;
+        border-top: 3px solid #8D5524;
     }
 `
 

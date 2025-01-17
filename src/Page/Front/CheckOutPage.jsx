@@ -57,7 +57,7 @@ const CheckOutPage = () => {
     const [showOrderSummaryMd, setShowOrderSummary] = useState(false);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        payment: "creditCard", // 預設支付方式
+        payment: "creditCard", 
       });
 
     useEffect(() => {

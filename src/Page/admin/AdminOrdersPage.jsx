@@ -73,6 +73,7 @@ const StyledOrdersPage = styled.div`
   padding: 16px;
 
   h3 {
+    font-size: 24px;
     padding: 16px 0px;
   }
 

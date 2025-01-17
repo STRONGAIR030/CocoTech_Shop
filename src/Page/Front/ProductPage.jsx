@@ -1,7 +1,7 @@
-import { useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import DefaultLayout from "../../components/layout/defaultLayout";
 import styled, {css} from "styled-components";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import StyledImgContainer from "../../components/common/StyledImgContainer";
 import ListSwitch from "../../components/common/ListSwitch";
 import { v4 as uuidv4 } from "uuid";
@@ -15,9 +15,13 @@ const ProductPage = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [addAmount, setAddAmount] = useState(1);
     const [showReviews, setShowReviews] = useState(false);
-    const {productList, productsDataLoaded, modifyProductToCart, fetchProductsData} = useContext(FrontContext);
+    const {productList, productsDataLoaded, modifyProductToCart, fetchProductsData, userInf} = useContext(FrontContext);
     const [productInf, setProductInf] = useState({});
     const [dataloaded, setLoading] = useState(false);
+    const reviewContent = useRef("");
+    const navgaite = useNavigate()
+
+    const goLoginPage = () => navgaite("/account/login")
 
     useEffect(() => {
         if(!productsDataLoaded){
@@ -56,6 +60,39 @@ const ProductPage = () => {
 
     const toggleShowReviews = () => {
         setShowReviews(prevShow => !prevShow);
+    }
+
+    const handleReviewChange = (e) => {
+        reviewContent.current = e.target.value;
+    }
+
+    const handleSubmit = async () => {
+        if (!userInf.isSignIn) {
+            goLoginPage();
+            return;
+        }
+        console.log(reviewContent.current);
+        if (reviewContent.current == "") return;
+
+        try{
+            const patchData = {
+                reviews: [
+                    ...productInf.reviews,
+                    {
+                        customerId: userInf.id,
+                        customerName: userInf.name,
+                        comment: reviewContent.current,
+                    }
+                ],   
+            }
+
+            const patchRes = await axios.patch(`${API_HOST}/products/${productId}`, patchData)
+            console.log(patchRes);
+
+        } catch (err) {
+            console.error(err);
+        }
+        
     }
 
     return (
@@ -107,7 +144,7 @@ const ProductPage = () => {
                                 return (
                                     <StyledReview key={uuidv4()}>
                                         <StyledUserContainer>
-                                            <h4>User{review.customersId}</h4>
+                                            <h4>{review.customerName}</h4>
                                             <StyledUserImgContainer $imgUrl="/img/ReviewsUser.svg">
                                                 <div/>
                                             </StyledUserImgContainer>
@@ -118,8 +155,8 @@ const ProductPage = () => {
                             })}
                         </StyledReviewList>
                         <h3>Add Reviews</h3>
-                        <StyledAddReviewInput/>
-                        <StyledSubmitBtn>Submit</StyledSubmitBtn>
+                        <StyledAddReviewInput onChange={handleReviewChange}/>
+                        <StyledSubmitBtn onClick={handleSubmit}>Submit</StyledSubmitBtn>
                 </StyledReviewsSection>
             </StyledProductPage> :
             <LoadingAnimation/>}
@@ -223,7 +260,7 @@ const StyledArrow = styled.button`
 const StyledProductInf = styled.div`
     width: 40%;
     padding: 16px;
-
+    
     & > h3{
         font-size: 36px;
         margin-bottom: 36px;
@@ -235,7 +272,7 @@ const StyledProductInf = styled.div`
     }
 
     p{
-        margin: 16px 0px;
+        margin: 32px 0px;
     }
 
     @media screen and (max-width: 746px){
