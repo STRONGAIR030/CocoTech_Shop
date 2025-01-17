@@ -110,7 +110,6 @@ const AdminProduct = () => {
                     </button>
                 </StyledProductContainer>
                 <StyledSaveButton onClick={handleSave}>Save</StyledSaveButton>
-                <ImageUpload/>
             </StyledAdminProduct>
         </AdminLayout>
     )
