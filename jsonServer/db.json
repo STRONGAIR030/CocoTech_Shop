@@ -53,6 +53,12 @@
       "email": "b@mail.com",
       "name": "chenyi",
       "passWord": "abcabc"
+    },
+    {
+      "id": "fd69",
+      "email": "123@gmail.com",
+      "name": "LianMa",
+      "passWord": "123"
     }
   ],
   "admin": [
@@ -154,6 +160,11 @@
           "customerId": 2,
           "customerName": "User2",
           "comment": "is so good"
+        },
+        {
+          "customerId": "fd69",
+          "customerName": "LianMa",
+          "comment": "goooog ma"
         }
       ],
       "img": [
@@ -364,6 +375,20 @@
       "shipping": 60,
       "subTotal": 1400,
       "status": "2"
+    },
+    {
+      "id": "7416",
+      "customersId": "fd69",
+      "detail": [
+        {
+          "productId": "3",
+          "quantity": 3
+        }
+      ],
+      "date": "2025-01-18 19:35:04",
+      "shipping": 60,
+      "subTotal": 1500,
+      "status": 0
     }
   ],
   "shoppingCart": [
@@ -411,6 +436,10 @@
     {
       "cartContent": [],
       "id": "1"
+    },
+    {
+      "cartContent": [],
+      "id": "fd69"
     }
   ]
 }
