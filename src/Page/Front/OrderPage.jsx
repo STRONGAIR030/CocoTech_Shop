@@ -3,7 +3,7 @@ import DefaultLayout from "../../components/layout/defaultLayout"
 import { useContext, useEffect, useState } from "react"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import axios from "axios"
-import API_HOST from "../../ApiHost"
+import API_HOST from "../../constants"
 import LoadingAnimation from "../../components/common/LoadingAnimation"
 import FrontContext from "../../components/context/FrontContext"
 

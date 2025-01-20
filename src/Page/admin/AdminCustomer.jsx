@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router";
 import AdminLayout from "../../components/layout/AdminLayout";
 import { useEffect, useState } from "react";
-import API_HOST from "../../ApiHost";
+import API_HOST from "../../constants";
 import axios from "axios";
 import GoBackButton from "../../components/common/GoBackButton";
 import styled from "styled-components";

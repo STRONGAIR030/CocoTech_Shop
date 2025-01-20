@@ -6,7 +6,7 @@ import StyledImgContainer from "../../components/common/StyledImgContainer";
 import ListSwitch from "../../components/common/ListSwitch";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import API_HOST from "../../ApiHost";
+import API_HOST from "../../constants";
 import FrontContext from "../../components/context/FrontContext";
 import LoadingAnimation from "../../components/common/LoadingAnimation";
 

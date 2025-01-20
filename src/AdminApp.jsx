@@ -11,7 +11,7 @@ import AdminProductsPage from "./Page/admin/AdminProductsPage"
 import AdminOrder from "./Page/admin/AdminOrder";
 import AdminCustomer from "./Page/admin/AdminCustomer";
 import AdminProduct from "./Page/admin/AdminProduct";
-import API_HOST from "./ApiHost";
+import API_HOST from "./constants";
 
 const isSignIn = () => {
     return sessionStorage.getItem("isSignIn") == "true";

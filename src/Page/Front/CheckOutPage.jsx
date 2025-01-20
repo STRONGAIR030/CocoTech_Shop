@@ -6,7 +6,7 @@ import StyledImgContainer from "../../components/common/StyledImgContainer"
 import FrontContext from "../../components/context/FrontContext"
 import ListSwitch from "../../components/common/ListSwitch"
 import axios from "axios"
-import API_HOST from "../../ApiHost"
+import API_HOST from "../../constants"
 import { useNavigate } from "react-router"
 import { use } from "react"
 
