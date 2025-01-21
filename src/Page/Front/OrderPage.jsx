@@ -6,6 +6,7 @@ import axios from "axios"
 import { API_HOST } from "../../constants"
 import LoadingAnimation from "../../components/common/LoadingAnimation"
 import FrontContext from "../../components/context/FrontContext"
+import { fetchOrderDataByCustomerId, fetchProductData } from "../../apiHelpers"
 
 const OrderProduct = ({imgUrl, quantity, price, name}) => {
     return (
@@ -67,27 +68,34 @@ const OrderPage = () => {
     const [orderList, setOrderList] = useState([]);
     const {userInf} = useContext(FrontContext)
 
-    const fetchOrderData = async () => {
+    const processOrderData = async (order) => {
+        const processedOrder = await Promise.all(order.detail.map( async (product) => {
 
-        try{
-            console.log(userInf.id);
-            
-            const {data: getData} = await axios.get(`${API_HOST}/orders?customersId=${userInf.id}`)
-            console.log(getData);
-            const orderData = await Promise.all(getData.map(async (order) => {
+            try {
+                const productData = await fetchProductData(product.productId)             
     
-                const orderProducts = await Promise.all(order.detail.map( async (product) => {
-                    const {data: productData} = await axios.get(`${API_HOST}/products/${product.productId}`)                    
-    
-                    return {
-                        id: productData.id,
-                        price: productData.price,
-                        imgUrl: productData.img[0],
-                        name: productData.name,
-                        quantity: product.quantity
-                    }
-                }))
-    
+                return {
+                    id: productData.id,
+                    price: productData.price,
+                    imgUrl: productData.img[0],
+                    name: productData.name,
+                    quantity: product.quantity
+                }
+
+            } catch (err) {
+                console.error(err);
+                return null   
+            }
+        }))
+
+        return processedOrder.filter(product => product !== null)
+    }
+
+    const processAllOrdersData = async (orders) => {
+        const processedAllOrders = await Promise.all(orders.map(async (order) => {
+            try{
+                const orderProducts = await processOrderData(order)
+
                 return {
                     orderProducts,
                     id: order.id,
@@ -96,13 +104,25 @@ const OrderPage = () => {
                     status: order.status,
                     date: order.date,
                 }
-    
-            }))
-    
-            console.log(orderData);
+
+            } catch (err) {
+                console.error(err);
+                return null
+            }
+        }))
+
+        return processedAllOrders.filter(order => order !== null)
+    }
+
+    const fetchOrderData = async () => {
+
+        try{
+                        
+            const ordersData = await fetchOrderDataByCustomerId(userInf.id)
             
+            const updatedOrderData = await processAllOrdersData(ordersData)
             
-            setOrderList(orderData)
+            setOrderList(updatedOrderData)
             setLoaded(true);
         } catch (err) {
             console.error(err);

@@ -1,14 +1,12 @@
 import styled from "styled-components"
 import CheckOutLayout from "../../components/layout/CheckoutLayout"
-import { useContext, useEffect, useMemo, useState } from "react"
-import { v4 as uuidv4 } from "uuid"
+import { useContext,  useMemo, useState } from "react"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import FrontContext from "../../components/context/FrontContext"
 import ListSwitch from "../../components/common/ListSwitch"
 import axios from "axios"
 import { API_HOST } from "../../constants"
 import { useNavigate } from "react-router"
-import { use } from "react"
 import ErrorMessage from "../../components/common/ErrorMessage"
 
 const UserInput = ({type, inputWidth, inputType, inputName, handleChange}) => {
@@ -49,8 +47,6 @@ const OrderProduct = ({productId, imgUrl, quantity, totalPrice, name, handleAdd,
         </StyledOrderProductContainer>
     )
 }
-
-
 
 const PAYMENT_METHODS = {
     CREDIT_CARD: "creditCard",
@@ -174,7 +170,6 @@ const CheckOutPage = () => {
         const seconds = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
 
         return `${Year}-${Month}-${Day} ${hours}:${minutes}:${seconds}`
-
     }
 
 
@@ -233,7 +228,7 @@ const CheckOutPage = () => {
         })
 
         const newOrder = {
-            customersId: userInf.id,
+            customersId: userInf.id || 0,
             detail: orderProducts,
             date: formatDate(new Date),
             shipping: shippingCost,
@@ -513,8 +508,6 @@ const StyledOrderProductImg = styled(StyledImgContainer)`
     width: 80px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
 
-    
-
     & ~ span{
         width: 30px;
         height: 30px;
@@ -542,15 +535,6 @@ const StyledCost = styled.div`
         font-size: 24px;
     }
 
-`
-
-const OrderSummarySwitch = styled(ListSwitch)`
-    display: none;
-
-    @media screen and (max-width: 746px){
-        display: block;
-        
-    }
 `
 
 const EditProductBtn = styled.button`

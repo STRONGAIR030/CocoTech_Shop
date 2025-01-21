@@ -21,17 +21,26 @@ const RegisterPage = () => {
 
     const goToOrderPage = () => navigate("/account/orders");
 
-
-    const handleRegister = async () => {
+    const verifyUserInput = () => {
         if(!(email && passWord && lastName && firtstName)){
-            setError("You need to enter all information.")
-            return;
+            return "You need to enter all information."
         }
 
         const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
         if(!emailRule.test(email)){
-            setError("You need to enter correct email.")
-            return;      
+            return "You need to enter correct email.";      
+        }
+
+        return "";
+    }
+
+
+    const handleRegister = async () => {
+        const error = verifyUserInput();
+
+        if(error) {
+            setError(error)
+            return;
         }
         
         try{

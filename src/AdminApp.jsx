@@ -12,6 +12,7 @@ import AdminOrder from "./Page/admin/AdminOrder";
 import AdminCustomer from "./Page/admin/AdminCustomer";
 import AdminProduct from "./Page/admin/AdminProduct";
 import { API_HOST, SESSION_KEYS } from "./constants";
+import { fetchAllOrderData, fetchCustomerData } from "./apiHelpers";
 
 
 const isSignIn = () => {
@@ -82,26 +83,6 @@ const AdminApp = () => {
         sessionStorage.setItem(SESSION_KEYS.ADMIN_NAME, "");
     }
 
-    const fetchOrdersData = async () => {
-        try{
-            const {data: ordersData} = await axios(`${API_HOST}/orders`)
-            return ordersData
-        } catch (err) {
-            console.error("Error fetching orders:", err);
-            throw err
-        }
-    }
-
-    const fetchCustomerData = async (customerId) => {
-        try {
-            const {data : customerData} = await axios.get(`${API_HOST}/customers/${customerId}`)
-            return customerData
-        } catch (err) {
-            console.error(`Error fetching customer data for ${customerId}`, err);
-            throw err
-        }
-    }
-
     const processOrdersData = async (orders) => {
         const processedOrdersData = await Promise.all(orders.map(async (order) => {
             try {
@@ -127,7 +108,7 @@ const AdminApp = () => {
     }
 
     const fetchOrderList = async () => {
-        const orders = await fetchOrdersData()
+        const orders = await fetchAllOrderData()
 
         const updatedOrders = await processOrdersData(orders)
 
