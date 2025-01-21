@@ -152,7 +152,8 @@ const StyledListDisplayer = styled.div`
     height: 15px;
     border-radius: 50%;
     background-color: ${props => props.$isShow ? "#8D5524" : "#ffffff4d"};
-
+    cursor: pointer;
+    
     @media screen and (max-width: 746px){
         width: 10px;
         height: 10px;
@@ -173,6 +174,7 @@ const StyledArrow = styled.button`
     transform: translateY(-50%);
     opacity: 0;
     z-index: 10;
+    cursor: pointer;
     ${props => props.$direction === '<' ?
                         css`left: 0px;` :
                         props.$direction == '>' ?
