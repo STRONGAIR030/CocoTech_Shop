@@ -9,7 +9,7 @@ import CheckOutPage from "./Page/Front/CheckOutPage";
 import ProductPage from "./Page/Front/ProductPage";
 
 import axios from "axios";
-import API_HOST from "./constants";
+import { API_HOST } from "./constants";
 import FrontContext from "./components/context/FrontContext";
 import { Navigate } from "react-router";
 

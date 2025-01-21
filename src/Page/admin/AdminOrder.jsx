@@ -6,7 +6,7 @@ import StyledImgContainer from "../../components/common/StyledImgContainer"
 import { useNavigate, useParams } from "react-router"
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
-import API_HOST from "../../constants"
+import { API_HOST } from "../../constants"
 
 const AdminOrder = () => {
     const {orderId} = useParams();

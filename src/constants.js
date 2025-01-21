@@ -1,3 +1,7 @@
-const API_HOST = 'http://localhost:3000'
+export const API_HOST = 'http://localhost:3000'
 
-export default API_HOST
+export const SESSION_KEYS = {
+    IS_SIGN_IN: "isSignIn",
+};
+
+export default {API_HOST, SESSION_KEYS};

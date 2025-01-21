@@ -3,7 +3,7 @@ import DefaultLayout from "../../components/layout/defaultLayout"
 import styled, { css } from "styled-components"
 import { useContext, useEffect, useRef, useState } from "react"
 import axios from "axios"
-import API_HOST from "../../constants"
+import { API_HOST } from "../../constants"
 import { v4 as uuidv4} from "uuid"
 import FrontContext from "../../components/context/FrontContext"
 

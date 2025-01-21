@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "../../components/layout/AdminLayout";
 import axios from "axios";
-import API_HOST from "../../constants";
+import { API_HOST } from "../../constants";
 import EditButton from "../../components/common/EditButton";
 import { useNavigate } from "react-router";
 import StyledTableContainer from "../../components/common/StyledTableContainer";

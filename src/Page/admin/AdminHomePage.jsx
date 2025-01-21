@@ -4,7 +4,7 @@ import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import axios from "axios"
-import API_HOST from "../../constants"
+import { API_HOST } from "../../constants"
 import StyledTableContainer from "../../components/common/StyledTableContainer"
 
 const InfoCard = ({infoName, imgUrl, infoNum}) => {

@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from "react"
 import ErrorMessage from "../../components/common/ErrorMessage"
 import { useNavigate } from "react-router"
 import AdminContext from "../../components/context/AdminContext"
-import API_HOST from "../../constants"
+import { API_HOST } from "../../constants"
 
 const LoginInput = ({inputText, handleChange, inputValue, inputType}) => {
    return (

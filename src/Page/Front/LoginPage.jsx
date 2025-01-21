@@ -5,7 +5,7 @@ import { useContext, useState } from "react"
 import FrontContext from "../../components/context/FrontContext"
 import axios from "axios"
 import { v4 as uuidv4} from "uuid"
-import API_HOST from "../../constants"
+import { API_HOST } from "../../constants"
 
 const LoginPage = () => {
     const {userSignIn} = useContext(FrontContext)
