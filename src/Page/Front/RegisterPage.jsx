@@ -6,6 +6,7 @@ import axios from "axios"
 import { API_HOST } from "../../constants"
 import { v4 as uuidv4} from "uuid"
 import FrontContext from "../../components/context/FrontContext"
+import ErrorMessage from "../../components/common/ErrorMessage"
 
 
 const RegisterPage = () => {
@@ -15,7 +16,6 @@ const RegisterPage = () => {
     const [firtstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [errorText, setError] = useState("");
-    const [errorKey, setKey] = useState(uuidv4());
     const {userSignIn} = useContext(FrontContext)
     const navigate = useNavigate();
 
@@ -25,14 +25,12 @@ const RegisterPage = () => {
     const handleRegister = async () => {
         if(!(email && passWord && lastName && firtstName)){
             setError("You need to enter all information.")
-            setKey(uuidv4())
             return;
         }
 
         const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
         if(!emailRule.test(email)){
             setError("You need to enter correct email.")
-            setKey(uuidv4())
             return;      
         }
         
@@ -41,7 +39,6 @@ const RegisterPage = () => {
             const data = responce.data;
             if(data.length != 0){
                 setError("This mail is been used!");
-                setKey(uuidv4())
             }
             else{
                 const postResponce = await axios.post(`${API_HOST}/customers`, {
@@ -67,11 +64,7 @@ const RegisterPage = () => {
             <StyledRegisterPage>
                 <StyledRegisterContainer>
                     <h3>Register</h3>
-                    {
-                        errorText && 
-                        <ErrorContainer key={errorKey}>
-                            <h3>{errorText}</h3>
-                        </ErrorContainer>}
+                    <ErrorMessage errorText={errorText} />
                     <UserInfInput>
                         <h4>First name</h4>
                         <input placeholder="First name" value={firtstName} onChange={(e) => {setFirstName(e.target.value)}}/>

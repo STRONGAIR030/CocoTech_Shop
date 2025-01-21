@@ -9,6 +9,7 @@ import axios from "axios"
 import { API_HOST } from "../../constants"
 import { useNavigate } from "react-router"
 import { use } from "react"
+import ErrorMessage from "../../components/common/ErrorMessage"
 
 const UserInput = ({type, inputWidth, inputType, inputName, handleChange}) => {
     return (
@@ -49,36 +50,122 @@ const OrderProduct = ({productId, imgUrl, quantity, totalPrice, name, handleAdd,
     )
 }
 
+
+
+const PAYMENT_METHODS = {
+    CREDIT_CARD: "creditCard",
+    CASH_ON_DELIVERY: "cashOnDelievery",
+};
+
+const SHIPPING_METHODS = {
+    FAMILY_MART: "familyMart",
+    SEVEN_ELEVEN: "seven",
+    POST: "post",
+};
+
+const SHIPPING_COSTS = {
+    [SHIPPING_METHODS.FAMILY_MART] : 60,
+    [SHIPPING_METHODS.SEVEN_ELEVEN]: 60,
+    [SHIPPING_METHODS.POST]: 100,
+}
+
+const DeliverySection = ({handleChange}) => {
+    return (
+        <>
+            <UserInput inputWidth={100} type="Country" inputName="country" handleChange={handleChange}/>
+            <UserInput inputWidth={50} type="Fist Name" inputName="firstName" handleChange={handleChange}/>
+            <UserInput inputWidth={50} type="Last Name" inputName="lastName" handleChange={handleChange}/>
+            <UserInput inputWidth={100} type="Adress" inputName="adress" handleChange={handleChange}/>
+            <UserInput inputWidth={50} type="City" inputName="city" handleChange={handleChange}/>
+            <UserInput inputWidth={50} type="Post Code" inputName="postCode" handleChange={handleChange}/>
+        </>
+    )
+}
+
+const ShippingSection = ({handleChange}) => {
+    return (
+        <>
+            <h3>Shipping method</h3>
+            <UserRadio radioText="FamilyMart 60$" inputName="shipping" inputValue="familyMart" handleChange={handleChange}/>
+            <UserRadio radioText="7-11 60$" inputName="shipping" inputValue="seven" handleChange={handleChange}/>
+            <UserRadio radioText="Chunghwa Post 100$" inputName="shipping" inputValue="post" handleChange={handleChange}/>
+        </>
+    )
+}
+
+const PaymentSection = ({handleChange, showCreditCardInf}) => {
+    return (
+        <>
+            <h3>Payment</h3>
+            <UserRadio radioText="Credit Card" inputName="payment" inputValue="creditCard" handleChange={handleChange}>
+                <StyledCreditCardInf $show={showCreditCardInf}>
+                        <UserInput inputWidth={100} type="Card number" inputName="cardNum" handleChange={handleChange} />
+                        <UserInput inputWidth={50} type="Ex piration date" inputName="cardDate" handleChange={handleChange}/>
+                        <UserInput inputWidth={50} inputType="number" type="security code" inputName="cardCode" handleChange={handleChange}/>
+                        <UserInput inputWidth={100} type="name" inputName="cardName" handleChange={handleChange}/>
+                    </StyledCreditCardInf>
+            </UserRadio>
+            <UserRadio radioText="Cash on delievery" inputName="payment" inputValue="cashOnDelievery" handleChange={handleChange}/>
+        </>
+    )
+}
+
+const OrderSummary = ({ handleAdd, handleDec, totalCost, shippingCost, cartData }) => {
+    return (
+        <>
+            {
+                cartData.length != 0 && cartData.map((product) => {
+                    return <OrderProduct 
+                                key={product.id} 
+                                productId={product.id} 
+                                totalPrice={product.totalPrice} 
+                                quantity={product.quantity} 
+                                name={product.name} 
+                                imgUrl={product.imgUrl}
+                                handleDec={handleDec} 
+                                handleAdd={handleAdd} 
+                            />
+                })
+            }
+            <StyledCost>    
+                <h3>SubTotal</h3>
+                <h3>{totalCost}$</h3>
+            </StyledCost>
+            <StyledCost>    
+                <h3>Shipping</h3>
+                <h3>{shippingCost}$</h3>
+            </StyledCost>
+            <hr />
+            <StyledCost>   
+                <h3>Total</h3>
+                <h3>{totalCost + shippingCost}$</h3>
+            </StyledCost>
+        </>
+    )
+}
+
+
 const CheckOutPage = () => {
-    const [showCreditCardInf, setshowCreditCard] = useState(false);
+    const [showCreditCardInf, setShowCreditCard] = useState(false);
     const [errorText, setError] = useState("");
-    const [errorKey, setKey] = useState(uuidv4());
     const {shoppingCart, modifyProductToCart, userInf, clearShoppingCart} = useContext(FrontContext);
     const [showOrderSummaryMd, setShowOrderSummary] = useState(false);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        payment: "creditCard", 
+        payment: PAYMENT_METHODS.CREDIT_CARD, 
       });
-
-    useEffect(() => {
-        setKey(uuidv4())
-    }, [errorText])
 
     const totalCost = useMemo(() => {
         return shoppingCart.reduce((prevValue, product) => product.totalPrice + prevValue, 0)
     }, [shoppingCart])
 
-    const ShippingCost = useMemo(() => {
-        return formData.shipping == "seven" || formData.shipping == "familyMart" ? 
-                                    60 : 
-                                    formData.shipping == "post" ?
-                                    100 :
-                                    0 
+    const shippingCost = useMemo(() => {
+        return SHIPPING_COSTS[formData.shipping] || 0;
     }, [formData.shipping])
 
     const goToOrderPage = () => navigate("/account/orders");
 
-    const dateFormat = (date) => {
+    const formatDate = (date) => {
         const Year = date.getFullYear();
         const Month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
         const Day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
@@ -96,8 +183,8 @@ const CheckOutPage = () => {
         const {name, value} = e.target;
         if(name == "payment")
             value == "creditCard" ?
-            setshowCreditCard(true) :
-            setshowCreditCard(false)
+            setShowCreditCard(true) :
+            setShowCreditCard(false)
         setFormData(prevData => {
             const updateData = {
                 ...prevData,
@@ -109,29 +196,35 @@ const CheckOutPage = () => {
 
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const verifyFormData = () => {
         const NecData = [
             "payment", "shipping", "country", 
             "firstName", "lastName", "adress", 
             "city", "postCode",
         ]
+
         const NecCreditData = [
             "cardName", "cardNum", "cardCode", "cardDate",
         ]
 
-        if(!NecData.every(name => formData[name] && formData[name] != "")){
+        console.log(formData);
+        
+        const isNonEmpty = (name) => formData[name] && formData[name] != ""
+
+        if(!NecData.every(name => isNonEmpty(name))){
             setError("You need to enter all information")
-            return
+            return false
         }
 
-        if(formData.payment == "creditCard" && !NecCreditData.every(name => formData[name] && formData[name] != "")){
+        if(formData.payment == "creditCard" && !NecCreditData.every(name => isNonEmpty(name))){
             setError("You need to enter all CreditCard information")
-            return
+            return false
         }
 
-        setError("")
+        return true
+    }
 
+    const createNewOrder = () => {
         const orderProducts = shoppingCart.map((product) => {
             return {
                 productId: product.id,
@@ -139,120 +232,88 @@ const CheckOutPage = () => {
             }
         })
 
-        const postOrderData = {
+        const newOrder = {
             customersId: userInf.id,
             detail: orderProducts,
-            date: dateFormat(new Date),
-            shipping: ShippingCost,
+            date: formatDate(new Date),
+            shipping: shippingCost,
             subTotal: totalCost,
             status: 0,
         }
 
-        try{
-            const postRes = await axios.post(`${API_HOST}/orders`, postOrderData)
+        return newOrder
+    }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // verify form data
+        if(verifyFormData()){
+            setError("")
+        }else{
+            return
+        }
+
+        // create new order data
+        const newOrder = createNewOrder();
+
+        try{
+            const postRes = await axios.post(`${API_HOST}/orders`, newOrder)
             console.log(postRes);
             clearShoppingCart();
-
             goToOrderPage();
         } catch (err) {
             console.error(err);
-            
         }
+      
+    };
 
-
-        
-      };
-
-      const handleAdd = (productId) => {
+    const handleAdd = (productId) => {
         modifyProductToCart(productId, 1)
-      }
+    }
 
-      const handleDec = (productId) => {
+    const handleDec = (productId) => {
         modifyProductToCart(productId, -1)
-      }
+    }
 
     return (
         <CheckOutLayout>
             <StyledCheckOutPage>
-                <ListSwitch mdShow handleClick={() => {setShowOrderSummary(prevShow => !prevShow)}} switchState={showOrderSummaryMd} padding={"16px"} text="Order Summary" textSize="24px" hrColor="#8D5524"/>
+                <ListSwitch 
+                    mdShow 
+                    handleClick={() => {setShowOrderSummary(prevShow => !prevShow)}} 
+                    switchState={showOrderSummaryMd} 
+                    padding={"16px"} 
+                    text="Order Summary" 
+                    textSize="24px" 
+                    hrColor="#8D5524"
+                />
                 <StyledOrderSummaryMd $show={showOrderSummaryMd}>
-                    {
-                        shoppingCart.length != 0 && shoppingCart.map((product) => {
-                            return <OrderProduct key={product.id} quantity={product.quantity} name={product.name} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
-                        })
-                    }
-                    <StyledCost>    
-                        <h3>SubTotal</h3>
-                        <h3>{totalCost}$</h3>
-                    </StyledCost>
-                    <StyledCost>    
-                        <h3>Shipping</h3>
-                        <h3>{ShippingCost}$</h3>
-                    </StyledCost>
-                    <hr />
-                    <StyledCost>   
-                        <h3>Total</h3>
-                        <h3>{totalCost + ShippingCost}$</h3>
-                    </StyledCost>
+                    <OrderSummary 
+                        handleAdd={handleAdd}
+                        handleDec={handleDec}
+                        totalCost={totalCost}
+                        shippingCost={shippingCost}
+                        cartData={shoppingCart}
+                    />
                 </StyledOrderSummaryMd>
                 <StyledUserInf>
                     <SyledOrderForm onSubmit={handleSubmit}>
-                        <h3>Delivery</h3>
-                        <UserInput inputWidth={100} type="Country" inputName="country" handleChange={handleChange}/>
-                        <UserInput inputWidth={50} type="Fist Name" inputName="firstName" handleChange={handleChange}/>
-                        <UserInput inputWidth={50} type="Last Name" inputName="lastName" handleChange={handleChange}/>
-                        <UserInput inputWidth={100} type="Adress" inputName="adress" handleChange={handleChange}/>
-                        <UserInput inputWidth={50} type="City" inputName="city" handleChange={handleChange}/>
-                        <UserInput inputWidth={50} type="Post Code" inputName="postCode" handleChange={handleChange}/>
-
-                        <h3>Shipping method</h3>
-                            <UserRadio radioText="FamilyMart 60$" inputName="shipping" inputValue="familyMart" handleChange={handleChange}/>
-                            <UserRadio radioText="7-11 60$" inputName="shipping" inputValue="seven" handleChange={handleChange}/>
-                            <UserRadio radioText="Chunghwa Post 100$" inputName="shipping" inputValue="post" handleChange={handleChange}/>
-
-                        <h3>Payment</h3>
-                            <UserRadio radioText="Credit Card" inputName="payment" inputValue="creditCard" handleChange={handleChange}>
-                                <StyledCreditCardInf $show={showCreditCardInf}>
-                                        <UserInput inputWidth={100} type="Card number" inputName="cardNum" handleChange={handleChange} />
-                                        <UserInput inputWidth={50} type="Ex piration date" inputName="cardDate" handleChange={handleChange}/>
-                                        <UserInput inputWidth={50} inputType="number" type="security code" inputName="cardCode" handleChange={handleChange}/>
-                                        <UserInput inputWidth={100} type="name" inputName="cardName" handleChange={handleChange}/>
-                                    </StyledCreditCardInf>
-                                </UserRadio>
-                                <UserRadio radioText="Cash on delievery" inputName="payment" inputValue="cashOnDelievery" handleChange={handleChange}/>
-                        {
-                            errorText && 
-                            <ErrorContainer key={errorKey}>
-                                <h3>{errorText}</h3>
-                            </ErrorContainer>
-                        }
-
+                        <DeliverySection handleChange={handleChange} />
+                        <ShippingSection handleChange={handleChange} />
+                        <PaymentSection handleChange={handleChange} showCreditCardInf={showCreditCardInf}/>
+                        <ErrorMessage errorText={errorText}/>
                         <input type="submit" value="submit to me"/>
-
                     </SyledOrderForm>
-
-
                 </StyledUserInf>
                 <StyledOrderSummaryXl>
-                    {
-                        shoppingCart.length != 0 && shoppingCart.map((product) => {
-                            return <OrderProduct key={product.id} productId={product.id} handleDec={handleDec} handleAdd={handleAdd} quantity={product.quantity} name={product.name} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
-                        })
-                    }
-                    <StyledCost>    
-                        <h3>SubTotal</h3>
-                        <h3>{totalCost}$</h3>
-                    </StyledCost>
-                    <StyledCost>    
-                        <h3>Shipping</h3>
-                        <h3>{ShippingCost}$</h3>
-                    </StyledCost>
-                    <hr />
-                    <StyledCost>   
-                        <h3>Total</h3>
-                        <h3>{totalCost + ShippingCost}$</h3>
-                    </StyledCost>
+                    <OrderSummary 
+                        handleAdd={handleAdd}
+                        handleDec={handleDec}
+                        totalCost={totalCost}
+                        shippingCost={shippingCost}
+                        cartData={shoppingCart}
+                    />
                 </StyledOrderSummaryXl>
             </StyledCheckOutPage>
         </CheckOutLayout>
@@ -341,19 +402,6 @@ const StyledOrderSummaryMd = styled.div`
     }
 `
 
-
-const StyledDeliverySection= styled.div`
-    
-`
-
-const StyledShippingSection = styled.div`
-    
-`
-
-const StyledPaymentsection = styled.div`
-    
-`
-
 const StyledUserInput = styled.div`
     width: ${props => props.$inputWidth || 100}%;
     /* border: 1px solid black; */
@@ -386,36 +434,6 @@ const StyledCreditCardInf = styled.div`
 
     display: flex;
     flex-wrap: wrap;
-`
-const ErrorContainer = styled.div`
-    width: 100%;
-    height: 50px;
-    margin: 16px 0px;
-    padding: 8px;
-    border-radius: 20px;
-    border: 2px solid red;
-    background-color: rgba(255, 0, 0, 0.2);
-    text-align: center;
-    animation: ErrorIn 0.2s 2 both;
-
-    @keyframes ErrorIn {
-        0%{
-            transform: rotate(0deg);
-        }
-        25%{
-            transform: rotate(5deg);
-        }
-        50%{
-            transform: rotate(0deg);
-        }
-        75%{
-            transform: rotate(-5deg);
-        }
-        100%{
-            transform: rotate(0deg)
-        }
-    }
-
 `
 
 const StyledUserRadio = styled.label`

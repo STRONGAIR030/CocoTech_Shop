@@ -11,43 +11,53 @@ import AdminProductsPage from "./Page/admin/AdminProductsPage"
 import AdminOrder from "./Page/admin/AdminOrder";
 import AdminCustomer from "./Page/admin/AdminCustomer";
 import AdminProduct from "./Page/admin/AdminProduct";
-import { API_HOST } from "./constants";
+import { API_HOST, SESSION_KEYS } from "./constants";
+
 
 const isSignIn = () => {
-    return sessionStorage.getItem("isSignIn") == "true";
-  };
-  
+    return sessionStorage.getItem(SESSION_KEYS.IS_SIGN_IN) == "true";
+};
+
+const adminRoutes = [
+    {path: "/home", element: <AdminHomePage/>},
+    {path: "/orders", element: <AdminOrdersPage/>},
+    {path: "/orders/:orderId", element: <AdminOrder/>},
+    {path: "/customers", element: <AdminCustomersPage/>},
+    {path: "/customers/:customerId", element: <AdminCustomer/>},
+    {path: "/products", element: <AdminProductsPage/>},
+    {path: "/products/:productId", element: <AdminProduct/>},
+]
 
 const PrivateRoute = () => {
-    return isSignIn() ? 
-    <Routes>
-        <Route path="/home" element={<AdminHomePage />} />
-        <Route path="/orders" element={<AdminOrdersPage />} />
-        <Route path="/orders/:orderId" element={<AdminOrder />} />
-        <Route path="/customers" element={<AdminCustomersPage />} />
-        <Route path="/customers/:customerId" element={<AdminCustomer />} />
-        <Route path="/products" element={<AdminProductsPage />} />
-        <Route path="/products/:productId" element={<AdminProduct />} />
-        <Route path="*" element={<Navigate to="/admin/home" />} />
-    </Routes> : <Navigate to="/admin/login" />;
+    return isSignIn() ? (
+        <Routes>
+            {
+                adminRoutes.map(({ path, element}) => {
+                    return <Route key={path} path={path} element={element} />
+                })
+            }
+            <Route path="*" element={<Navigate to="/admin/home" />} />
+        </Routes>
+    ) : (
+        <Navigate to="/admin/login" />
+    );
   };
   
 const LoginRoute = () => {
     return isSignIn() ? <Navigate to="/admin/home"/> : <AdminLoginPage/>;
 };
 
-
 const AdminApp = () => {
     const [adminInf, setAdminInf] = useState({isSignIn: false});
     const [orderList, setOrderList] = useState([]);
     const [customerList, setCustomersList] = useState([]);
-    const [orderDataLoaded, setOrderDateLoaded] = useState(false);
-    const [customerDataLoaded, setCustomerDateLoaded] = useState(false);
+    const [orderDataLoaded, setOrderDataLoaded] = useState(false);
+    const [customerDataLoaded, setCustomerDataLoaded] = useState(false);
 
 
     useEffect(() => {
         if(isSignIn()){
-            const adminName = sessionStorage.getItem("adminName");
+            const adminName = sessionStorage.getItem(SESSION_KEYS.ADMIN_NAME);
             adminSignIn(adminName);
         }
     }, [])
@@ -59,8 +69,8 @@ const AdminApp = () => {
         })
 
         if(!isSignIn()){
-            sessionStorage.setItem("isSignIn", "true");
-            sessionStorage.setItem("adminName", adminName);
+            sessionStorage.setItem(SESSION_KEYS.IS_SIGN_IN, "true");
+            sessionStorage.setItem(SESSION_KEYS.ADMIN_NAME, adminName);
         }
         
     }
@@ -68,34 +78,64 @@ const AdminApp = () => {
     const adminSignOut = () => {
         setAdminInf({isSignIn: false});
 
-        sessionStorage.setItem("isSignIn", "false");
-        sessionStorage.setItem("adminName", "");
+        sessionStorage.setItem(SESSION_KEYS.IS_SIGN_IN, "false");
+        sessionStorage.setItem(SESSION_KEYS.ADMIN_NAME, "");
+    }
+
+    const fetchOrdersData = async () => {
+        try{
+            const {data: ordersData} = await axios(`${API_HOST}/orders`)
+            return ordersData
+        } catch (err) {
+            console.error("Error fetching orders:", err);
+            throw err
+        }
+    }
+
+    const fetchCustomerData = async (customerId) => {
+        try {
+            const {data : customerData} = await axios.get(`${API_HOST}/customers/${customerId}`)
+            return customerData
+        } catch (err) {
+            console.error(`Error fetching customer data for ${customerId}`, err);
+            throw err
+        }
+    }
+
+    const processOrdersData = async (orders) => {
+        const processedOrdersData = await Promise.all(orders.map(async (order) => {
+            try {
+                const customerData = await fetchCustomerData(order.customersId)
+
+                const formattedOrderData = {
+                    id: order.id,
+                    customersId: order.customersId,
+                    total: order.subTotal + order.shipping,
+                    date: order.date,
+                    customerName: customerData.name,
+                    status: order.status,
+                }
+
+                return formattedOrderData
+            } catch (err) {
+                console.error(`Error processing order ${order.id}:`, err);
+                return null
+            }
+        }))
+
+        return processedOrdersData.filter(order => order !== null);
     }
 
     const fetchOrderList = async () => {
-        const {data: orderListData} = await axios(`${API_HOST}/orders`)
+        const orders = await fetchOrdersData()
 
-        const updateList = await Promise.all(orderListData.map(async (order) => {
-            const {data: userData} = await axios(`${API_HOST}/customers/${order.customersId}`)
+        const updatedOrders = await processOrdersData(orders)
 
-            const updateData = {
-                id: order.id,
-                customersId: order.customersId,
-                total: order.subTotal + order.shipping,
-                date: order.date,
-                customerName: userData.name,
-                status: 0
-            }
-
-            return updateData
-        }))
-
-        const reversedList = updateList.reverse();
+        const reversedList = updatedOrders.reverse();
         console.log(reversedList);
         
-
         setOrderList(reversedList);
-        setOrderDateLoaded(true)
+        setOrderDataLoaded(true)
     }
 
     const fetchCustomerList = async () => {
@@ -110,7 +150,7 @@ const AdminApp = () => {
             })
 
             setCustomersList(updateList);
-            setCustomerDateLoaded(true);
+            setCustomerDataLoaded(true);
             
         } catch (err) {
             console.error(err);

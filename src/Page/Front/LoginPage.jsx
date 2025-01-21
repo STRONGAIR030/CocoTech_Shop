@@ -4,32 +4,27 @@ import styled from "styled-components"
 import { useContext, useState } from "react"
 import FrontContext from "../../components/context/FrontContext"
 import axios from "axios"
-import { v4 as uuidv4} from "uuid"
 import { API_HOST } from "../../constants"
+import ErrorMessage from "../../components/common/ErrorMessage"
 
 const LoginPage = () => {
     const {userSignIn} = useContext(FrontContext)
     const [email, setEmail] = useState("");
     const [passWord, setPassWord] = useState("");
     const [errorText, setError] = useState("");
-    const [errorKey, setKey] = useState(uuidv4());
     const navigate = useNavigate();
 
     const goToOrderPage = () => navigate("/account/orders");
 
-    
-
     const handlSignIn = async () => {
         if(!(email && passWord)){
             setError("You need to enter all information.")
-            setKey(uuidv4())
             return;
         }
 
         const emailRule = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
         if(!emailRule.test(email)){
             setError("You need to enter correct email.")
-            setKey(uuidv4())
             return;      
         }
         
@@ -42,9 +37,7 @@ const LoginPage = () => {
                 console.log(passWord);
                 console.log(userData.passWord);
                 
-                
                 setError("eamil or PassWord wrong!!")
-                setKey(uuidv4())
             }
             else{
                 await userSignIn(userData[0].id, userData[0].email, userData[0].name)
@@ -63,11 +56,7 @@ const LoginPage = () => {
             <StyledLoginPage>
                 <StyledLoginContainer>
                     <h3>Login</h3>
-                    {
-                        errorText && 
-                        <ErrorContainer key={errorKey}>
-                            <h3>{errorText}</h3>
-                        </ErrorContainer>}
+                    <ErrorMessage errorText={errorText} />
                     <UserInfInput>
                         <h4>Email</h4>
                         <input placeholder="Enter your Email" type="text" value={email} onChange={(e) => {setEmail(e.target.value)}}/>
@@ -152,36 +141,5 @@ const LoginBtn = styled.button`
         background: #8D5524;
     }
 
-
-`
-
-const ErrorContainer = styled.div`
-    width: 100%;
-    height: 50px;
-    margin: 16px 0px;
-    padding: 8px;
-    border-radius: 20px;
-    border: 2px solid red;
-    background-color: rgba(255, 0, 0, 0.2);
-    text-align: center;
-    animation: ErrorIn 0.2s 2 both;
-
-    @keyframes ErrorIn {
-        0%{
-            transform: rotate(0deg);
-        }
-        25%{
-            transform: rotate(5deg);
-        }
-        50%{
-            transform: rotate(0deg);
-        }
-        75%{
-            transform: rotate(-5deg);
-        }
-        100%{
-            transform: rotate(0deg)
-        }
-    }
 
 `

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import styled from "styled-components"
+import styled, {css} from "styled-components"
 import { v4 as uuidv4} from "uuid"
 
 const ErrorMessage = ({errorText}) => {
@@ -10,7 +10,7 @@ const ErrorMessage = ({errorText}) => {
     }, [errorText])
 
     return (
-        <StyledErrorContainer key={errorKey}>
+        <StyledErrorContainer key={errorKey} $errorTest={errorText}>
             <h3>{errorText}</h3>
         </StyledErrorContainer>
     )    
@@ -19,6 +19,10 @@ const ErrorMessage = ({errorText}) => {
 export default ErrorMessage
 
 const StyledErrorContainer = styled.div`
+    ${props => props.$errorTest || css`
+        display: none;
+    `};
+
     width: 100%;
     height: 50px;
     margin: 16px 0px;
