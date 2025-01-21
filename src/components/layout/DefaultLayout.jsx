@@ -4,18 +4,24 @@ import Header from "./Header";
 
 const DefaultLayout = ({children, wrapperColor}) => {
     return (
-        <div>
+        <StyledDefaultLayout>
             <Header/>
             <StyledClearfix/>
             <Wrapper $color={wrapperColor}>
                 {children}
             </Wrapper>
             <Footer/>
-        </div>
+        </StyledDefaultLayout>
     )
 }
 
 export default DefaultLayout
+
+const StyledDefaultLayout = styled.div`
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+`
 
 const StyledClearfix = styled.div`
     height: 100px;
@@ -25,6 +31,7 @@ const StyledClearfix = styled.div`
 `
 
 const Wrapper = styled.div`
+    flex: 1;
     width: 100%;
     height: 100%;
     padding: 16px;
