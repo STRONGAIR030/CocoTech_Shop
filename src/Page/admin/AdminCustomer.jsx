@@ -1,12 +1,13 @@
 import { useNavigate, useParams } from "react-router";
 import AdminLayout from "../../components/layout/AdminLayout";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { API_HOST } from "../../constants";
 import axios from "axios";
 import GoBackButton from "../../components/common/GoBackButton";
 import styled from "styled-components";
-import StyledTableContainer from "../../components/common/StyledTableContainer";
-import StyledImgContainer from "../../components/common/StyledImgContainer";
+import AdminTable from "../../components/common/AdminTable";
+import EditOrderButton from "../../components/common/EditOrderButton";
+import { fetchAllCustomersData, fetchOrderDataByCustomerId, processOrdersData } from "../../apiHelpers";
 
 const NoOrder = () => {
   return <StyledNoOrder>
@@ -14,98 +15,66 @@ const NoOrder = () => {
   </StyledNoOrder>;
 };
 
+const orderListHeaders = [
+  { label: "Order id", key: "id"},
+  { label: "Customer", key: "customerName"},
+  { label: "Status", key: "status"},
+  { label: "Date", key: "date"},
+  { label: "Total", key: "total", unitSymbol: "$"},
+  { label: "Edit", key: "editButton" },
+]
+
 const AdminCustomer = () => {
-  const { customerId } = useParams();
-  const [orderList, setOrderList] = useState([]);
-  const [orderDataLoaded, setLoaded] = useState(false);
-  const navigate = useNavigate()
-  const goAdminOrderById = (orderId) => {
-    navigate(`/admin/orders/${orderId}`);
-  };
+    const { customerId } = useParams();
+    const [orderList, setOrderList] = useState([]);
+    const [orderDataLoaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    const fectCustomerOrder = async () => {
-      try {
-        console.log(customerId);
-        const {data : customerData} = await axios.get(`${API_HOST}/customers/${customerId}`)
-        const { data: orderData } = await axios.get(
-          `${API_HOST}/orders?customersId=${customerId}`
-        );
-        const updateData = orderData.map((order) => {
-          const updataOrder = {
-            id: order.id,
-            customerId,
-            customerName: customerData.name,
-            status: order.status,
-            total: order.shipping + order.subTotal,
-            date: order.date,
-          };
+    useEffect(() => {
+        const fectCustomerOrder = async () => {
+            try {
+                const customerOrdersData = await fetchOrderDataByCustomerId(customerId)
+                
+                const processedCustomerOrdersData = await processOrdersData(customerOrdersData)
+                
+                setOrderList(processedCustomerOrdersData);
+                setLoaded(true);
+            } catch (err) {
+                console.error();
+                (err);
+            }
+        };
 
-          return updataOrder;
-        });        
-        console.log(updateData);
-        
-        setOrderList(updateData);
-        setLoaded(true);
-      } catch (err) {
-        console.error();
-        (err);
-      }
-    };
+        fectCustomerOrder();
+    }, []);
 
-    fectCustomerOrder();
-  }, []);
+    const orderListDatas = useMemo(() => {
+        return orderList.map((order) => {
+            return {
+                ...order, 
+                editButton: <EditOrderButton orderId={order.id} />
+            }
+        })
+    }, [orderList])
 
-  return (
-    <AdminLayout>
-      <StyledCustomerPage>
-        <GoBackButton />
-        <h3>CustomerId : {customerId}</h3>
-        {orderDataLoaded && orderList.length ? (
-        <StyledCustomerOrdersContainer>
-          <StyledTableContainer $minWidth="800px">
-            <table>
-              <tbody>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Customer</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th>Total</th>
-                  <th>Edit</th>
-                </tr>
-                {orderList.map((order) => {
-                  return (
-                    <tr key={order.id}>
-                      <td>{order.id}</td>
-                      <td>{order.customerName}</td>
-                      <td>{order.status}</td>
-                      <td>{order.date}</td>
-                      <td>{order.total}$</td>
-                      <td>
-                        <button
-                          onClick={() => {
-                            goAdminOrderById(order.id);
-                          }}
-                        >
-                          <StyledImgContainer $imgUrl="/img/orderEdit.svg">
-                            <div />
-                          </StyledImgContainer>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </StyledTableContainer>
-        </StyledCustomerOrdersContainer>
-        ) : (
-          <NoOrder />
-        )}
-      </StyledCustomerPage>
-    </AdminLayout>
-  );
+    return (
+        <AdminLayout>
+            <StyledCustomerPage>
+                <GoBackButton />
+                <h3>CustomerId : {customerId}</h3>
+                {orderDataLoaded && orderList.length ? (
+                    <StyledCustomerOrdersContainer>
+                        <AdminTable
+                            headers={orderListHeaders}
+                            datas={orderListDatas}
+                            dataLoaded={true}
+                        />
+                    </StyledCustomerOrdersContainer>
+                ) : (
+                    <NoOrder />
+                )}
+            </StyledCustomerPage>
+        </AdminLayout>
+    );
 };
 
 export default AdminCustomer;

@@ -1,83 +1,80 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AdminLayout from "../../components/layout/AdminLayout";
 import axios from "axios";
 import { API_HOST } from "../../constants";
 import EditButton from "../../components/common/EditButton";
 import { useNavigate } from "react-router";
-import StyledTableContainer from "../../components/common/StyledTableContainer";
 import styled from "styled-components";
+import AdminTable from "../../components/common/AdminTable";
 
-const AdminProductsPage = () => {
-  const [productList, setProductList] = useState([]);
-  const [dataLoaded, setLoaded] = useState(false);
-  const navigate = useNavigate();
-  const goAdminProductById = (productId) => {
-    navigate(`/admin/products/${productId}`);
-  };
-
-  useEffect(() => {
-    const fetchProductList = async () => {
-      try {
-        const { data: productsData } = await axios.get(`${API_HOST}/products`);
-        console.log(productsData);
-
-        const updateProductList = productsData.map((product) => {
-          return {
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            stock: product.stock,
-          };
-        });
-        console.log(updateProductList);
-        setProductList(updateProductList);
-        setLoaded(true);
-      } catch (err) {
-        console.error(err);
-      }
+const EditProductButton = ({productId}) => {
+    const navigate = useNavigate();
+    const goAdminProductById = () => {
+        console.log(productId);
+        
+        navigate(`/admin/products/${productId}`);
     };
 
-    fetchProductList();
-  }, []);
+    return <EditButton handleClick={goAdminProductById} />
+}
 
-  return (
-    <AdminLayout>
-      <StyledAdminProductsPage>
-        <h3>Product List</h3>
-        <StyledTableContainer $minWidth="800px">
-          <table>
-            <tbody>
-              <tr>
-                <th>Product ID</th>
-                <th>name</th>
-                <th>Price</th>
-                <th>stock</th>
-                <th>Edit</th>
-              </tr>
-              {dataLoaded &&
-                productList.length &&
-                productList.map((product) => {
-                  return (
-                    <tr key={product.id}>
-                      <td>{product.id}</td>
-                      <td>{product.name}</td>
-                      <td>{product.price}$</td>
-                      <td>{product.stock}</td>
-                      <td>
-                        <EditButton
-                          handleClick={() => {
-                            goAdminProductById(product.id);
-                          }}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </StyledTableContainer>
-      </StyledAdminProductsPage>
-    </AdminLayout>
+const productListHeaders = [
+    { label: "Product ID", key: "id" },
+    { label: "Name", key: "name" },
+    { label: "Price", key: "price", unitSymbol: "$" },
+    { label: "Stock", key: "stock" },
+    { label: "Edit", key: "editButton" },
+]
+
+const AdminProductsPage = () => {
+    const [productList, setProductList] = useState([]);
+    const [productDataLoaded, setProductDataLoaded] = useState(false);
+    
+    useEffect(() => {
+        const fetchProductList = async () => {
+            try {
+                const { data: productsData } = await axios.get(`${API_HOST}/products`);
+                console.log(productsData);
+                
+                const updateProductList = productsData.map((product) => {
+                    return {
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        stock: product.stock,
+                    };
+                });
+                console.log(updateProductList);
+                setProductList(updateProductList);
+                setProductDataLoaded(true);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        
+        fetchProductList();
+    }, []);
+    
+    const produtListDatas = useMemo(() => {
+        return productList.map((product) => {
+            return {
+                ...product,
+                editButton: <EditProductButton productId={product.id} />
+            }
+        })
+    }, [productList])
+    
+    return (
+        <AdminLayout>
+            <StyledAdminProductsPage>
+                <h3>Product List</h3>
+                <AdminTable 
+                    headers={productListHeaders}
+                    datas={produtListDatas}
+                    dataLoaded={productDataLoaded}
+                />
+            </StyledAdminProductsPage>
+        </AdminLayout>
   );
 };
 

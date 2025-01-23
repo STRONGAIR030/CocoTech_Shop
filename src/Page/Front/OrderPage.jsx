@@ -6,7 +6,7 @@ import axios from "axios"
 import { API_HOST } from "../../constants"
 import LoadingAnimation from "../../components/common/LoadingAnimation"
 import FrontContext from "../../components/context/FrontContext"
-import { fetchOrderDataByCustomerId, fetchProductData } from "../../apiHelpers"
+import { fetchOrderDataByCustomerId, fetchProductData, processDetailedOrders } from "../../apiHelpers"
 
 const OrderProduct = ({imgUrl, quantity, price, name}) => {
     return (
@@ -91,36 +91,13 @@ const OrderPage = () => {
         return processedOrder.filter(product => product !== null)
     }
 
-    const processAllOrdersData = async (orders) => {
-        const processedAllOrders = await Promise.all(orders.map(async (order) => {
-            try{
-                const orderProducts = await processOrderData(order)
-
-                return {
-                    orderProducts,
-                    id: order.id,
-                    subTotal: order.subTotal,
-                    shipping: order.shipping,
-                    status: order.status,
-                    date: order.date,
-                }
-
-            } catch (err) {
-                console.error(err);
-                return null
-            }
-        }))
-
-        return processedAllOrders.filter(order => order !== null)
-    }
-
     const fetchOrderData = async () => {
 
         try{
                         
             const ordersData = await fetchOrderDataByCustomerId(userInf.id)
             
-            const updatedOrderData = await processAllOrdersData(ordersData)
+            const updatedOrderData = await processDetailedOrders(ordersData)
             
             setOrderList(updatedOrderData)
             setLoaded(true);
@@ -131,7 +108,6 @@ const OrderPage = () => {
     }
     useEffect(() => {
         fetchOrderData();
-        
     }, [])
     
 

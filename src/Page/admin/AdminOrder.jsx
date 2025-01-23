@@ -4,9 +4,18 @@ import GoBackButton from "../../components/common/GoBackButton"
 import StyledTableContainer from "../../components/common/StyledTableContainer"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import { useNavigate, useParams } from "react-router"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import axios from "axios"
 import { API_HOST } from "../../constants"
+import { fetchOrderData, processDetailedOrder } from "../../apiHelpers"
+import AdminTable from "../../components/common/AdminTable"
+
+const productSummaryHeaders = [
+    { label: "Product img", key: "productImg"},
+    { label: "Product name", key: "name"},
+    { label: "Quantity", key: "quantity"},
+    { label: "Total cost", key: "totalCost", unitSymbol: "$" },
+]
 
 const AdminOrder = () => {
     const {orderId} = useParams();
@@ -16,43 +25,36 @@ const AdminOrder = () => {
 
     const goAdminHome = () => navigation("/admin/home");
 
-    const fetchOrderData = async () => {
+    const fetchOrder = async () => {
 
         try{
-            const {data: getData} = await axios.get(`${API_HOST}/orders/${orderId}`)
-            console.log(getData);
+            const orderData = await fetchOrderData(orderId);
 
-            const {data: customerData} = await axios.get(`${API_HOST}/customers/${getData.customersId}`)
+            const processedOrderData = await processDetailedOrder(orderData);
 
-            const orderProductsData = await Promise.all(getData.detail.map(async (product) => {
-                const {data: productData} = await axios.get(`${API_HOST}/products/${product.productId}`)
-
-                return {
-                    id: productData.id,
-                    price: productData.price,
-                    imgUrl: productData.img[0],
-                    name: productData.name,
-                    quantity: product.quantity
-                }
-            }))
-
-            const orderData = {
-                customerName: customerData.name,
-                orderProducts: orderProductsData,
-                id: getData.id,
-                subTotal: getData.subTotal,
-                shipping: getData.shipping,
-                status:`${getData.status}`,
-                date: getData.date,
-            }
-
-            setOrderInf(orderData)
+            setOrderInf(processedOrderData)
             
         } catch (err) {
             console.error(err);
             goAdminHome()
         }
     }
+
+    const productSummaryDatas = useMemo(() => {
+        if(!orderInf.orderProducts) return []
+
+        return orderInf.orderProducts.map((product) => {
+            return {
+                ...product,
+                totalCost: product.price * product.quantity,
+                productImg: (
+                    <ProductImg $imgUrl={product.imgUrl}>
+                        <div></div>
+                    </ProductImg>
+                )
+            }
+        })
+    }, [orderInf.orderProducts])
 
     const handleSave = async () => {
         console.log(selectRef.current.value);
@@ -69,7 +71,7 @@ const AdminOrder = () => {
     }
 
     useEffect(() => {
-        fetchOrderData()
+        fetchOrder()
     }, [])
     return (
         <AdminLayout>
@@ -88,33 +90,11 @@ const AdminOrder = () => {
                         </StyledOrderInf>
                     </StyledOrderInfContainer>
                     <ProductsTableContainer>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>Product img</th>
-                                    <th>Product name</th>
-                                    <th>Quantity</th>
-                                    <th>totalCost</th>
-                                </tr>
-                                {
-                                    orderInf && orderInf.orderProducts && orderInf.orderProducts.map((product) => {
-                                        return (
-                                            <tr key={product.id}>
-                                                <td>
-                                                    <StyledImgContainer $imgUrl={product.imgUrl}>
-                                                        <div/>
-                                                    </StyledImgContainer>
-                                                </td>
-                                                <td>{product.name}</td>
-                                                <td>{product.quantity}</td>
-                                                <td>{product.price * product.quantity}$</td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-
-                            </tbody>
-                        </table>
+                        <AdminTable
+                            headers={productSummaryHeaders}
+                            datas={productSummaryDatas}
+                            dataLoaded={true}
+                        />
                     </ProductsTableContainer>
                     <OrderCostInfContainer>
                         <div>
@@ -206,16 +186,15 @@ const StyledOrderInfContainer = styled.div`
     }
 `
 
+const ProductImg = styled(StyledImgContainer)`
+    margin: 8px auto;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
+    width: 80px;
+    border-radius: 20px;
+`
 
-const ProductsTableContainer = styled(StyledTableContainer)`
+const ProductsTableContainer = styled.div`
     margin: 16px 0px;
-
-    ${StyledImgContainer} {
-        margin: 8px auto;
-        box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
-        width: 80px;
-        border-radius: 20px;
-    }
 `
 
 const OrderCostInfContainer = styled.div`

@@ -473,7 +473,7 @@
       "date": "2025-01-21 23:12:11",
       "shipping": 60,
       "subTotal": 2000,
-      "status": 0
+      "status": "0"
     }
   ],
   "shoppingCart": [

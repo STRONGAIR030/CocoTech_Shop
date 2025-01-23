@@ -12,7 +12,7 @@ import AdminOrder from "./Page/admin/AdminOrder";
 import AdminCustomer from "./Page/admin/AdminCustomer";
 import AdminProduct from "./Page/admin/AdminProduct";
 import { API_HOST, SESSION_KEYS } from "./constants";
-import { fetchAllOrderData, fetchCustomerData } from "./apiHelpers";
+import { fetchAllOrderData, fetchCustomerData, processOrdersData } from "./apiHelpers";
 
 
 const isSignIn = () => {
@@ -81,30 +81,6 @@ const AdminApp = () => {
 
         sessionStorage.setItem(SESSION_KEYS.IS_SIGN_IN, "false");
         sessionStorage.setItem(SESSION_KEYS.ADMIN_NAME, "");
-    }
-
-    const processOrdersData = async (orders) => {
-        const processedOrdersData = await Promise.all(orders.map(async (order) => {
-            try {
-                const customerData = await fetchCustomerData(order.customersId)
-
-                const formattedOrderData = {
-                    id: order.id,
-                    customersId: order.customersId,
-                    total: order.subTotal + order.shipping,
-                    date: order.date,
-                    customerName: customerData.name,
-                    status: order.status,
-                }
-
-                return formattedOrderData
-            } catch (err) {
-                console.error(`Error processing order ${order.id}:`, err);
-                return null
-            }
-        }))
-
-        return processedOrdersData.filter(order => order !== null);
     }
 
     const fetchOrderList = async () => {

@@ -5,5 +5,10 @@ export const SESSION_KEYS = {
     ADMIN_NAME: "adminName",
 };
 
+export const ORDER_STATUS = {
+    0: "incomplete",
+    2: "complete"
+}
+
 export const ACTION_DELETE = 'delete';
 

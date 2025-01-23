@@ -1,33 +1,43 @@
 import styled from "styled-components"
 import AdminLayout from "../../components/layout/AdminLayout"
-import StyledTableContainer from "../../components/common/StyledTableContainer"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useMemo } from "react"
 import AdminContext from "../../components/context/AdminContext"
 import { useNavigate } from "react-router"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
+import AdminTable from "../../components/common/AdminTable"
 
-const Customer = ({customerId, customerName, customerEmail, handleClick}) => {
+const VeiwCustomerButton = ({customerId}) => {
+    const navigtion = useNavigate();
+
+    const goAdminCustomerById = () => navigtion(`/admin/customers/${customerId}`)
+
     return (
-        <tr>
-            <td>{customerId}</td>
-            <td>{customerEmail}</td>
-            <td>{customerName}</td>
-            <td>
-                <button onClick={() => {handleClick(customerId)}}>
-                    <StyledImgContainer $imgUrl="/img/veiw.svg">
-                        <div/>
-                    </StyledImgContainer>
-                </button>
-            </td>
-        </tr>
+        <button onClick={goAdminCustomerById}>
+            <StyledImgContainer $imgUrl="/img/veiw.svg">
+                <div/>
+            </StyledImgContainer>
+        </button>
     )
 }
 
+const customerListHeaders = [
+    { label: "Customer ID", key: "id"},
+    { label: "Email", key: "email"},
+    { label: "Name", key: "name"},
+    { label: "Orders", key: "veiwButton"},
+]
+
 const AdminCustomersPage = () => {
     const {fetchCustomerList, customerList, customerDataLoaded} = useContext(AdminContext);
-    const navigtion = useNavigate();
 
-    const goAdminCustomerById = (customerId) => navigtion(`/admin/customers/${customerId}`)
+    const customerListDatas = useMemo(() => {
+        return customerList.map((customer) => {
+            return {
+                ...customer,
+                veiwButton: <VeiwCustomerButton customerId={customer.id} />,
+            }
+        })   
+    })
 
     useEffect(() => {
         fetchCustomerList();
@@ -37,29 +47,11 @@ const AdminCustomersPage = () => {
         <AdminLayout>
             <StyledAdminCustomersPage>
                 <h3>Customers List</h3>
-                <StyledTableContainer>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>Customer ID</th>
-                                <th>Email</th>
-                                <th>Name</th>
-                                <th>Orders</th>
-                            </tr>
-                            {
-                                customerDataLoaded && customerList.map((customer) => {
-                                    return <Customer 
-                                            key={customer.id} 
-                                            customerId={customer.id} 
-                                            customerName={customer.name} 
-                                            customerEmail={customer.email} 
-                                            handleClick={goAdminCustomerById}
-                                            />
-                                })
-                            }
-                        </tbody>
-                    </table>
-                </StyledTableContainer>
+                <AdminTable
+                    headers={customerListHeaders}
+                    datas={customerListDatas}
+                    dataLoaded={customerDataLoaded}
+                />
             </StyledAdminCustomersPage>
         </AdminLayout>
     )

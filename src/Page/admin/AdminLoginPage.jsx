@@ -34,27 +34,45 @@ const AdminLoginPage = () => {
         setAdminName(event.target.value)
     }
 
-    const hadleSingIn = async () => {
+    const verifyUserInput = () => {
         if(!password || !adminName){
-            setErrorText("You need enter all Information.")
+            return "You need enter all Information."
+        }
+
+        return ""
+    }
+
+    const verifySingIn = (adminData) => {
+        if(!adminData || adminData.password != password){                
+            return "name or PassWord wrong!!";
+        }
+
+        return "";
+    }
+
+    const hadleSingIn = async () => {
+        const userInputError = verifyUserInput()
+
+        if(userInputError){
+            setErrorText(userInputError)
             return;
         }
 
         try{
             const {data: [adminData]} = await axios.get(`${API_HOST}/admin?id=${adminName}`) 
             
-            if(!adminData || adminData.password != password){                
-                setErrorText("name or PassWord wrong!!")
-            }
-            else{
-                adminSignIn(adminData.id);
-                goAdminHomePage();
-                setErrorText("")
-            }
+            const singInError = verifySingIn(adminData)
 
+            if(singInError){
+                setErrorText(singInError)
+                return;
+            }
+            
+            adminSignIn(adminData.id);
+            goAdminHomePage();
+            setErrorText("")
         } catch (err) {
             console.error(err);
-            
         }
 
     }
@@ -63,8 +81,6 @@ const AdminLoginPage = () => {
     return (
         <StyledAdminLoginPage>
             <h1>Login</h1>
-
-            
             <StyledLoginContainer>
                 {
                     errorText && 

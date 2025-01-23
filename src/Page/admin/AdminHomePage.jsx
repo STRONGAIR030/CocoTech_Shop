@@ -3,9 +3,8 @@ import AdminLayout from "../../components/layout/AdminLayout"
 import { useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
-import axios from "axios"
-import { API_HOST } from "../../constants"
-import StyledTableContainer from "../../components/common/StyledTableContainer"
+import { fetchAllCustomersData, fetchAllOrderData, processOrdersData } from "../../apiHelpers"
+import AdminTable from "../../components/common/AdminTable"
 
 const InfoCard = ({infoName, imgUrl, infoNum}) => {
     return(
@@ -23,6 +22,36 @@ const InfoCard = ({infoName, imgUrl, infoNum}) => {
     )
 }
 
+const InfoCardList = ({totalOrders, totalSales, totalCustomers}) => {
+    return (
+        <StyledInfoCardList>
+            <InfoCard 
+                imgUrl="/img/cart.svg" 
+                infoName="Total orders" 
+                infoNum={totalOrders}
+                />
+            <InfoCard 
+                imgUrl="/img/creditCard.svg" 
+                infoName="Total Sales" 
+                infoNum={totalSales}
+                />
+            <InfoCard 
+                imgUrl="/img/totalCustomers.svg" 
+                infoName="Total Customers" 
+                infoNum={totalCustomers}
+                />
+        </StyledInfoCardList>
+    )
+}
+
+const orderListHeaders = [
+    { label: "Order id", key: "id"},
+    { label: "Customer", key: "customerName"},
+    { label: "Status", key: "status"},
+    { label: "Date", key: "date"},
+    { label: "Total", key: "total", unitSymbol: "$"},
+]
+
 const AdminHomePage = () => {
     const [dataLoaded, setLoaded] = useState(false);
     const [orderList, setOrderList] = useState([]);
@@ -38,15 +67,12 @@ const AdminHomePage = () => {
 
     const fetchDashBoradData = async () => {
         try{
-            const getOrdersRes = await axios.get(`${API_HOST}/orders`)
-            const getCustomerRes = await axios.get(`${API_HOST}/customers`)
-            console.log(getOrdersRes);
-            
-            const orderListData = getOrdersRes.data
+            const ordersData = await fetchAllOrderData()
+            const customersData = await fetchAllCustomersData()
     
-            const customerAmount = getCustomerRes.data.length
-            const orderAmount = orderListData.length
-            const saleAmount = orderListData.reduce((total, order) => {
+            const customerAmount = customersData.length
+            const orderAmount = ordersData.length
+            const saleAmount = ordersData.reduce((total, order) => {
                 const sumQuantity = order.detail.reduce((prevValue, product) => {                
                     return prevValue + Number(product.quantity)
                 }, 0)
@@ -54,22 +80,10 @@ const AdminHomePage = () => {
                 return total + sumQuantity
             }, 0)
     
-            const updateList = await Promise.all(orderListData.map(async (order) => {
-                const {data: customerData} = await axios(`${API_HOST}/customers/${order.customersId}`)
-    
-                const updateData = {
-                    id: order.id,
-                    customersId: order.customersId,
-                    total: order.subTotal + order.shipping,
-                    date: order.date,
-                    customerName: customerData.name,
-                    status: 0
-                }
-    
-                return updateData
-            }))
+            const updateList = await processOrdersData(ordersData)
     
             const limtiList = updateList.reverse().filter((order, index) => Number(index) < 5)
+
             setTotalOrders(orderAmount)
             setTotalCustomers(customerAmount)
             setTotalSales(saleAmount)
@@ -83,54 +97,19 @@ const AdminHomePage = () => {
     return (
         <AdminLayout>
             <StyledHomePage>
-                <StyledInfoCardList>
-                    <InfoCard 
-                        imgUrl="/img/cart.svg" 
-                        infoName="Total orders" 
-                        infoNum={totalOrders}
-                        />
-                    <InfoCard 
-                        imgUrl="/img/creditCard.svg" 
-                        infoName="Total Sales" 
-                        infoNum={totalSales}
-                        />
-                    <InfoCard 
-                        imgUrl="/img/totalCustomers.svg" 
-                        infoName="Total Customers" 
-                        infoNum={totalCustomers}
-                        />
-                </StyledInfoCardList>
-
+                <InfoCardList 
+                    totalCustomers={totalCustomers}
+                    totalOrders={totalOrders}
+                    totalSales={totalSales}
+                />
                 <StyledOrderListContainer>
                     <h3>Lastest orders</h3>
-                    <StyledTableContainer>
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <th>Order id</th>
-                                    <th>Customer</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Total</th>
-
-                                </tr>
-                                {
-                                    dataLoaded && orderList.length && orderList.map((order) => {
-                                        return (
-                                            <tr key={order.id} onClick={() => {goAdminOrder(order.id)}}>
-                                                <td>{order.id}</td>
-                                                <td>{order.customerName}</td>
-                                                <td>{order.status}</td>
-                                                <td>{order.date}</td>
-                                                <td>{order.total}$</td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-
-                        </table>
-                    </StyledTableContainer>
+                    <AdminTable 
+                        datas={orderList} 
+                        headers={orderListHeaders} 
+                        dataLoaded={dataLoaded}
+                        handleClickRow={goAdminOrder}    
+                    />
                 </StyledOrderListContainer>
             </StyledHomePage>
         </AdminLayout>

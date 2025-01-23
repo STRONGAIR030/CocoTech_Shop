@@ -3,6 +3,7 @@ import StyledImgContainer from "../common/StyledImgContainer"
 import { useContext, useMemo} from "react"
 import FrontContext from "../context/FrontContext"
 import { NavLink } from "react-router"
+import { ACTION_DELETE } from "../../constants"
 
 const CartProduct = ({productId, name, quantity, totalPrice, imgUrl, handleDelete}) => {
     return (
@@ -28,7 +29,8 @@ const ShoppingCart = ({toggleShow}) => {
     })
     
     const handleDelete = (productId) => {
-        modifyProductToCart(productId, "delete")
+        if (!productId) return console.warn("Invalid productId provided");
+        modifyProductToCart(productId, ACTION_DELETE)
     }
 
     return (
@@ -40,7 +42,13 @@ const ShoppingCart = ({toggleShow}) => {
                     {
                         shoppingCart.map((product) => {
                             return (
-                                <CartProduct key={product.id} productId={product.id} handleDelete={handleDelete} name={product.name} quantity={product.quantity} totalPrice={product.totalPrice} imgUrl={product.imgUrl}/>
+                                <CartProduct 
+                                    key={product.id} 
+                                    productId={product.id} 
+                                    handleDelete={handleDelete} 
+                                    name={product.name} 
+                                    quantity={product.quantity} totalPrice={product.totalPrice} imgUrl={product.imgUrl}
+                                />
                             )
                         })
                     }
