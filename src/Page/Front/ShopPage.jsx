@@ -1,53 +1,50 @@
-
-import { NavLink, useSearchParams } from "react-router"
-import styled from "styled-components"
-import DefaultLayout from "../../components/layout/defaultLayout"
-import AdSection from "../../components/FrontComponents/AdSection"
-import ProductSection from "../../components/FrontComponents/ProductSection"
-import { useContext, useEffect } from "react"
-import FrontContext from "../../components/context/FrontContext"
-import LoadingAnimation from "../../components/common/LoadingAnimation"
+import { NavLink, useSearchParams } from "react-router";
+import styled from "styled-components";
+import DefaultLayout from "../../components/layout/defaultLayout";
+import AdSection from "../../components/FrontComponents/AdSection";
+import ProductSection from "../../components/FrontComponents/ProductSection";
+import { useContext, useEffect } from "react";
+import FrontContext from "../../components/context/FrontContext";
+import LoadingAnimation from "../../components/common/LoadingAnimation";
 
 const ShopPage = () => {
-    const {productsDataLoaded, fetchProductsData} = useContext(FrontContext);
+    const { productsDataLoaded, fetchProductsData } = useContext(FrontContext);
     const [searchParams] = useSearchParams();
-    const searchText = searchParams.get("search"); 
+    const searchText = searchParams.get("search");
 
     useEffect(() => {
-        if(!productsDataLoaded){
+        if (!productsDataLoaded) {
             setTimeout(() => {
-                fetchProductsData()
-            }, 3000)
+                fetchProductsData();
+            }, 3000);
         }
-    }, [productsDataLoaded])
+    }, [productsDataLoaded]);
 
     return (
         <DefaultLayout>
-        {productsDataLoaded ? 
-            <StyledShopPage>
-                {
-                    !searchText && <AdSection/>
-                }    
-                <ProductSection searchText={searchText}/>
-            </StyledShopPage> :
-            <LoadingAnimation/>
-        }
+            {productsDataLoaded ? (
+                <StyledShopPage>
+                    {!searchText && <AdSection />}
+                    <ProductSection searchText={searchText} />
+                </StyledShopPage>
+            ) : (
+                <LoadingAnimation />
+            )}
         </DefaultLayout>
-    )
-}
+    );
+};
 
-export default ShopPage
+export default ShopPage;
 
 const StyledShopPage = styled.main`
     animation: PageIn 0.5s both;
 
     @keyframes PageIn {
-        0%{
+        0% {
             opacity: 0;
         }
-        100%{
+        100% {
             opacity: 1;
         }
     }
-`
-
+`;

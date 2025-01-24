@@ -1,50 +1,49 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
-import AdminHeader from "./AdminHeader"
-import AdminSiderBar from "./AdminSiderBar"
-import { useState } from "react"
-import PropTypes from "prop-types"
+import AdminHeader from "./AdminHeader";
+import AdminSiderBar from "./AdminSiderBar";
+import { useState } from "react";
+import PropTypes from "prop-types";
 
-const AdminLayout = ({children}) => {
+const AdminLayout = ({ children }) => {
     const [showSiderBar, setShowSiderBar] = useState(false);
 
     const toggleShowSiderBar = () => {
-        setShowSiderBar(prevShow => !prevShow)
-    }
+        setShowSiderBar((prevShow) => !prevShow);
+    };
 
     return (
         <Wrapper>
-            <AdminHeader toggleShowSiderBar={toggleShowSiderBar}/>
-            <StyledClearfix/>
+            <AdminHeader toggleShowSiderBar={toggleShowSiderBar} />
+            <StyledClearfix />
             <StyledMain>
                 <AdminSiderBar showSiderBar={showSiderBar}>
                     {children}
                 </AdminSiderBar>
             </StyledMain>
-
         </Wrapper>
-    )
-}
+    );
+};
 
 AdminLayout.propTypes = {
     children: PropTypes.element,
-}
+};
 
-export default AdminLayout
+export default AdminLayout;
 
 const StyledClearfix = styled.div`
     height: 60px;
-    @media screen and (max-width: 746px){
+    @media screen and (max-width: 746px) {
         height: 50px;
     }
-`
+`;
 
 const StyledMain = styled.main`
     width: 100%;
     display: flex;
-`
+`;
 
 const Wrapper = styled.div`
     width: 100%;
-    background-color: ${props => props.$wrapperColor || "#c68642b2"};
-`
+    background-color: ${(props) => props.$wrapperColor || "#c68642b2"};
+`;

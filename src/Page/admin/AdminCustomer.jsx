@@ -5,22 +5,27 @@ import GoBackButton from "../../components/common/GoBackButton";
 import styled from "styled-components";
 import AdminTable from "../../components/common/AdminTable";
 import EditOrderButton from "../../components/common/EditOrderButton";
-import { fetchOrderDataByCustomerId, processOrdersData } from "../../apiHelpers";
+import {
+    fetchOrderDataByCustomerId,
+    processOrdersData,
+} from "../../apiHelpers";
 
 const NoOrder = () => {
-  return <StyledNoOrder>
-    <h3>This customer has no orders!</h3>
-  </StyledNoOrder>;
+    return (
+        <StyledNoOrder>
+            <h3>This customer has no orders!</h3>
+        </StyledNoOrder>
+    );
 };
 
 const orderListHeaders = [
-  { label: "Order id", key: "id"},
-  { label: "Customer", key: "customerName"},
-  { label: "Status", key: "status"},
-  { label: "Date", key: "date"},
-  { label: "Total", key: "total", unitSymbol: "$"},
-  { label: "Edit", key: "editButton" },
-]
+    { label: "Order id", key: "id" },
+    { label: "Customer", key: "customerName" },
+    { label: "Status", key: "status" },
+    { label: "Date", key: "date" },
+    { label: "Total", key: "total", unitSymbol: "$" },
+    { label: "Edit", key: "editButton" },
+];
 
 const AdminCustomer = () => {
     const { customerId } = useParams();
@@ -30,15 +35,17 @@ const AdminCustomer = () => {
     useEffect(() => {
         const fectCustomerOrder = async () => {
             try {
-                const customerOrdersData = await fetchOrderDataByCustomerId(customerId)
-                
-                const processedCustomerOrdersData = await processOrdersData(customerOrdersData)
-                
+                const customerOrdersData =
+                    await fetchOrderDataByCustomerId(customerId);
+
+                const processedCustomerOrdersData =
+                    await processOrdersData(customerOrdersData);
+
                 setOrderList(processedCustomerOrdersData);
                 setLoaded(true);
             } catch (err) {
                 console.error();
-                (err);
+                err;
             }
         };
 
@@ -48,11 +55,11 @@ const AdminCustomer = () => {
     const orderListDatas = useMemo(() => {
         return orderList.map((order) => {
             return {
-                ...order, 
-                editButton: <EditOrderButton orderId={order.id} />
-            }
-        })
-    }, [orderList])
+                ...order,
+                editButton: <EditOrderButton orderId={order.id} />,
+            };
+        });
+    }, [orderList]);
 
     return (
         <AdminLayout>
@@ -81,11 +88,11 @@ const StyledCustomerPage = styled.div`
     width: 100%;
     height: 100%;
 
-    & > h3{
+    & > h3 {
         padding: 16px;
         font-size: 32px;
 
-        @media screen and (max-width: 746px){
+        @media screen and (max-width: 746px) {
             font-size: 24px;
         }
     }
@@ -97,7 +104,7 @@ const StyledNoOrder = styled.div`
     align-items: center;
     height: 400px;
 
-    h3{
+    h3 {
         text-align: center;
         padding: 16px;
         font-size: 48px;
@@ -108,15 +115,15 @@ const StyledCustomerOrdersContainer = styled.div`
     width: 100%;
     padding: 16px 16px 16px 16px;
 
-    & > h3{
+    & > h3 {
         font-size: 28px;
         padding: 16px 8px;
     }
 
     td button {
-    width: 40px;
-    border-radius: 15px;
-    padding: 8px;
-    cursor: pointer;
-  }
-`
+        width: 40px;
+        border-radius: 15px;
+        padding: 8px;
+        cursor: pointer;
+    }
+`;

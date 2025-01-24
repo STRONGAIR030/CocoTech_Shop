@@ -1,112 +1,131 @@
-import styled, {css} from "styled-components";
+import styled, { css } from "styled-components";
 import { NavLink, useNavigate } from "react-router";
-import { useEffect, useState , useRef, useContext, useMemo} from "react";
+import { useEffect, useState, useRef, useContext, useMemo } from "react";
 import ShoppingCart from "../FrontComponents/ShoppingCart";
 import FrontContext from "../context/FrontContext";
 
 const Header = () => {
     const [search, setSearch] = useState(false);
     const [showCart, setShowCart] = useState(false);
-    const [inputText, setInputText] = useState("")
-    const {userInf, shoppingCart} = useContext(FrontContext);
+    const [inputText, setInputText] = useState("");
+    const { userInf, shoppingCart } = useContext(FrontContext);
     const navigate = useNavigate();
-    const inputRef = useRef()
+    const inputRef = useRef();
     useEffect(() => {
-        if(search){
+        if (search) {
             inputRef.current.focus();
         }
-    }, [search])
+    }, [search]);
 
     const totalQuantity = useMemo(() => {
-        return shoppingCart.reduce((prevValue, product) => prevValue + product.quantity, 0)
-    }, [shoppingCart])
+        return shoppingCart.reduce(
+            (prevValue, product) => prevValue + product.quantity,
+            0,
+        );
+    }, [shoppingCart]);
 
     const toggleShowCart = () => {
-        setShowCart(prevShow => !prevShow)
-    }
+        setShowCart((prevShow) => !prevShow);
+    };
 
     const hadleBlur = () => {
         setInputText("");
         setSearch(false);
-    }
+    };
 
     const hadleChange = (e) => {
-        setInputText(e.target.value)
-    }
+        setInputText(e.target.value);
+    };
 
     const handlekeyDown = (e) => {
-        if(e.key == "Enter" && inputText){
-            setInputText("")
-            navigate(`/?search=${inputText}`)
+        if (e.key == "Enter" && inputText) {
+            setInputText("");
+            navigate(`/?search=${inputText}`);
             console.log(inputText);
         }
-    }
+    };
     return (
         <StyledHeader>
-            <ShopLogo to="/"/>
+            <ShopLogo to="/" />
             <Nav>
-                <Navitem $xlShow >
-                    <SearchInput 
-                        value={inputText} 
-                        onChange={hadleChange} 
-                        onBlur={hadleBlur} 
+                <Navitem $xlShow>
+                    <SearchInput
+                        value={inputText}
+                        onChange={hadleChange}
+                        onBlur={hadleBlur}
                         onKeyDown={handlekeyDown}
                         placeholder="Search"
                     />
                 </Navitem>
                 <Navitem $mdShow>
-                    <SearchBtn onClick={() =>{setSearch(true)}}/>
+                    <SearchBtn
+                        onClick={() => {
+                            setSearch(true);
+                        }}
+                    />
                 </Navitem>
                 <Navitem $xlShow>
-                    <NavLink to={`/account/${userInf.isSignIn ? "orders": "login"}`}>{userInf.isSignIn ? userInf.name : "Account"}</NavLink>
+                    <NavLink
+                        to={`/account/${userInf.isSignIn ? "orders" : "login"}`}
+                    >
+                        {userInf.isSignIn ? userInf.name : "Account"}
+                    </NavLink>
                 </Navitem>
                 <Navitem $mdShow>
-                    <AccoutLink to={`/account/${userInf.isSignIn ? "orders": "login"}`}/>
+                    <AccoutLink
+                        to={`/account/${userInf.isSignIn ? "orders" : "login"}`}
+                    />
                 </Navitem>
                 <Navitem $xlShow $mdShow>
-                    <button onClick={toggleShowCart}>{shoppingCart.length ? totalQuantity : 0}</button>
+                    <button onClick={toggleShowCart}>
+                        {shoppingCart.length ? totalQuantity : 0}
+                    </button>
                 </Navitem>
             </Nav>
-            <JumpSearchInput 
-                placeholder="Search" 
-                ref={inputRef} 
-                value={inputText} 
+            <JumpSearchInput
+                placeholder="Search"
+                ref={inputRef}
+                value={inputText}
                 onChange={hadleChange}
-                onBlur={hadleBlur} 
+                onBlur={hadleBlur}
                 onKeyDown={handlekeyDown}
             />
-            {showCart && <ShoppingCart toggleShow={toggleShowCart}></ShoppingCart>}
+            {showCart && (
+                <ShoppingCart toggleShow={toggleShowCart}></ShoppingCart>
+            )}
         </StyledHeader>
-    )
-}
+    );
+};
 
-export default Header
+export default Header;
 
 const StyledHeader = styled.header`
     width: 100%;
     height: 100px;
     padding: 0px 16px;
-    background-color: #8D5524;
+    background-color: #8d5524;
     position: fixed;
     display: flex;
     justify-content: space-between;
     align-items: center;
     z-index: 10;
-    
-    @media screen and (max-width: 746px){
+
+    @media screen and (max-width: 746px) {
         height: 80px;
     }
-`
+`;
 
 const Nav = styled.ul`
     display: flex;
-`
+`;
 
 const Navitem = styled.li`
     display: flex;
     align-items: center;
     padding: 0px 16px;
-    a,button,input{
+    a,
+    button,
+    input {
         background-color: #ffdd84;
         color: #a52a2a;
         border: none;
@@ -115,29 +134,38 @@ const Navitem = styled.li`
         font-size: 14px;
         font-weight: 600;
     }
-    ${props => !props.$xlShow && css`display: none;`}
+    ${(props) =>
+        !props.$xlShow &&
+        css`
+            display: none;
+        `}
 
     @media screen and (max-width: 748px) {
         height: 60px;
         padding: 4px 8px;
-        ${props => !props.$mdShow ? css`display: none;` : css`display: flex;`}
+        ${(props) =>
+            !props.$mdShow
+                ? css`
+                      display: none;
+                  `
+                : css`
+                      display: flex;
+                  `}
 
-        a{
-            font-size:18px
+        a {
+            font-size: 18px;
         }
-
     }
 
     @media screen and (max-width: 540px) {
         height: 40px;
         padding: 0 4px;
 
-        a{
-        font-size:14px
+        a {
+            font-size: 14px;
         }
-
     }
-`
+`;
 
 const ShopLogo = styled(NavLink)`
     width: 200px;
@@ -148,12 +176,12 @@ const ShopLogo = styled(NavLink)`
     background-position: 50% 50%;
     background-size: 200px;
 
-    @media screen and (max-width: 746px){
+    @media screen and (max-width: 746px) {
         width: 150px;
         height: 60px;
         background-size: 150px;
     }
-`
+`;
 
 const SearchInput = styled.input`
     background-color: #ffdd84;
@@ -161,14 +189,14 @@ const SearchInput = styled.input`
     width: 65px;
     transition: all 0.5s ease;
 
-    &:focus{
+    &:focus {
         width: 240px;
     }
 
-    &::placeholder{
+    &::placeholder {
         color: rgba(165, 42, 42, 0.5);
     }
-`
+`;
 
 const JumpSearchInput = styled.input`
     position: absolute;
@@ -183,15 +211,15 @@ const JumpSearchInput = styled.input`
     width: 0px;
     transition: all 0.5s ease;
 
-    &:focus{
+    &:focus {
         padding: 4px 8px;
         width: 240px;
     }
 
-    &::placeholder{
+    &::placeholder {
         color: rgba(165, 42, 42, 0.5);
     }
-`
+`;
 const AccoutLink = styled(NavLink)`
     width: 40px;
     height: 40px;
@@ -200,8 +228,7 @@ const AccoutLink = styled(NavLink)`
     background-repeat: no-repeat;
     background-size: 40px;
     background-position: 50% 50%;
-
-`
+`;
 
 const SearchBtn = styled(NavLink)`
     width: 40px;
@@ -211,6 +238,4 @@ const SearchBtn = styled(NavLink)`
     background-repeat: no-repeat;
     background-size: 35px;
     background-position: 50% 50%;
-
-`
-
+`;

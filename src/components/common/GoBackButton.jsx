@@ -4,21 +4,21 @@ import { useNavigate } from "react-router";
 
 const GoBackButton = () => {
     const navigate = useNavigate();
-    
+
     const goBack = () => {
         navigate(-1);
-    }
+    };
 
     return (
         <StyledBackButton onClick={goBack}>
             <StyledImgContainer $imgUrl="/img/goBack.svg">
-                <div/>
+                <div />
             </StyledImgContainer>
         </StyledBackButton>
-    )
-}
+    );
+};
 
-export default GoBackButton
+export default GoBackButton;
 
 const StyledBackButton = styled.button`
     width: 60px;
@@ -31,7 +31,7 @@ const StyledBackButton = styled.button`
     right: 16px;
     top: 16px;
 
-    @media screen and (max-width: 540px){
+    @media screen and (max-width: 540px) {
         width: 45px;
     }
-`
+`;

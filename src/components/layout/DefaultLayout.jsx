@@ -3,43 +3,41 @@ import Footer from "./Footer";
 import Header from "./Header";
 import PropTypes from "prop-types";
 
-const DefaultLayout = ({children, wrapperColor}) => {
+const DefaultLayout = ({ children, wrapperColor }) => {
     return (
         <StyledDefaultLayout>
-            <Header/>
-            <StyledClearfix/>
-            <Wrapper $color={wrapperColor}>
-                {children}
-            </Wrapper>
-            <Footer/>
+            <Header />
+            <StyledClearfix />
+            <Wrapper $color={wrapperColor}>{children}</Wrapper>
+            <Footer />
         </StyledDefaultLayout>
-    )
-}
+    );
+};
 
 DefaultLayout.propTypes = {
     children: PropTypes.element,
     wrapperColor: PropTypes.string,
-}
+};
 
-export default DefaultLayout
+export default DefaultLayout;
 
 const StyledDefaultLayout = styled.div`
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-`
+`;
 
 const StyledClearfix = styled.div`
     height: 100px;
-    @media screen and (max-width: 746px){
+    @media screen and (max-width: 746px) {
         height: 80px;
     }
-`
+`;
 
 const Wrapper = styled.div`
     flex: 1;
     width: 100%;
     height: 100%;
     padding: 16px;
-    background-color: ${props => props.$color ? props.$color : "#c68642b2"};
-`
+    background-color: ${(props) => (props.$color ? props.$color : "#c68642b2")};
+`;

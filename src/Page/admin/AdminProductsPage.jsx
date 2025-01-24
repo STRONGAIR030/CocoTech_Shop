@@ -8,20 +8,21 @@ import styled from "styled-components";
 import AdminTable from "../../components/common/AdminTable";
 import PropTypes from "prop-types";
 
-const EditProductButton = ({productId}) => {
+const EditProductButton = ({ productId }) => {
     const navigate = useNavigate();
     const goAdminProductById = () => {
         console.log(productId);
-        
+
         navigate(`/admin/products/${productId}`);
     };
 
-    return <EditButton handleClick={goAdminProductById} />
-}
+    return <EditButton handleClick={goAdminProductById} />;
+};
 
 EditProductButton.propTypes = {
-    productId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-}
+    productId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        .isRequired,
+};
 
 const productListHeaders = [
     { label: "Product ID", key: "id" },
@@ -29,18 +30,20 @@ const productListHeaders = [
     { label: "Price", key: "price", unitSymbol: "$" },
     { label: "Stock", key: "stock" },
     { label: "Edit", key: "editButton" },
-]
+];
 
 const AdminProductsPage = () => {
     const [productList, setProductList] = useState([]);
     const [productDataLoaded, setProductDataLoaded] = useState(false);
-    
+
     useEffect(() => {
         const fetchProductList = async () => {
             try {
-                const { data: productsData } = await axios.get(`${API_HOST}/products`);
+                const { data: productsData } = await axios.get(
+                    `${API_HOST}/products`,
+                );
                 console.log(productsData);
-                
+
                 const updateProductList = productsData.map((product) => {
                     return {
                         id: product.id,
@@ -56,31 +59,31 @@ const AdminProductsPage = () => {
                 console.error(err);
             }
         };
-        
+
         fetchProductList();
     }, []);
-    
+
     const produtListDatas = useMemo(() => {
         return productList.map((product) => {
             return {
                 ...product,
-                editButton: <EditProductButton productId={product.id} />
-            }
-        })
-    }, [productList])
-    
+                editButton: <EditProductButton productId={product.id} />,
+            };
+        });
+    }, [productList]);
+
     return (
         <AdminLayout>
             <StyledAdminProductsPage>
                 <h3>Product List</h3>
-                <AdminTable 
+                <AdminTable
                     headers={productListHeaders}
                     datas={produtListDatas}
                     dataLoaded={productDataLoaded}
                 />
             </StyledAdminProductsPage>
         </AdminLayout>
-  );
+    );
 };
 
 export default AdminProductsPage;

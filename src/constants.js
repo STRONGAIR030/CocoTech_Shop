@@ -1,4 +1,4 @@
-export const API_HOST = 'http://localhost:3000'
+export const API_HOST = "http://localhost:3000";
 
 export const SESSION_KEYS = {
     IS_SIGN_IN: "isSignIn",
@@ -7,8 +7,7 @@ export const SESSION_KEYS = {
 
 export const ORDER_STATUS = {
     0: "incomplete",
-    2: "complete"
-}
+    2: "complete",
+};
 
-export const ACTION_DELETE = 'delete';
-
+export const ACTION_DELETE = "delete";

@@ -1,33 +1,38 @@
-import styled, {css} from "styled-components";
+import styled, { css } from "styled-components";
 
 const StyledImgContainer = styled.div`
     overflow: hidden;
-    width: ${props => props.$width || "100%"};
+    width: ${(props) => props.$width || "100%"};
 
-    ${props => props.$containerWidth && css`
-        max-width: ${props.$containerWidth};
-    `}
+    ${(props) =>
+        props.$containerWidth &&
+        css`
+            max-width: ${props.$containerWidth};
+        `}
 
-    &::before{
-        content: ' ';
+    &::before {
+        content: " ";
         display: block;
         width: 100%;
         padding-top: 100%;
     }
 
-    div:first-child{
+    div:first-child {
         width: 100%;
         height: 100%;
         background-size: 100%;
         background-repeat: no-repeat;
         background-position: 50% 50%;
-        ${props => props.$imgUrl && css`background-image: url(${props.$imgUrl});`}
-        
+        ${(props) =>
+            props.$imgUrl &&
+            css`
+                background-image: url(${props.$imgUrl});
+            `}
+
         position: absolute;
         top: 0;
         left: 0;
     }
+`;
 
-`
-
-export default StyledImgContainer
+export default StyledImgContainer;

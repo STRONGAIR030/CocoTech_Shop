@@ -1,128 +1,130 @@
-import styled from "styled-components"
-import axios from "axios"
+import styled from "styled-components";
+import axios from "axios";
 
-import AdminLayout from "../../components/layout/AdminLayout"
-import { useContext, useEffect, useState } from "react"
-import ErrorMessage from "../../components/common/ErrorMessage"
-import { useNavigate } from "react-router"
-import AdminContext from "../../components/context/AdminContext"
-import { API_HOST } from "../../constants"
-import PropTypes from "prop-types"
+import AdminLayout from "../../components/layout/AdminLayout";
+import { useContext, useEffect, useState } from "react";
+import ErrorMessage from "../../components/common/ErrorMessage";
+import { useNavigate } from "react-router";
+import AdminContext from "../../components/context/AdminContext";
+import { API_HOST } from "../../constants";
+import PropTypes from "prop-types";
 
-const LoginInput = ({inputText, handleChange, inputValue, inputType}) => {
-   return (
+const LoginInput = ({ inputText, handleChange, inputValue, inputType }) => {
+    return (
         <StyledLoginInput>
             <h3>{inputText}</h3>
-            <input type={inputType || "text"} value={inputValue} onChange={handleChange} placeholder={inputText}/>
+            <input
+                type={inputType || "text"}
+                value={inputValue}
+                onChange={handleChange}
+                placeholder={inputText}
+            />
         </StyledLoginInput>
-    )
-}
+    );
+};
 
 LoginInput.propTypes = {
     inputText: PropTypes.string,
     handleChange: PropTypes.func.isRequired,
     inputValue: PropTypes.string.isRequired,
     inputType: PropTypes.string,
-}
+};
 
 const AdminLoginPage = () => {
     const [password, setPassword] = useState("");
     const [adminName, setAdminName] = useState("");
     const [errorText, setErrorText] = useState("");
-    const {adminSignIn} = useContext(AdminContext);
+    const { adminSignIn } = useContext(AdminContext);
     const navgaiton = useNavigate();
 
     const goAdminHomePage = () => navgaiton("/admin/home");
 
     const handlePasswordChange = (event) => {
-        setPassword(event.target.value)
-    } 
+        setPassword(event.target.value);
+    };
 
     const handleAdminNameChange = (event) => {
-        setAdminName(event.target.value)
-    }
+        setAdminName(event.target.value);
+    };
 
     const verifyUserInput = () => {
-        if(!password || !adminName){
-            return "You need enter all Information."
+        if (!password || !adminName) {
+            return "You need enter all Information.";
         }
 
-        return ""
-    }
+        return "";
+    };
 
     const verifySingIn = (adminData) => {
-        if(!adminData || adminData.password != password){                
+        if (!adminData || adminData.password != password) {
             return "name or PassWord wrong!!";
         }
 
         return "";
-    }
+    };
 
     const hadleSingIn = async () => {
-        const userInputError = verifyUserInput()
+        const userInputError = verifyUserInput();
 
-        if(userInputError){
-            setErrorText(userInputError)
+        if (userInputError) {
+            setErrorText(userInputError);
             return;
         }
 
-        try{
-            const {data: [adminData]} = await axios.get(`${API_HOST}/admin?id=${adminName}`) 
-            
-            const singInError = verifySingIn(adminData)
+        try {
+            const {
+                data: [adminData],
+            } = await axios.get(`${API_HOST}/admin?id=${adminName}`);
 
-            if(singInError){
-                setErrorText(singInError)
+            const singInError = verifySingIn(adminData);
+
+            if (singInError) {
+                setErrorText(singInError);
                 return;
             }
-            
+
             adminSignIn(adminData.id);
             goAdminHomePage();
-            setErrorText("")
+            setErrorText("");
         } catch (err) {
             console.error(err);
         }
-
-    }
-
+    };
 
     return (
         <StyledAdminLoginPage>
             <h1>Login</h1>
             <StyledLoginContainer>
-                {
-                    errorText && 
-                    <ErrorMessage errorText={errorText}/>
-                }
-                <LoginInput 
-                    inputText="admin name" 
-                    inputValue={adminName} 
+                {errorText && <ErrorMessage errorText={errorText} />}
+                <LoginInput
+                    inputText="admin name"
+                    inputValue={adminName}
                     handleChange={handleAdminNameChange}
                 />
-                <LoginInput 
-                    inputText="Password" 
+                <LoginInput
+                    inputText="Password"
                     inputType="password"
-                    inputValue={password} 
+                    inputValue={password}
                     handleChange={handlePasswordChange}
                 />
                 <button onClick={hadleSingIn}>Ok</button>
             </StyledLoginContainer>
         </StyledAdminLoginPage>
-    )
-}
+    );
+};
 
-export default AdminLoginPage
+export default AdminLoginPage;
 
 const StyledAdminLoginPage = styled.div`
     width: 100%;
     height: 100vh;
-    background-color: ${props => props.$wrapperColor || "#c68642b2"};
+    background-color: ${(props) => props.$wrapperColor || "#c68642b2"};
 
-    h1{
+    h1 {
         text-align: center;
         padding: 16px 0px;
     }
-`
+`;
 
 const StyledLoginContainer = styled.div`
     max-width: 400px;
@@ -132,23 +134,23 @@ const StyledLoginContainer = styled.div`
     align-items: center;
     padding: 16px;
 
-    button, input{
+    button,
+    input {
         width: 100%;
         font-size: 24px;
         padding: 4px 8px;
         border-radius: 20px;
     }
 
-    button{
+    button {
         margin-top: 16px;
     }
-
-`
+`;
 
 const StyledLoginInput = styled.div`
     width: 100%;
     padding: 16px 0px;
-    h3{
+    h3 {
         padding: 8px 4px;
     }
-`
+`;

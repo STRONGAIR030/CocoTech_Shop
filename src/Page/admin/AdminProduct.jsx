@@ -32,10 +32,11 @@ const ProductInfInput = ({
 ProductInfInput.propTypes = {
     text: PropTypes.string,
     handleChange: PropTypes.func.isRequired,
-    inputValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    inputValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+        .isRequired,
     inputName: PropTypes.string.isRequired,
     inputType: PropTypes.string,
-}
+};
 
 const ProductTextArea = ({ text, inputValue, inputName, handleChange }) => {
     return (
@@ -56,7 +57,7 @@ ProductTextArea.propTypes = {
     handleChange: PropTypes.func.isRequired,
     inputValue: PropTypes.string.isRequired,
     inputName: PropTypes.string.isRequired,
-}
+};
 
 const AdminProduct = () => {
     const { productId } = useParams();
@@ -73,17 +74,17 @@ const AdminProduct = () => {
         const fectchProductData = async () => {
             try {
                 const { data: productData } = await axios.get(
-                `${API_HOST}/products/${productId}`
+                    `${API_HOST}/products/${productId}`,
                 );
                 console.log(productData);
                 const updateProductInf = {
-                id: productData.id,
-                name: productData.name,
-                price: productData.price,
-                stock: productData.stock,
-                des: productData.des,
-                detail: productData.detail,
-                img: productData.img,
+                    id: productData.id,
+                    name: productData.name,
+                    price: productData.price,
+                    stock: productData.stock,
+                    des: productData.des,
+                    detail: productData.detail,
+                    img: productData.img,
                 };
                 setProductInf(updateProductInf);
             } catch (err) {
@@ -110,7 +111,7 @@ const AdminProduct = () => {
             const patchData = productInf;
             const patchRes = await axios.patch(
                 `${API_HOST}/products/${productId}`,
-                patchData
+                patchData,
             );
             console.log(patchRes);
         } catch (err) {
@@ -155,17 +156,20 @@ const AdminProduct = () => {
                     inputValue={productInf.detail}
                 />
                 <StyledProductContainer>
-                <h3>img:</h3>
-                <div>
-                    {productInf.img.map((imgUrl) => {
-                    return (
-                        <StyledImgContainer key={uuidv4()} $imgUrl={imgUrl}>
-                            <div></div>
-                        </StyledImgContainer>
-                    );
-                    })}
-                </div>
-                <button>add img</button>
+                    <h3>img:</h3>
+                    <div>
+                        {productInf.img.map((imgUrl) => {
+                            return (
+                                <StyledImgContainer
+                                    key={uuidv4()}
+                                    $imgUrl={imgUrl}
+                                >
+                                    <div></div>
+                                </StyledImgContainer>
+                            );
+                        })}
+                    </div>
+                    <button>add img</button>
                 </StyledProductContainer>
                 <StyledSaveButton onClick={handleSave}>Save</StyledSaveButton>
             </StyledAdminProduct>
@@ -176,98 +180,98 @@ const AdminProduct = () => {
 export default AdminProduct;
 
 const StyledAdminProduct = styled.div`
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 100%;
-  h3 {
-    font-size: 24px;
-    white-space: nowrap;
-  }
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    h3 {
+        font-size: 24px;
+        white-space: nowrap;
+    }
 `;
 
 const StyledProductInfInput = styled.div`
-  width: 100%;
-  max-width: 800px;
-  display: flex;
-  gap: 8px;
-  input {
-    flex: 1;
-    min-width: 0;
-    padding: 8px;
-    font-size: 20px;
-    border: none;
-    outline: none;
-    border-radius: 4px;
-  }
-
-  @media screen and (max-width: 540px) {
-    flex-wrap: wrap;
-
-    h3 {
-      width: 100%;
-    }
-
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    gap: 8px;
     input {
-      flex: none;
-      width: 100%;
+        flex: 1;
+        min-width: 0;
+        padding: 8px;
+        font-size: 20px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
     }
-  }
+
+    @media screen and (max-width: 540px) {
+        flex-wrap: wrap;
+
+        h3 {
+            width: 100%;
+        }
+
+        input {
+            flex: none;
+            width: 100%;
+        }
+    }
 `;
 
 const StyledProductTextArea = styled.div`
-  width: 100%;
-  max-width: 800px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-
-  textarea {
     width: 100%;
-    height: 100px;
-    min-width: 0;
-    padding: 8px;
-    font-size: 18px;
-    border: none;
-    outline: none;
-    border-radius: 4px;
-  }
-`;
-
-const StyledProductContainer = styled.div`
-  max-width: 800px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  & > div {
-    width: 100%;
+    max-width: 800px;
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-  }
 
-  button {
-    width: 100px;
-    padding: 8px;
-    border-radius: 10px;
-    align-self: end;
-  }
+    textarea {
+        width: 100%;
+        height: 100px;
+        min-width: 0;
+        padding: 8px;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+    }
+`;
 
-  ${StyledImgContainer} {
-    flex: 0 0 90px;
-    border: 3px #5a3616 solid;
-    border-radius: 20px;
-  }
+const StyledProductContainer = styled.div`
+    max-width: 800px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    & > div {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    button {
+        width: 100px;
+        padding: 8px;
+        border-radius: 10px;
+        align-self: end;
+    }
+
+    ${StyledImgContainer} {
+        flex: 0 0 90px;
+        border: 3px #5a3616 solid;
+        border-radius: 20px;
+    }
 `;
 
 const StyledSaveButton = styled.button`
-  margin-top: 32px;
-  width: 300px;
-  border-radius: 20px;
-  padding: 8px;
-  font-size: 24px;
-  align-self: center;
+    margin-top: 32px;
+    width: 300px;
+    border-radius: 20px;
+    padding: 8px;
+    font-size: 24px;
+    align-self: center;
 `;
