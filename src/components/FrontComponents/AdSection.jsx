@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import styled, { css } from "styled-components"
 import StyledImgContainer from "../common/StyledImgContainer"
+import PropTypes from "prop-types"
 
 const AdContainer = ({adList, currentIndex}) => {
     return(
@@ -18,6 +19,11 @@ const AdContainer = ({adList, currentIndex}) => {
     )
 }
 
+AdContainer.propTypes = {
+    adList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currentIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+}
+
 const ListDisplayerContainer = ({adList, currentIndex, setCurrentIndex}) => {
     return (
         <StyledListDisplayerContainer>
@@ -30,6 +36,12 @@ const ListDisplayerContainer = ({adList, currentIndex, setCurrentIndex}) => {
         }
         </StyledListDisplayerContainer>
     )
+}
+
+ListDisplayerContainer.propTypes = {
+    adList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currentIndex: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    setCurrentIndex:  PropTypes.func.isRequired,
 }
 
 const AdSection = () => {

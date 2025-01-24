@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import styled, {css} from "styled-components"
 import { v4 as uuidv4} from "uuid"
+import PropTypes from "prop-types";
 
 const ErrorMessage = ({errorText}) => {
     const [errorKey, setKey] = useState(uuidv4())
@@ -14,6 +15,10 @@ const ErrorMessage = ({errorText}) => {
             <h3>{errorText}</h3>
         </StyledErrorContainer>
     )    
+}
+
+ErrorMessage.propTypes = {
+    errorText: PropTypes.string.isRequired,
 }
 
 export default ErrorMessage

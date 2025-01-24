@@ -3,6 +3,7 @@ import styled from "styled-components"
 import AdminHeader from "./AdminHeader"
 import AdminSiderBar from "./AdminSiderBar"
 import { useState } from "react"
+import PropTypes from "prop-types"
 
 const AdminLayout = ({children}) => {
     const [showSiderBar, setShowSiderBar] = useState(false);
@@ -23,6 +24,10 @@ const AdminLayout = ({children}) => {
 
         </Wrapper>
     )
+}
+
+AdminLayout.propTypes = {
+    children: PropTypes.element,
 }
 
 export default AdminLayout

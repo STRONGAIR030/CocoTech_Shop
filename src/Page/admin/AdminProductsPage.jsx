@@ -6,6 +6,7 @@ import EditButton from "../../components/common/EditButton";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import AdminTable from "../../components/common/AdminTable";
+import PropTypes from "prop-types";
 
 const EditProductButton = ({productId}) => {
     const navigate = useNavigate();
@@ -16,6 +17,10 @@ const EditProductButton = ({productId}) => {
     };
 
     return <EditButton handleClick={goAdminProductById} />
+}
+
+EditProductButton.propTypes = {
+    productId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 }
 
 const productListHeaders = [

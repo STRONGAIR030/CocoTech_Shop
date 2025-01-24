@@ -2,6 +2,7 @@ import styled from "styled-components"
 import ProductCard from "./ProductCard"
 import { useContext } from "react"
 import FrontContext from "../context/FrontContext"
+import PropTypes from "prop-types"
 
 const renderProductList = (productList, searchText) => {
     const filterList = searchText ? 
@@ -40,6 +41,10 @@ const ProductSection = ({searchText}) => {
             </ProductContiainerWrapper>
         </StlyedProductSection>
     )
+}
+
+ProductSection.propTypes = {
+    searchText: PropTypes.string,
 }
 
 export default ProductSection 

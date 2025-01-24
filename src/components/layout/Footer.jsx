@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router";
 import styled from "styled-components";
@@ -10,6 +11,11 @@ const FollowUsitem = ({ children, iconUrl }) => {
     </StyledFollowUsitem>
   );
 };
+
+FollowUsitem.propTypes = {
+  children: PropTypes.string,
+  iconUrl: PropTypes.string.isRequired,
+}
 
 const SocialMediaList = () => {
   return (

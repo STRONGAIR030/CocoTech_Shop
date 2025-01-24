@@ -1,4 +1,5 @@
 
+import PropTypes from "prop-types";
 import styled, {css} from "styled-components";
 
 const ListSwitch = ({text, handleClick, switchState, textSize, imgSize, hrColor , mdShow, padding}) => {
@@ -11,6 +12,18 @@ const ListSwitch = ({text, handleClick, switchState, textSize, imgSize, hrColor 
             <hr />
         </StyledListSwitch>
     )
+}
+
+ListSwitch.propTypes = {
+    text: PropTypes.string,
+    handleClick: PropTypes.func.isRequired,
+    switchState: PropTypes.bool.isRequired,
+    textSize: PropTypes.string,
+    imgSize: PropTypes.string,
+    hrColor: PropTypes.string,
+    mdShow: PropTypes.bool,
+    padding: PropTypes.string,
+
 }
 
 export default ListSwitch

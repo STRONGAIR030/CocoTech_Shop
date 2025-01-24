@@ -12,6 +12,7 @@ import axios from "axios";
 import { ACTION_DELETE, API_HOST } from "./constants";
 import FrontContext from "./components/context/FrontContext";
 import { Navigate } from "react-router";
+import { fetchAllProductData } from "./apiHelpers";
 
 const frontEndRoutes = [
     {path: "/", element: <ShopPage/>},
@@ -53,11 +54,16 @@ function FrontEndApp() {
     }, [shoppingCart, userInf])
 
     const fetchProductsData = async () => {
-        const responce = await axios.get(`${API_HOST}/products`);
-        const data = responce.data;
-        console.log(data);
+        const productsData = await fetchAllProductData();
+        const processedProductsData = productsData.map((product) => {
+            return {
+                ...product,
+                price: Number(product.price),
+            }
+        })
+        console.log(processedProductsData);
         
-        setProductList(data);
+        setProductList(processedProductsData);
         setProductsDataLoaded(true);        
     }
 

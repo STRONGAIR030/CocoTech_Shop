@@ -2,11 +2,10 @@ import styled from "styled-components"
 import DefaultLayout from "../../components/layout/defaultLayout"
 import { useContext, useEffect, useState } from "react"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
-import axios from "axios"
-import { API_HOST } from "../../constants"
 import LoadingAnimation from "../../components/common/LoadingAnimation"
 import FrontContext from "../../components/context/FrontContext"
 import { fetchOrderDataByCustomerId, fetchProductData, processDetailedOrders } from "../../apiHelpers"
+import PropTypes from "prop-types"
 
 const OrderProduct = ({imgUrl, quantity, price, name}) => {
     return (
@@ -21,6 +20,13 @@ const OrderProduct = ({imgUrl, quantity, price, name}) => {
             <h3>{Number(price) * quantity}$</h3>
         </StyledOrderProductContainer>
     )
+}
+
+OrderProduct.propTypes = {
+    imgUrl: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
 }
 
 const Order = ({orderId, orderProducts, orderStatus, orderDate, orderSubTotal, orderShipping}) => {
@@ -46,6 +52,15 @@ const Order = ({orderId, orderProducts, orderStatus, orderDate, orderSubTotal, o
     )
 }
 
+Order.propTypes = {
+    orderId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    orderProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
+    orderStatus: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    orderDate: PropTypes.string.isRequired,
+    orderSubTotal: PropTypes.number.isRequired,
+    orderShipping: PropTypes.number.isRequired,
+}
+
 const redenOrderList = (orderList, orderStatus) => {
     const filterList = orderList.filter(order => order.status == orderStatus)
     const reversedList = filterList.reverse();
@@ -67,29 +82,6 @@ const OrderPage = () => {
     const [orderDataLoaded, setLoaded] = useState(false);
     const [orderList, setOrderList] = useState([]);
     const {userInf} = useContext(FrontContext)
-
-    const processOrderData = async (order) => {
-        const processedOrder = await Promise.all(order.detail.map( async (product) => {
-
-            try {
-                const productData = await fetchProductData(product.productId)             
-    
-                return {
-                    id: productData.id,
-                    price: productData.price,
-                    imgUrl: productData.img[0],
-                    name: productData.name,
-                    quantity: product.quantity
-                }
-
-            } catch (err) {
-                console.error(err);
-                return null   
-            }
-        }))
-
-        return processedOrder.filter(product => product !== null)
-    }
 
     const fetchOrderData = async () => {
 

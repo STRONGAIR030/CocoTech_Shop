@@ -7,6 +7,7 @@ import ErrorMessage from "../../components/common/ErrorMessage"
 import { useNavigate } from "react-router"
 import AdminContext from "../../components/context/AdminContext"
 import { API_HOST } from "../../constants"
+import PropTypes from "prop-types"
 
 const LoginInput = ({inputText, handleChange, inputValue, inputType}) => {
    return (
@@ -15,6 +16,13 @@ const LoginInput = ({inputText, handleChange, inputValue, inputType}) => {
             <input type={inputType || "text"} value={inputValue} onChange={handleChange} placeholder={inputText}/>
         </StyledLoginInput>
     )
+}
+
+LoginInput.propTypes = {
+    inputText: PropTypes.string,
+    handleChange: PropTypes.func.isRequired,
+    inputValue: PropTypes.string.isRequired,
+    inputType: PropTypes.string,
 }
 
 const AdminLoginPage = () => {

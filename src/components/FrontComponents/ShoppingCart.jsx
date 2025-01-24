@@ -4,6 +4,7 @@ import { useContext, useMemo} from "react"
 import FrontContext from "../context/FrontContext"
 import { NavLink } from "react-router"
 import { ACTION_DELETE } from "../../constants"
+import PropTypes from "prop-types"
 
 const CartProduct = ({productId, name, quantity, totalPrice, imgUrl, handleDelete}) => {
     return (
@@ -19,6 +20,15 @@ const CartProduct = ({productId, name, quantity, totalPrice, imgUrl, handleDelet
             </StyledCartProduct>
         </StyledCartProductContainer>
     )
+}
+
+CartProduct.propTypes = {
+    productId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    name: PropTypes.string.isRequired,
+    imgUrl: PropTypes.string.isRequired,
+    totalPrice: PropTypes.number.isRequired,
+    quantity: PropTypes.number.isRequired,
+
 }
 
 
@@ -63,6 +73,10 @@ const ShoppingCart = ({toggleShow}) => {
             }
         </StyledShoppingCart>
     )
+}
+
+ShoppingCart.propTypes = {
+    toggleShow: PropTypes.func.isRequired,
 }
 
 export default ShoppingCart

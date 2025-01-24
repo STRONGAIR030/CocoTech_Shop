@@ -7,6 +7,7 @@ import styled from "styled-components";
 import GoBackButton from "../../components/common/GoBackButton";
 import StyledImgContainer from "../../components/common/StyledImgContainer";
 import { v4 as uuidv4 } from "uuid";
+import PropTypes from "prop-types";
 
 const ProductInfInput = ({
     text,
@@ -28,6 +29,14 @@ const ProductInfInput = ({
     );
 };
 
+ProductInfInput.propTypes = {
+    text: PropTypes.string,
+    handleChange: PropTypes.func.isRequired,
+    inputValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    inputName: PropTypes.string.isRequired,
+    inputType: PropTypes.string,
+}
+
 const ProductTextArea = ({ text, inputValue, inputName, handleChange }) => {
     return (
         <StyledProductTextArea>
@@ -41,6 +50,13 @@ const ProductTextArea = ({ text, inputValue, inputName, handleChange }) => {
         </StyledProductTextArea>
     );
 };
+
+ProductTextArea.propTypes = {
+    text: PropTypes.string,
+    handleChange: PropTypes.func.isRequired,
+    inputValue: PropTypes.string.isRequired,
+    inputName: PropTypes.string.isRequired,
+}
 
 const AdminProduct = () => {
     const { productId } = useParams();

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Footer from "./Footer";
 import Header from "./Header";
+import PropTypes from "prop-types";
 
 const DefaultLayout = ({children, wrapperColor}) => {
     return (
@@ -13,6 +14,11 @@ const DefaultLayout = ({children, wrapperColor}) => {
             <Footer/>
         </StyledDefaultLayout>
     )
+}
+
+DefaultLayout.propTypes = {
+    children: PropTypes.element,
+    wrapperColor: PropTypes.string,
 }
 
 export default DefaultLayout

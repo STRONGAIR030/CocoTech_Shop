@@ -50,7 +50,7 @@ const AdminTable = ({ headers, datas, dataLoaded, handleClickRow }) => {
     )
 }
 
-AdminTable.propsType = {
+AdminTable.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.object).isRequired,
     datas: PropTypes.arrayOf(PropTypes.object).isRequired,
     handleClickRow: PropTypes.func,

@@ -1,13 +1,11 @@
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import AdminLayout from "../../components/layout/AdminLayout";
 import { useEffect, useMemo, useState } from "react";
-import { API_HOST } from "../../constants";
-import axios from "axios";
 import GoBackButton from "../../components/common/GoBackButton";
 import styled from "styled-components";
 import AdminTable from "../../components/common/AdminTable";
 import EditOrderButton from "../../components/common/EditOrderButton";
-import { fetchAllCustomersData, fetchOrderDataByCustomerId, processOrdersData } from "../../apiHelpers";
+import { fetchOrderDataByCustomerId, processOrdersData } from "../../apiHelpers";
 
 const NoOrder = () => {
   return <StyledNoOrder>

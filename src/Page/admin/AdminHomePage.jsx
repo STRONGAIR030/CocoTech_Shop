@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import { fetchAllCustomersData, fetchAllOrderData, processOrdersData } from "../../apiHelpers"
 import AdminTable from "../../components/common/AdminTable"
+import PropTypes from "prop-types"
 
 const InfoCard = ({infoName, imgUrl, infoNum}) => {
     return(
@@ -20,6 +21,12 @@ const InfoCard = ({infoName, imgUrl, infoNum}) => {
             </StyledInfoCard>
         </StyledInfoCardContainer>
     )
+}
+
+InfoCard.propTypes = {
+    infoName: PropTypes.string.isRequired,
+    imgUrl: PropTypes.string.isRequired,
+    infoNum: PropTypes.number.isRequired,
 }
 
 const InfoCardList = ({totalOrders, totalSales, totalCustomers}) => {
@@ -42,6 +49,12 @@ const InfoCardList = ({totalOrders, totalSales, totalCustomers}) => {
                 />
         </StyledInfoCardList>
     )
+}
+
+InfoCardList.propTypes = {
+    totalOrders: PropTypes.number.isRequired,
+    totalSales: PropTypes.number.isRequired,
+    totalCustomers: PropTypes.number.isRequired,
 }
 
 const orderListHeaders = [

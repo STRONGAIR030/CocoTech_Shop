@@ -1,8 +1,8 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 import StyledImgContainer from "../common/StyledImgContainer";
 import { NavLink } from "react-router";
 import StyledBlurBackGround from "../common/StyledBlurBackground";
+import PropTypes from "prop-types";
 
 const AdminSiderBar = ({showSiderBar, children}) => {
 
@@ -52,6 +52,10 @@ const AdminSiderBar = ({showSiderBar, children}) => {
   );
 };
 
+AdminSiderBar.propTypes = {
+    showSiderBar: PropTypes.bool.isRequired,
+    children: PropTypes.element,
+}
 
 export default AdminSiderBar
 

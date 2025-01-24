@@ -3,6 +3,7 @@ import styled from "styled-components"
 import StyledImgContainer from "../common/StyledImgContainer"
 import { useContext } from "react"
 import FrontContext from "../context/FrontContext"
+import PropTypes from "prop-types"
 
 const ProductCard = ({productId, imgUrl, name, price}) => {
     const {modifyProductToCart}= useContext(FrontContext);
@@ -21,6 +22,13 @@ const ProductCard = ({productId, imgUrl, name, price}) => {
             </CostandBuy>
         </StyledProductCard>
     )
+}
+
+ProductCard.propTypes = {
+    productId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    imgUrl: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
 }
 
 export default ProductCard

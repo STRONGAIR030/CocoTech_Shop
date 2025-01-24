@@ -5,6 +5,7 @@ import AdminContext from "../../components/context/AdminContext"
 import { useNavigate } from "react-router"
 import StyledImgContainer from "../../components/common/StyledImgContainer"
 import AdminTable from "../../components/common/AdminTable"
+import PropTypes from "prop-types"
 
 const VeiwCustomerButton = ({customerId}) => {
     const navigtion = useNavigate();
@@ -18,6 +19,10 @@ const VeiwCustomerButton = ({customerId}) => {
             </StyledImgContainer>
         </button>
     )
+}
+
+VeiwCustomerButton.propTypes = {
+    customerId: PropTypes.string.isRequired,
 }
 
 const customerListHeaders = [

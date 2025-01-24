@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import StyledImgContainer from "./StyledImgContainer";
+import PropTypes from "prop-types";
 
 const EditButton = ({handleClick}) => {
     return (
@@ -9,6 +10,10 @@ const EditButton = ({handleClick}) => {
             </StyledImgContainer> 
         </StyledEditButton>
     )
+}
+
+EditButton.propTypes = {
+    handleClick : PropTypes.func.isRequired,
 }
 
 export default EditButton

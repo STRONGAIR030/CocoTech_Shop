@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import CheckOutHeader from "./CheckOutHeader";
+import PropTypes from "prop-types";
 
 const CheckOutLayout = ({children}) => {
     return (
@@ -11,6 +12,10 @@ const CheckOutLayout = ({children}) => {
             </Wrapper>
         </div>
     )
+}
+
+CheckOutLayout.propTypes = {
+    children: PropTypes.element,
 }
 
 export default CheckOutLayout

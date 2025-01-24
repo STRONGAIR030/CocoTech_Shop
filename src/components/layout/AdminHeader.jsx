@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router";
 import { useEffect, useState , useRef, useContext, useMemo} from "react";
 import StyledImgContainer from "../common/StyledImgContainer";
 import AdminContext from "../context/AdminContext";
+import PropTypes from "prop-types";
 
 const AdminHeader = ({toggleShowSiderBar}) => {
     const {adminInf, adminSignOut} = useContext(AdminContext)
@@ -44,6 +45,11 @@ const AdminHeader = ({toggleShowSiderBar}) => {
         </Nav>
     </StyledHeader>
     )
+
+}
+
+AdminHeader.propTypes = {
+    toggleShowSiderBar: PropTypes.func.isRequired,
 }
 
 export default AdminHeader

@@ -88,7 +88,7 @@ export const processOrderProductsData = async (order) => {
 
             return {
                 id: productData.id,
-                price: productData.price,
+                price: Number(productData.price),
                 imgUrl: productData.img[0],
                 name: productData.name,
                 quantity: product.quantity

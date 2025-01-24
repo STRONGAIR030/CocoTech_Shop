@@ -8,6 +8,7 @@ import axios from "axios"
 import { API_HOST } from "../../constants"
 import { useNavigate } from "react-router"
 import ErrorMessage from "../../components/common/ErrorMessage"
+import PropTypes from "prop-types"
 
 const UserInput = ({type, inputWidth, inputType, inputName, handleChange}) => {
     return (
@@ -16,6 +17,14 @@ const UserInput = ({type, inputWidth, inputType, inputName, handleChange}) => {
             <input onChange={handleChange} type={inputType ? inputType : "text"} name={inputName} placeholder={type} />
         </StyledUserInput>
     )
+}
+
+UserInput.propTypes = {
+    type: PropTypes.string,
+    handleChange: PropTypes.func.isRequired,
+    inputName: PropTypes.string.isRequired,
+    inputWidth: PropTypes.string,
+    inputType: PropTypes.string,
 }
 
 const UserRadio = ({radioText, inputValue, inputName, handleChange, children}) => {
@@ -27,6 +36,14 @@ const UserRadio = ({radioText, inputValue, inputName, handleChange, children}) =
             {children}
         </StyledUserRadio>
     )
+}
+
+UserInput.propTypes = {
+    radioText: PropTypes.string,
+    handleChange: PropTypes.func.isRequired,
+    inputName: PropTypes.string.isRequired,
+    inputValue: PropTypes.string,
+    children: PropTypes.element,
 }
 
 const OrderProduct = ({productId, imgUrl, quantity, totalPrice, name, handleAdd, handleDec}) => {
@@ -46,6 +63,16 @@ const OrderProduct = ({productId, imgUrl, quantity, totalPrice, name, handleAdd,
             </div>
         </StyledOrderProductContainer>
     )
+}
+
+OrderProduct.propTypes = {
+    productId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    imgUrl: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    totalPrice: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    handleAdd: PropTypes.func.isRequired,
+    handleDec: PropTypes.func.isRequired,
 }
 
 const PAYMENT_METHODS = {
@@ -78,6 +105,10 @@ const DeliverySection = ({handleChange}) => {
     )
 }
 
+DeliverySection.propTypes = {
+    handleChange: PropTypes.func.isRequired,
+}
+
 const ShippingSection = ({handleChange}) => {
     return (
         <>
@@ -87,6 +118,10 @@ const ShippingSection = ({handleChange}) => {
             <UserRadio radioText="Chunghwa Post 100$" inputName="shipping" inputValue="post" handleChange={handleChange}/>
         </>
     )
+}
+
+ShippingSection.propTypes = {
+    handleChange: PropTypes.func.isRequired,
 }
 
 const PaymentSection = ({handleChange, showCreditCardInf}) => {
@@ -104,6 +139,11 @@ const PaymentSection = ({handleChange, showCreditCardInf}) => {
             <UserRadio radioText="Cash on delievery" inputName="payment" inputValue="cashOnDelievery" handleChange={handleChange}/>
         </>
     )
+}
+
+PaymentSection.propTypes = {
+    handleChange: PropTypes.func.isRequired,
+    showCreditCardInf: PropTypes.bool,
 }
 
 const OrderSummary = ({ handleAdd, handleDec, totalCost, shippingCost, cartData }) => {
@@ -140,6 +180,14 @@ const OrderSummary = ({ handleAdd, handleDec, totalCost, shippingCost, cartData 
     )
 }
 
+
+OrderSummary.propTypes = {
+    handleAdd: PropTypes.func.isRequired,
+    handleDec: PropTypes.func.isRequired,
+    totalCost: PropTypes.number.isRequired,
+    shippingCost: PropTypes.number.isRequired,
+    cartData: PropTypes.arrayOf(PropTypes.object),
+}
 
 const CheckOutPage = () => {
     const [showCreditCardInf, setShowCreditCard] = useState(false);
