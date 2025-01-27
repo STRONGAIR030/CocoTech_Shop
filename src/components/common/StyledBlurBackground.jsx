@@ -1,20 +1,16 @@
-import styled, { css } from "styled-components";
+import styled , {css} from "styled-components";
 
 const StyledBlurBackGround = styled.div`
-    backdrop-filter: blur(5px);
+    backdrop-filter:blur(5px);
     width: 100%;
     height: 100%;
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.37);
-    z-index: 99;
+    z-index: ${props => props.$zindex || 99};
     visibility: hidden;
-    overflow: scroll;
-    ${(props) =>
-        props.$show &&
-        css`
-            visibility: visible;
-        `}
-`;
+    overflow:  scroll;
+    ${(props) => props.$show && css`visibility: visible;`}
+`
 
-export default StyledBlurBackGround;
+export default StyledBlurBackGround

@@ -9,6 +9,7 @@ import axios from "axios";
 import { API_HOST } from "../../constants";
 import FrontContext from "../../components/context/FrontContext";
 import LoadingAnimation from "../../components/common/LoadingAnimation";
+import ReviewTipBox from "../../components/FrontComponents/ReviewsTipBox";
 
 const ProductPage = () => {
     const { productId } = useParams();
@@ -24,10 +25,9 @@ const ProductPage = () => {
     } = useContext(FrontContext);
     const [productInf, setProductInf] = useState({});
     const [dataloaded, setLoading] = useState(false);
+    const [reviewStatus, setReviewStatus] = useState(0);
+    const [showReviewTipBox, setShowReveiwTipBox] = useState(false);
     const reviewContent = useRef("");
-    const navgaite = useNavigate();
-
-    const goLoginPage = () => navgaite("/account/login");
 
     useEffect(() => {
         if (!productsDataLoaded) {
@@ -78,16 +78,21 @@ const ProductPage = () => {
         setShowReviews((prevShow) => !prevShow);
     };
 
+    const toggleShowReveiwTipBox = () => {
+        setShowReveiwTipBox((prevShow) => !prevShow);
+    }
+
     const handleReviewChange = (e) => {
         reviewContent.current = e.target.value;
     };
 
     const handleSubmit = async () => {
         if (!userInf.isSignIn) {
-            goLoginPage();
+            setReviewStatus(2);
+            setShowReveiwTipBox(true);
             return;
         }
-        console.log(reviewContent.current);
+
         if (reviewContent.current == "") return;
 
         try {
@@ -102,13 +107,18 @@ const ProductPage = () => {
                 ],
             };
 
-            const patchRes = await axios.patch(
+            const {data: updatedProduct} = await axios.patch(
                 `${API_HOST}/products/${productId}`,
                 patchData,
             );
-            console.log(patchRes);
+            setReviewStatus(0);
+            setShowReveiwTipBox(true);
+            setProductInf(updatedProduct)
+            console.log(updatedProduct);
         } catch (err) {
             console.error(err);
+            setReviewStatus(1);
+            setShowReveiwTipBox(true);
         }
     };
 
@@ -207,6 +217,12 @@ const ProductPage = () => {
                             Submit
                         </StyledSubmitBtn>
                     </StyledReviewsSection>
+                    <ReviewTipBox
+                        toggleShow={toggleShowReveiwTipBox}
+                        tryAgin={handleSubmit}
+                        reviewStatus={reviewStatus}
+                        show={showReviewTipBox}
+                    />
                 </StyledProductPage>
             ) : (
                 <LoadingAnimation />
@@ -384,7 +400,7 @@ const StyledReviewsSection = styled.div`
 
 const StyledReviewList = styled.div`
     max-height: ${(props) => (props.$show ? "300px" : "0px")};
-    overflow: scroll;
+    overflow-y: scroll;
     transition: all 0.5s;
 `;
 
@@ -397,16 +413,19 @@ const StyledUserContainer = styled.div`
 `;
 
 const StyledReview = styled.div`
+    width: 100%;
     display: flex;
-    padding: 16px 0px;
+    padding: 16px 8px;
     align-items: center;
     gap: 16px;
-
-    p {
-        max-height: 120px;
-        overflow: scroll;
+    p{
+        min-width: 0;
+        flex: 1;
+        overflow-wrap: break-word;
     }
 `;
+
+
 
 const StyledUserImgContainer = styled(StyledImgContainer)`
     width: 80px;
