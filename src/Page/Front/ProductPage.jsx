@@ -426,7 +426,6 @@ const StyledReview = styled.div`
 `;
 
 
-
 const StyledUserImgContainer = styled(StyledImgContainer)`
     width: 80px;
 
@@ -443,8 +442,8 @@ const StyledAddReviewInput = styled.textarea`
 
 const StyledSubmitBtn = styled.button`
     align-self: flex-end;
+    padding: 8px 16px;
     margin-top: 16px;
-    width: 90px;
     font-size: 24px;
     line-height: 1;
     border: none;
