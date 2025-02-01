@@ -16,7 +16,7 @@ lkjahsdfkljahdfljkahdlkfjhakdlsf
  -  登入後可查看該顧客自己的訂單
  
 ### 後台
- -  LGOIN頁面（往前/admin後登入管理員帳號後可以進入後台）
+ -  LGOIN頁面（前往/admin後登入管理員帳號後可以進入後台）
  -  HOME頁面（可查看總訂單數、總顧客數、總賣出商品數、最新5筆訂單）
  -  ORDER頁面（可查看所有訂單並且可改變訂單狀態）
  -  USTOMER頁面（可依顧客查看訂單）
