@@ -16,7 +16,7 @@ const AdminTable = ({ headers, datas, dataLoaded, handleClickRow }) => {
                 >
                     {React.isValidElement(data[header.key])
                         ? data[header.key]
-                        : `${data[header.key]}${data[header.unitSymbol] || ""}`}
+                        : `${data[header.key]}${header.unitSymbol || ""}`}
                 </td>
             );
         });
