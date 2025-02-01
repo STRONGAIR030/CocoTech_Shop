@@ -24,16 +24,16 @@ lkjahsdfkljahdfljkahdlkfjhakdlsf
  
 ##  安裝與啟動
 
-  1. Clone 此專案到本地
+  1. Clone 此專案到本地  
 `git clone https://github.com/STRONGAIR030/CocoTech_Shop.git`
 
-   2. List item
+   2. List item  
 `npm install`   
 
-3. 起動開發伺服器
+3. 起動開發伺服器  
 `npm run dev`
 
-4. 使用JSON Server
+4. 使用JSON Server  
 `npm run stJsonServer`
 
 ## 使用技術
