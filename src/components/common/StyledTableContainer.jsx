@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const StyledTableContainer = styled.div`
     width: 100%;
-    overflow: scroll;
+    overflow: auto;
 
     table,
     th,

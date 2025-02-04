@@ -1,4 +1,4 @@
-import { NavLink, useSearchParams } from "react-router";
+import { useSearchParams } from "react-router";
 import styled from "styled-components";
 import DefaultLayout from "../../components/layout/defaultLayout";
 import AdSection from "../../components/FrontComponents/AdSection";
@@ -18,7 +18,7 @@ const ShopPage = () => {
                 fetchProductsData();
             }, 3000);
         }
-    }, [productsDataLoaded]);
+    }, [fetchProductsData, productsDataLoaded]);
 
     return (
         <DefaultLayout>

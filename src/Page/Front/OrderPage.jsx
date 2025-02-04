@@ -6,7 +6,6 @@ import LoadingAnimation from "../../components/common/LoadingAnimation";
 import FrontContext from "../../components/context/FrontContext";
 import {
     fetchOrderDataByCustomerId,
-    fetchProductData,
     processDetailedOrders,
 } from "../../apiHelpers";
 import PropTypes from "prop-types";
@@ -237,7 +236,6 @@ const StyledOrder = styled.div`
 const StyledOrderProductContainer = styled.div`
     width: 100%;
     padding: 16px;
-    /* border: 1px solid black; */
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
@@ -263,7 +261,6 @@ const StyledOrderProductContainer = styled.div`
 
 const StyledOrderProductImg = styled(StyledImgContainer)`
     border-radius: 20px;
-    /* border: 2px #8D5524 solid; */
     background-color: #f1c27d;
     width: 80px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
