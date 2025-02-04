@@ -29,7 +29,7 @@ const AdminOrdersPage = () => {
 
     useEffect(() => {
         fetchOrderList();
-    }, []);
+    }, [fetchOrderList]);
 
     return (
         <AdminLayout>

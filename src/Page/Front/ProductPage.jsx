@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import DefaultLayout from "../../components/layout/defaultLayout";
 import styled, { css } from "styled-components";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -35,7 +35,7 @@ const ProductPage = () => {
                 fetchProductsData();
             }, 3000);
         }
-    }, [productsDataLoaded]);
+    }, [fetchProductsData, productsDataLoaded]);
 
     useEffect(() => {
         if (productsDataLoaded) {
@@ -44,7 +44,7 @@ const ProductPage = () => {
             );
             setLoading(true);
         }
-    }, [productsDataLoaded]);
+    }, [productId, productList, productsDataLoaded]);
 
     const handleRight = () => {
         setCurrentIndex((prevIndex) =>

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import AdminLayout from "../../components/layout/AdminLayout";
 import GoBackButton from "../../components/common/GoBackButton";
-import StyledTableContainer from "../../components/common/StyledTableContainer";
 import StyledImgContainer from "../../components/common/StyledImgContainer";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -60,7 +59,7 @@ const AdminOrder = () => {
             const patchData = {
                 status: selectRef.current.value,
             };
-            const { data: patchRes } = axios.patch(
+            axios.patch(
                 `${API_HOST}/orders/${orderId}`,
                 patchData,
             );
@@ -72,7 +71,7 @@ const AdminOrder = () => {
 
     useEffect(() => {
         fetchOrder();
-    }, []);
+    }, [fetchOrder]);
     return (
         <AdminLayout>
             <StyledOrderPage>

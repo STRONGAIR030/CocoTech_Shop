@@ -60,11 +60,11 @@ const UserRadio = ({
     );
 };
 
-UserInput.propTypes = {
+UserRadio.propTypes = {
     radioText: PropTypes.string,
-    handleChange: PropTypes.func.isRequired,
-    inputName: PropTypes.string.isRequired,
     inputValue: PropTypes.string,
+    inputName: PropTypes.string.isRequired,
+    handleChange: PropTypes.func.isRequired,
     children: PropTypes.element,
 };
 
@@ -590,7 +590,6 @@ const StyledOrderSummaryMd = styled.div`
 
 const StyledUserInput = styled.div`
     width: ${(props) => props.$inputWidth || 100}%;
-    /* border: 1px solid black; */
     padding: 4px 8px;
 
     input,
@@ -638,7 +637,6 @@ const StyledUserRadio = styled.label`
         display: inline-block;
         width: 30px;
         height: 30px;
-        /* border: 3px #8D5524 solid; */
         border-radius: 50%;
         margin-right: 16px;
         background-color: #ffdd847f;
@@ -678,7 +676,6 @@ const StyledUserRadio = styled.label`
 const StyledOrderProductContainer = styled.div`
     width: 100%;
     padding: 16px;
-    /* border: 1px solid black; */
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     justify-items: center;
@@ -692,7 +689,6 @@ const StyledOrderProductContainer = styled.div`
 
 const StyledOrderProductImg = styled(StyledImgContainer)`
     border-radius: 20px;
-    /* border: 2px #8D5524 solid; */
     width: 80px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 15px;
 
