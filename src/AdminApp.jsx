@@ -14,7 +14,6 @@ import AdminProduct from "./Page/admin/AdminProduct";
 import { API_HOST, SESSION_KEYS } from "./constants";
 import {
     fetchAllOrderData,
-    fetchCustomerData,
     processOrdersData,
 } from "./apiHelpers";
 

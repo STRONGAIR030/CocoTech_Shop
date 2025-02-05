@@ -1,10 +1,9 @@
 import { NavLink, useNavigate } from "react-router";
 import DefaultLayout from "../../components/layout/defaultLayout";
-import styled, { css } from "styled-components";
-import { useContext, useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { useContext, useState } from "react";
 import axios from "axios";
 import { API_HOST } from "../../constants";
-import { v4 as uuidv4 } from "uuid";
 import FrontContext from "../../components/context/FrontContext";
 import ErrorMessage from "../../components/common/ErrorMessage";
 
@@ -25,7 +24,7 @@ const RegisterPage = () => {
         }
 
         const emailRule =
-            /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+            /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
         if (!emailRule.test(email)) {
             return "You need to enter correct email.";
         }
@@ -176,35 +175,5 @@ const RegisterBtn = styled.button`
 
     &:active {
         background: #8d5524;
-    }
-`;
-
-const ErrorContainer = styled.div`
-    width: 100%;
-    height: 50px;
-    margin: 16px 0px;
-    padding: 8px;
-    border-radius: 20px;
-    border: 2px solid red;
-    background-color: rgba(255, 0, 0, 0.2);
-    text-align: center;
-    animation: ErrorIn 0.2s 2 both;
-
-    @keyframes ErrorIn {
-        0% {
-            transform: rotate(0deg);
-        }
-        25% {
-            transform: rotate(5deg);
-        }
-        50% {
-            transform: rotate(0deg);
-        }
-        75% {
-            transform: rotate(-5deg);
-        }
-        100% {
-            transform: rotate(0deg);
-        }
     }
 `;

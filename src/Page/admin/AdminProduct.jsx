@@ -93,7 +93,7 @@ const AdminProduct = () => {
         };
 
         fectchProductData();
-    }, []);
+    }, [productId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;

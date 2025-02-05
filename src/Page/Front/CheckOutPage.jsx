@@ -60,7 +60,7 @@ const UserRadio = ({
     );
 };
 
-UserInput.propTypes = {
+UserRadio.propTypes = {
     radioText: PropTypes.string,
     handleChange: PropTypes.func.isRequired,
     inputName: PropTypes.string.isRequired,

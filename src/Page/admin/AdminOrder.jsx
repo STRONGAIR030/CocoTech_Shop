@@ -1,10 +1,9 @@
 import styled from "styled-components";
 import AdminLayout from "../../components/layout/AdminLayout";
 import GoBackButton from "../../components/common/GoBackButton";
-import StyledTableContainer from "../../components/common/StyledTableContainer";
 import StyledImgContainer from "../../components/common/StyledImgContainer";
 import { useNavigate, useParams } from "react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { API_HOST } from "../../constants";
 import { fetchOrderData, processDetailedOrder } from "../../apiHelpers";
@@ -25,7 +24,7 @@ const AdminOrder = () => {
 
     const goAdminHome = () => navigation("/admin/home");
 
-    const fetchOrder = async () => {
+    const fetchOrder = useCallback(async () => {
         try {
             const orderData = await fetchOrderData(orderId);
 
@@ -36,7 +35,7 @@ const AdminOrder = () => {
             console.error(err);
             goAdminHome();
         }
-    };
+    }, [orderId]);
 
     const productSummaryDatas = useMemo(() => {
         if (!orderInf.orderProducts) return [];
@@ -64,7 +63,7 @@ const AdminOrder = () => {
                 `${API_HOST}/orders/${orderId}`,
                 patchData,
             );
-            console.log(patchData);
+            console.log(patchRes);
         } catch (err) {
             console.error(err);
         }
@@ -72,7 +71,7 @@ const AdminOrder = () => {
 
     useEffect(() => {
         fetchOrder();
-    }, []);
+    }, [fetchOrder]);
     return (
         <AdminLayout>
             <StyledOrderPage>

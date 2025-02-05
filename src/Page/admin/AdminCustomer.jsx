@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import AdminLayout from "../../components/layout/AdminLayout";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import GoBackButton from "../../components/common/GoBackButton";
 import styled from "styled-components";
 import AdminTable from "../../components/common/AdminTable";
@@ -32,25 +32,25 @@ const AdminCustomer = () => {
     const [orderList, setOrderList] = useState([]);
     const [orderDataLoaded, setLoaded] = useState(false);
 
+    const fecthCustomerOrder = useCallback(async () => {
+        try {
+            const customerOrdersData =
+                await fetchOrderDataByCustomerId(customerId);
+
+            const processedCustomerOrdersData =
+                await processOrdersData(customerOrdersData);
+
+            setOrderList(processedCustomerOrdersData);
+            setLoaded(true);
+        } catch (err) {
+            console.error();
+            err;
+        }
+    }, [customerId]);
+
     useEffect(() => {
-        const fectCustomerOrder = async () => {
-            try {
-                const customerOrdersData =
-                    await fetchOrderDataByCustomerId(customerId);
-
-                const processedCustomerOrdersData =
-                    await processOrdersData(customerOrdersData);
-
-                setOrderList(processedCustomerOrdersData);
-                setLoaded(true);
-            } catch (err) {
-                console.error();
-                err;
-            }
-        };
-
-        fectCustomerOrder();
-    }, []);
+        fecthCustomerOrder();
+    }, [fecthCustomerOrder]);
 
     const orderListDatas = useMemo(() => {
         return orderList.map((order) => {

@@ -42,6 +42,7 @@ CartProduct.propTypes = {
     imgUrl: PropTypes.string.isRequired,
     totalPrice: PropTypes.number.isRequired,
     quantity: PropTypes.number.isRequired,
+    handleDelete: PropTypes.func.isRequired,
 };
 
 const ShoppingCart = ({ toggleShow }) => {
@@ -51,7 +52,7 @@ const ShoppingCart = ({ toggleShow }) => {
             (prevValue, product) => product.totalPrice + prevValue,
             0,
         );
-    });
+    }, [shoppingCart]);
 
     const handleDelete = (productId) => {
         if (!productId) return console.warn("Invalid productId provided");
@@ -236,8 +237,4 @@ const CheckOutBtn = styled(NavLink)`
     border-radius: 10px;
     background-color: #ffdd84;
     color: #8d5524;
-`;
-
-const CartProducts = styled.div`
-    width: 100%;
 `;

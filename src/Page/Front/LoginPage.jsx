@@ -22,7 +22,7 @@ const LoginPage = () => {
         }
 
         const emailRule =
-            /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+            /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
         if (!emailRule.test(email)) {
             return "You need to enter correct email.";
         }
@@ -94,6 +94,7 @@ const LoginPage = () => {
                     <LoginBtn onClick={handlSignIn}>Sign in</LoginBtn>
                     <NavLink to="/account/register">
                         <p>
+                            {/* eslint-disable-next-line react/no-unescaped-entities */}
                             Don't have an account? <u>Sign up</u>
                         </p>
                     </NavLink>

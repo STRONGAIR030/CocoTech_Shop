@@ -44,11 +44,11 @@ const AdminCustomersPage = () => {
                 veiwButton: <VeiwCustomerButton customerId={customer.id} />,
             };
         });
-    });
+    }, [customerList]);
 
     useEffect(() => {
         fetchCustomerList();
-    }, []);
+    }, [fetchCustomerList]);
 
     return (
         <AdminLayout>

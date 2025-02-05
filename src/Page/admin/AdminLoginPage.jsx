@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 
-import AdminLayout from "../../components/layout/AdminLayout";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import ErrorMessage from "../../components/common/ErrorMessage";
 import { useNavigate } from "react-router";
 import AdminContext from "../../components/context/AdminContext";

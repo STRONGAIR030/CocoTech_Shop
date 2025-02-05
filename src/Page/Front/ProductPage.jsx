@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import DefaultLayout from "../../components/layout/defaultLayout";
 import styled, { css } from "styled-components";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -27,7 +27,7 @@ const ProductPage = () => {
     const [dataloaded, setLoading] = useState(false);
     const [reviewStatus, setReviewStatus] = useState(0);
     const [showReviewTipBox, setShowReveiwTipBox] = useState(false);
-    const reviewContent = useRef("");
+    const reviewTextArea = useRef("");
 
     useEffect(() => {
         if (!productsDataLoaded) {
@@ -35,7 +35,7 @@ const ProductPage = () => {
                 fetchProductsData();
             }, 3000);
         }
-    }, [productsDataLoaded]);
+    }, [productsDataLoaded, fetchProductsData]);
 
     useEffect(() => {
         if (productsDataLoaded) {
@@ -44,7 +44,7 @@ const ProductPage = () => {
             );
             setLoading(true);
         }
-    }, [productsDataLoaded]);
+    }, [productsDataLoaded, productList, productId]);
 
     const handleRight = () => {
         setCurrentIndex((prevIndex) =>
@@ -82,10 +82,6 @@ const ProductPage = () => {
         setShowReveiwTipBox((prevShow) => !prevShow);
     }
 
-    const handleReviewChange = (e) => {
-        reviewContent.current = e.target.value;
-    };
-
     const handleSubmit = async () => {
         if (!userInf.isSignIn) {
             setReviewStatus(2);
@@ -93,7 +89,7 @@ const ProductPage = () => {
             return;
         }
 
-        if (reviewContent.current == "") return;
+        if (reviewTextArea.current.value == "") return;
 
         try {
             const patchData = {
@@ -102,7 +98,7 @@ const ProductPage = () => {
                     {
                         customerId: userInf.id,
                         customerName: userInf.name,
-                        comment: reviewContent.current,
+                        comment: reviewTextArea.current.value,
                     },
                 ],
             };
@@ -115,6 +111,9 @@ const ProductPage = () => {
             setShowReveiwTipBox(true);
             setProductInf(updatedProduct)
             console.log(updatedProduct);
+
+            reviewTextArea.current.value = "";
+
         } catch (err) {
             console.error(err);
             setReviewStatus(1);
@@ -212,7 +211,7 @@ const ProductPage = () => {
                             })}
                         </StyledReviewList>
                         <h3>Add Reviews</h3>
-                        <StyledAddReviewInput onChange={handleReviewChange} />
+                        <StyledAddReviewInput ref={reviewTextArea} />
                         <StyledSubmitBtn onClick={handleSubmit}>
                             Submit
                         </StyledSubmitBtn>

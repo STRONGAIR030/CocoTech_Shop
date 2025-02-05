@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import DefaultLayout from "../../components/layout/defaultLayout";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import StyledImgContainer from "../../components/common/StyledImgContainer";
 import LoadingAnimation from "../../components/common/LoadingAnimation";
 import FrontContext from "../../components/context/FrontContext";
 import {
     fetchOrderDataByCustomerId,
-    fetchProductData,
     processDetailedOrders,
 } from "../../apiHelpers";
 import PropTypes from "prop-types";
@@ -100,6 +99,7 @@ const redenOrderList = (orderList, orderStatus) => {
         })
     ) : (
         <StyledNoOrderMessage>
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
             <h3>You don't have order!!</h3>
         </StyledNoOrderMessage>
     );
@@ -111,7 +111,7 @@ const OrderPage = () => {
     const [orderList, setOrderList] = useState([]);
     const { userInf } = useContext(FrontContext);
 
-    const fetchOrderData = async () => {
+    const fetchOrderData = useCallback(async () => {
         try {
             const ordersData = await fetchOrderDataByCustomerId(userInf.id);
 
@@ -122,10 +122,11 @@ const OrderPage = () => {
         } catch (err) {
             console.error(err);
         }
-    };
+    }, [userInf]);
+
     useEffect(() => {
         fetchOrderData();
-    }, []);
+    }, [fetchOrderData]);
 
     return (
         <DefaultLayout>
