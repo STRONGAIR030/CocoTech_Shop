@@ -499,6 +499,24 @@
       "shipping": 60,
       "subTotal": 2000,
       "status": "0"
+    },
+    {
+      "id": "6449",
+      "customersId": "a1b0",
+      "detail": [
+        {
+          "productId": "5",
+          "quantity": 1
+        },
+        {
+          "productId": "2",
+          "quantity": 3
+        }
+      ],
+      "date": "2025-02-06 11:21:09",
+      "shipping": 60,
+      "subTotal": 11260,
+      "status": 0
     }
   ],
   "shoppingCart": [
@@ -548,12 +566,7 @@
       "id": "1"
     },
     {
-      "cartContent": [
-        {
-          "productId": "5",
-          "quantity": 1
-        }
-      ],
+      "cartContent": [],
       "id": "a1b0"
     },
     {

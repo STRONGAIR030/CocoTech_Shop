@@ -22,7 +22,9 @@ const AdminOrder = () => {
     const selectRef = useRef();
     const navigation = useNavigate();
 
-    const goAdminHome = () => navigation("/admin/home");
+    const goAdminHome = useCallback(() => {
+        navigation("/admin/home");
+    }, [navigation]);
 
     const fetchOrder = useCallback(async () => {
         try {
@@ -35,7 +37,7 @@ const AdminOrder = () => {
             console.error(err);
             goAdminHome();
         }
-    }, [orderId]);
+    }, [orderId, goAdminHome]);
 
     const productSummaryDatas = useMemo(() => {
         if (!orderInf.orderProducts) return [];

@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ShopPage from "./Page/Front/ShopPage";
 import LoginPage from "./Page/Front/LoginPage";

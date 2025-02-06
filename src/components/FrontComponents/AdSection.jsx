@@ -47,6 +47,14 @@ ListDisplayerContainer.propTypes = {
     setCurrentIndex: PropTypes.func.isRequired,
 };
 
+const adList = [
+    { id: 1, imgFile: "/img/hair3.png" },
+    { id: 2, imgFile: "/img/hair1.png" },
+    { id: 3, imgFile: "/img/hair2.png" },
+    { id: 4, imgFile: "/img/powerBank.png" },
+    { id: 5, imgFile: "/img/mic.png" },
+];
+
 const AdSection = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -62,14 +70,6 @@ const AdSection = () => {
             clearInterval(Interval);
         };
     }, [currentIndex]);
-
-    const adList = [
-        { id: 1, imgFile: "/img/hair3.png" },
-        { id: 2, imgFile: "/img/hair1.png" },
-        { id: 3, imgFile: "/img/hair2.png" },
-        { id: 4, imgFile: "/img/powerBank.png" },
-        { id: 5, imgFile: "/img/mic.png" },
-    ];
 
     const handleRight = () => {
         setCurrentIndex((prevIndex) =>
@@ -147,7 +147,9 @@ const StyledAdContainer = styled.div`
     display: flex;
     width: 100%;
     height: 100%;
-    transform: translateX(${(props) => props.$currentIndex && props.$currentIndex * -100}%);
+    ${(props) => css`
+        transform: (${props.$currentIndex && props.$currentIndex * -100}%);
+    `}
     transition: all 0.3s;
 `;
 

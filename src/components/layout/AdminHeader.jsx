@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import { NavLink, useNavigate } from "react-router";
-import { useEffect, useState, useRef, useContext, useMemo } from "react";
+import { NavLink } from "react-router";
+import { useContext } from "react";
 import StyledImgContainer from "../common/StyledImgContainer";
 import AdminContext from "../context/AdminContext";
 import PropTypes from "prop-types";
