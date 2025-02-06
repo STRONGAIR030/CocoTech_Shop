@@ -65,6 +65,12 @@
       "email": "1234@mail.com",
       "name": "ffff",
       "passWord": "admin"
+    },
+    {
+      "id": "2ca0",
+      "email": "newUser@mail.com",
+      "name": "newuser",
+      "passWord": "abcabc"
     }
   ],
   "admin": [
@@ -83,7 +89,7 @@
     {
       "id": "1",
       "name": "Choco Power Bank",
-      "price": 300,
+      "price": "30",
       "stock": 30,
       "des": "Keep your devices powered and your cravings satisfied with the ChocoPower Bank. Its powerful battery will charge your phone multiple times while its chocolate casing melts away stress.",
       "detail": "some detail",
@@ -117,6 +123,16 @@
           "customerId": "a1b0",
           "customerName": "yeeyeeeee",
           "comment": "Is very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very very good!"
+        },
+        {
+          "customerId": "2ca0",
+          "customerName": "newuser",
+          "comment": "so good"
+        },
+        {
+          "customerId": "2ca0",
+          "customerName": "newuser",
+          "comment": "very good"
         }
       ],
       "img": [
@@ -231,7 +247,7 @@
     {
       "id": "5",
       "name": "Choco VR Headset 1",
-      "price": "10000",
+      "price": "100000",
       "stock": 30,
       "des": "some des",
       "detail": "some detail",
@@ -517,6 +533,36 @@
       "shipping": 60,
       "subTotal": 11260,
       "status": 0
+    },
+    {
+      "id": "76b2",
+      "customersId": "2ca0",
+      "detail": [
+        {
+          "productId": "2",
+          "quantity": 1
+        },
+        {
+          "productId": "4",
+          "quantity": 2
+        },
+        {
+          "productId": "5",
+          "quantity": 3
+        },
+        {
+          "productId": "6",
+          "quantity": 3
+        },
+        {
+          "productId": "1",
+          "quantity": 5
+        }
+      ],
+      "date": "2025-02-06 14:31:40",
+      "shipping": 60,
+      "subTotal": 335923,
+      "status": "2"
     }
   ],
   "shoppingCart": [
@@ -572,6 +618,10 @@
     {
       "cartContent": [],
       "id": "04c5"
+    },
+    {
+      "cartContent": [],
+      "id": "2ca0"
     }
   ]
 }
