@@ -12,10 +12,7 @@ import AdminOrder from "./Page/admin/AdminOrder";
 import AdminCustomer from "./Page/admin/AdminCustomer";
 import AdminProduct from "./Page/admin/AdminProduct";
 import { API_HOST, SESSION_KEYS } from "./constants";
-import {
-    fetchAllOrderData,
-    processOrdersData,
-} from "./apiHelpers";
+import { fetchAllOrderData, processOrdersData } from "./apiHelpers";
 
 const isSignIn = () => {
     return sessionStorage.getItem(SESSION_KEYS.IS_SIGN_IN) == "true";

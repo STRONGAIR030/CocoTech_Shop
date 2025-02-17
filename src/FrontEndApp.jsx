@@ -13,6 +13,9 @@ import { ACTION_DELETE, API_HOST } from "./constants";
 import FrontContext from "./components/context/FrontContext";
 import { Navigate } from "react-router";
 import { fetchAllProductData } from "./apiHelpers";
+import TestPage from "./Page/TestPage";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 const frontEndRoutes = [
     { path: "/", element: <ShopPage /> },
@@ -21,6 +24,7 @@ const frontEndRoutes = [
     { path: "/account/orders", element: <OrderPage /> },
     { path: "/checkout", element: <CheckOutPage /> },
     { path: "/product/:productId", element: <ProductPage /> },
+    { path: "/test", element: <TestPage /> },
 ];
 
 function FrontEndApp() {
@@ -194,27 +198,31 @@ function FrontEndApp() {
     };
 
     return (
-        <FrontContext.Provider
-            value={{
-                productList,
-                userInf,
-                shoppingCart,
-                productsDataLoaded,
-                searchText,
-                setSearchText,
-                modifyProductToCart,
-                fetchProductsData,
-                clearShoppingCart,
-                userSignIn,
-            }}
-        >
-            <Routes>
-                {frontEndRoutes.map(({ path, element }) => {
-                    return <Route key={path} path={path} element={element} />;
-                })}
-                <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-        </FrontContext.Provider>
+        <Provider store={store}>
+            <FrontContext.Provider
+                value={{
+                    productList,
+                    userInf,
+                    shoppingCart,
+                    productsDataLoaded,
+                    searchText,
+                    setSearchText,
+                    modifyProductToCart,
+                    fetchProductsData,
+                    clearShoppingCart,
+                    userSignIn,
+                }}
+            >
+                <Routes>
+                    {frontEndRoutes.map(({ path, element }) => {
+                        return (
+                            <Route key={path} path={path} element={element} />
+                        );
+                    })}
+                    <Route path="*" element={<Navigate to="/" />} />
+                </Routes>
+            </FrontContext.Provider>
+        </Provider>
     );
 }
 
